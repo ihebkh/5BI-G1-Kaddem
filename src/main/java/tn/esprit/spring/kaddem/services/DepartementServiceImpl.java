@@ -22,17 +22,23 @@ public class DepartementServiceImpl implements IDepartementService{
 	}
 
 	public Departement addDepartement (Departement d){
+		log.info("Departemetn ajouté :\n" +
+				"Nom d'Departement "+d.getIdDepart() +" " +
+				"ID d'Departement " +d.getNomDepart()+"" );
 		return departementRepository.save(d);
 	}
 
 	public   Departement updateDepartement (Departement d){
+		log.info("modification d'un departement");
 		return departementRepository.save(d);
 	}
 
 	public  Departement retrieveDepartement (Integer idDepart){
+		log.info("Récupération d'un departement par ID");
 		return departementRepository.findById(idDepart).get();
 	}
 	public  void deleteDepartement(Integer idDepartement){
+		log.info("Suppression d'un departement par ID");
 		Departement d=retrieveDepartement(idDepartement);
 		departementRepository.delete(d);
 	}
