@@ -2,9 +2,11 @@ package tn.esprit.spring.kaddem.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Contrat;
+import tn.esprit.spring.kaddem.entities.Specialite;
 import tn.esprit.spring.kaddem.services.IContratService;
 
 import java.util.Date;
@@ -27,17 +29,20 @@ public class ContratRestController {
 	}
 
 	@PostMapping("/add-contrat")
-	public Contrat addContrat(@RequestBody Contrat c) {
+	public ResponseEntity<Contrat> addContract(@RequestBody Contrat contratRequestModel) {
+		// Convert ContratRequestModel to Contrat entity
 		Contrat contrat = new Contrat();
-		contrat.setIdContrat(c.getIdContrat());
-		contrat.setIdContrat(c.getIdContrat());
+		contrat.setDateDebutContrat(contratRequestModel.getDateDebutContrat());
+		contrat.setDateFinContrat(contratRequestModel.getDateFinContrat());
+		contrat.setSpecialite(Specialite.valueOf(String.valueOf(contratRequestModel.getSpecialite()))); // Convert String to Enum
+		contrat.setArchive(contratRequestModel.getArchive());
+		contrat.setMontantContrat(contratRequestModel.getMontantContrat());
 
-
-
-
-
-		return contratService.addContrat(contrat);
+		// Save the entity using the service layer
+		Contrat savedContrat = contratService.addContrat(contrat);
+		return ResponseEntity.ok(savedContrat);
 	}
+
 
 
 
