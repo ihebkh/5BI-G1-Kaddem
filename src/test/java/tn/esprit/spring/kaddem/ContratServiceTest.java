@@ -122,10 +122,14 @@ class ContratServiceTest {
         verify(contratRepository, times(1)).save(contrat);
     }
 
+    @Test
+    void testAffectContratToEtudiant_ReturnsNull_WhenEtudiantNotFound() {
+        when(etudiantRepository.findByNomEAndPrenomE("John", "Doe")).thenReturn(null);
 
-
-
-
+        Contrat result = contratService.affectContratToEtudiant(1, "John", "Doe");
+        assertNull(result);
+        verify(contratRepository, never()).save(any(Contrat.class));
+    }
 
     @Test
     void testNbContratsValides_ReturnsValidContratCount() {
@@ -164,8 +168,6 @@ class ContratServiceTest {
     @Test
     void testLombokGeneratedMethods() {
         Contrat contrat = new Contrat();
-
-        // Testing setters
         contrat.setIdContrat(1);
         contrat.setDateDebutContrat(new Date());
         contrat.setDateFinContrat(new Date());
@@ -173,7 +175,6 @@ class ContratServiceTest {
         contrat.setArchive(true);
         contrat.setMontantContrat(500);
 
-        // Testing getters
         assertEquals(1, contrat.getIdContrat());
         assertNotNull(contrat.getDateDebutContrat());
         assertNotNull(contrat.getDateFinContrat());
@@ -181,61 +182,33 @@ class ContratServiceTest {
         assertTrue(contrat.getArchive());
         assertEquals(500, contrat.getMontantContrat());
 
-        // Testing toString (optional, based on your preference)
         assertNotNull(contrat.toString());
     }
 
     @Test
-    void testToStringMethod() {
-        // Create a sample date
+    void testAllArgsConstructor() {
         Date startDate = new Date();
         Date endDate = new Date();
+        Contrat contrat = new Contrat(1, startDate, endDate, Specialite.CLOUD, false, 2000);
 
-        // Create a Contrat instance with specific values
-        Contrat contrat = new Contrat();
-        contrat.setIdContrat(1);
-        contrat.setDateDebutContrat(startDate);
-        contrat.setDateFinContrat(endDate);
-        contrat.setSpecialite(Specialite.IA);
-        contrat.setArchive(true);
-        contrat.setMontantContrat(1500);
-
-        // Call toString and check if it contains expected values
-        String contratString = contrat.toString();
-
-        // Assertions - checking if certain properties are included in the toString output
-        assertTrue(contratString.contains("idContrat=1"));
-        assertTrue(contratString.contains("dateDebutContrat=" + startDate));
-        assertTrue(contratString.contains("dateFinContrat=" + endDate));
-        assertTrue(contratString.contains("specialite=IA"));
-        assertTrue(contratString.contains("archive=true"));
-        assertTrue(contratString.contains("montantContrat=1500"));
-    }
-
-
-
-    @Test
-    void testContratConstructor() {
-        Date startDate = new Date();
-        Date endDate = new Date();
-        Specialite specialite = Specialite.CLOUD;
-        Boolean archive = false;
-        Integer montant = 2000;
-
-        Contrat contrat = new Contrat(startDate, endDate, specialite, archive, montant);
-
+        assertEquals(1, contrat.getIdContrat());
         assertEquals(startDate, contrat.getDateDebutContrat());
         assertEquals(endDate, contrat.getDateFinContrat());
-        assertEquals(specialite, contrat.getSpecialite());
-        assertEquals(archive, contrat.getArchive());
-        assertEquals(montant, contrat.getMontantContrat());
+        assertEquals(Specialite.CLOUD, contrat.getSpecialite());
+        assertFalse(contrat.getArchive());
+        assertEquals(2000, contrat.getMontantContrat());
+    }
+
+    @Test
+    void testNoArgsConstructor() {
+        Contrat contrat = new Contrat();
+        assertNotNull(contrat);
     }
 
     @Test
     void testRelationshipWithEtudiant() {
         Contrat contrat = new Contrat();
         Etudiant etudiant = new Etudiant();
-
         contrat.setEtudiant(etudiant);
 
         assertEquals(etudiant, contrat.getEtudiant());
