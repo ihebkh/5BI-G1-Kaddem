@@ -29,6 +29,8 @@ class ContratServiceTest {
     @InjectMocks
     private ContratServiceImpl contratService;
 
+
+
     private AutoCloseable mocks;
 
     @BeforeEach
@@ -122,11 +124,6 @@ class ContratServiceTest {
         verify(contratRepository, times(1)).save(contrat);
     }
 
-
-
-
-
-
     @Test
     void testNbContratsValides_ReturnsValidContratCount() {
         when(contratRepository.getnbContratsValides(any(Date.class), any(Date.class))).thenReturn(5);
@@ -138,18 +135,31 @@ class ContratServiceTest {
 
     @Test
     void testGetChiffreAffaireEntreDeuxDates_ReturnsRevenue() {
+        Date startDate = new Date();
+        Date endDate = new Date(System.currentTimeMillis() + 30L * 24 * 60 * 60 * 1000); // 30 days later
+        float expectedRevenue = 1500f; // Adjust based on your expectations for revenue calculation
+
+        // Mock the repository to return specific contracts
         Contrat contrat1 = new Contrat();
         contrat1.setSpecialite(Specialite.IA);
+        contrat1.setDateDebutContrat(startDate);
+        contrat1.setDateFinContrat(endDate);
+
         Contrat contrat2 = new Contrat();
         contrat2.setSpecialite(Specialite.CLOUD);
+        contrat2.setDateDebutContrat(startDate);
+        contrat2.setDateFinContrat(endDate);
 
-        List<Contrat> contrats = Arrays.asList(contrat1, contrat2);
-        when(contratRepository.findAll()).thenReturn(contrats);
+        when(contratRepository.findAll()).thenReturn(Arrays.asList(contrat1, contrat2));
 
-        float result = contratService.getChiffreAffaireEntreDeuxDates(new Date(), new Date(System.currentTimeMillis() + 30L * 24 * 60 * 60 * 1000));
-        assertTrue(result > 0);
+        // Call the service method
+        float result = contratService.getChiffreAffaireEntreDeuxDates(startDate, endDate);
+
+        // Assertions
+        assertEquals(expectedRevenue, result, 0.001); // Adjust the expectedRevenue based on actual calculation
         verify(contratRepository, times(1)).findAll();
     }
+
 
     @Test
     void testUpdateContrat_UpdatesAndReturnsContrat() {
@@ -211,8 +221,6 @@ class ContratServiceTest {
         assertTrue(contratString.contains("archive=true"));
         assertTrue(contratString.contains("montantContrat=1500"));
     }
-
-
 
     @Test
     void testContratConstructor() {
