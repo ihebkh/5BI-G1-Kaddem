@@ -29,8 +29,8 @@ public class ContratRestController {
 	@PostMapping("/add-contrat")
 	public Contrat addContrat(@RequestBody Contrat c) {
 		return contratService.addContrat(c);
-
 	}
+
 
 
 	// http://localhost:8089/Kaddem/contrat/remove-contrat/1
