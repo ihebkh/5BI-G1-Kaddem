@@ -28,7 +28,15 @@ public class ContratRestController {
 
 	@PostMapping("/add-contrat")
 	public Contrat addContrat(@RequestBody Contrat c) {
-		return contratService.addContrat(c);
+		Contrat contrat = new Contrat();
+		contrat.setIdContrat(c.getIdContrat());
+		contrat.setIdContrat(c.getIdContrat());
+
+
+
+
+
+		return contratService.addContrat(contrat);
 	}
 
 
