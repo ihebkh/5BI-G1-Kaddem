@@ -28,8 +28,8 @@ public class ContratRestController {
 
 	@PostMapping("/add-contrat")
 	public Contrat addContrat(@RequestBody Contrat c) {
-		Contrat contrat = contratService.addContrat(c);
-		return contrat;
+		return contratService.addContrat(c);
+
 	}
 
 
@@ -42,8 +42,8 @@ public class ContratRestController {
 	// http://localhost:8089/Kaddem/contrat/update-contrat
 	@PutMapping("/update-contrat")
 	public Contrat updateContrat(@RequestBody Contrat c) {
-		Contrat contrat = contratService.updateContrat(c);
-		return contrat;
+		return  contratService.updateContrat(c);
+
 	}
 
 
