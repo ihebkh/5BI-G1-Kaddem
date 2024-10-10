@@ -1,18 +1,19 @@
 package tn.esprit.spring.kaddem.entities;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
 
 @Entity
-@ToString
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
-@AllArgsConstructor
-
 public class Contrat implements Serializable {
 
     @Id
@@ -35,7 +36,12 @@ public class Contrat implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private Etudiant etudiant;
 
-
-
-
+    // Constructeur complet (exclut l'ID, car il est généré automatiquement)
+    public Contrat(Date dateDebutContrat, Date dateFinContrat, Specialite specialite, Boolean archive, Integer montantContrat) {
+        this.dateDebutContrat = dateDebutContrat;
+        this.dateFinContrat = dateFinContrat;
+        this.specialite = specialite;
+        this.archive = archive;
+        this.montantContrat = montantContrat;
+    }
 }

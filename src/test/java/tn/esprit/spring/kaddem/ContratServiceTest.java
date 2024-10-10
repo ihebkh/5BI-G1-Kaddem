@@ -42,7 +42,7 @@ class ContratServiceTest {
     }
 
     @Test
-    void testRetrieveAllContrats() {
+    void testRetrieveAllContrats_ReturnsListOfContrats() {
         List<Contrat> contrats = Arrays.asList(new Contrat(), new Contrat());
         when(contratRepository.findAll()).thenReturn(contrats);
 
@@ -52,7 +52,7 @@ class ContratServiceTest {
     }
 
     @Test
-    void testAddContrat() {
+    void testAddContrat_SavesAndReturnsContrat() {
         Contrat contrat = new Contrat();
         when(contratRepository.save(any(Contrat.class))).thenReturn(contrat);
 
@@ -62,7 +62,7 @@ class ContratServiceTest {
     }
 
     @Test
-    void testRetrieveContrat() {
+    void testRetrieveContrat_ReturnsContrat_WhenExists() {
         Contrat contrat = new Contrat();
         when(contratRepository.findById(1)).thenReturn(Optional.of(contrat));
 
@@ -72,7 +72,16 @@ class ContratServiceTest {
     }
 
     @Test
-    void testRemoveContrat() {
+    void testRetrieveContrat_ReturnsNull_WhenNotFound() {
+        when(contratRepository.findById(1)).thenReturn(Optional.empty());
+
+        Contrat result = contratService.retrieveContrat(1);
+        assertNull(result);
+        verify(contratRepository, times(1)).findById(1);
+    }
+
+    @Test
+    void testRemoveContrat_DeletesContrat_WhenExists() {
         Contrat contrat = new Contrat();
         when(contratRepository.findById(1)).thenReturn(Optional.of(contrat));
         doNothing().when(contratRepository).delete(contrat);
@@ -82,7 +91,7 @@ class ContratServiceTest {
     }
 
     @Test
-    void testAffectContratToEtudiant() {
+    void testAffectContratToEtudiant_AssignsContratToEtudiant() {
         Etudiant etudiant = new Etudiant();
         etudiant.setContrats(new HashSet<>());
         Contrat contrat = new Contrat();
@@ -99,7 +108,7 @@ class ContratServiceTest {
     }
 
     @Test
-    void testNbContratsValides() {
+    void testNbContratsValides_ReturnsValidContratCount() {
         when(contratRepository.getnbContratsValides(any(Date.class), any(Date.class))).thenReturn(5);
 
         int result = contratService.nbContratsValides(new Date(), new Date());
@@ -108,7 +117,7 @@ class ContratServiceTest {
     }
 
     @Test
-    void testGetChiffreAffaireEntreDeuxDates() {
+    void testGetChiffreAffaireEntreDeuxDates_ReturnsRevenue() {
         Contrat contrat1 = new Contrat();
         contrat1.setSpecialite(Specialite.IA);
         Contrat contrat2 = new Contrat();
@@ -118,7 +127,7 @@ class ContratServiceTest {
         when(contratRepository.findAll()).thenReturn(contrats);
 
         float result = contratService.getChiffreAffaireEntreDeuxDates(new Date(), new Date(System.currentTimeMillis() + 30L * 24 * 60 * 60 * 1000));
-        assertTrue(result > 0); // Ensure the calculated revenue is positive
+        assertTrue(result > 0);
         verify(contratRepository, times(1)).findAll();
     }
 }
