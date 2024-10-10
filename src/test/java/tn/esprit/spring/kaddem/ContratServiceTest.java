@@ -137,7 +137,9 @@ class ContratServiceTest {
     void testGetChiffreAffaireEntreDeuxDates_ReturnsRevenue() {
         Date startDate = new Date();
         Date endDate = new Date(System.currentTimeMillis() + 30L * 24 * 60 * 60 * 1000); // 30 days later
-        float expectedRevenue = 1500f; // Adjust based on your expectations for revenue calculation
+
+        // Expected revenue calculation for 1 month:
+        float expectedRevenue = 700.0f; // 300 (IA) + 400 (CLOUD) for 1 month
 
         // Mock the repository to return specific contracts
         Contrat contrat1 = new Contrat();
@@ -156,9 +158,10 @@ class ContratServiceTest {
         float result = contratService.getChiffreAffaireEntreDeuxDates(startDate, endDate);
 
         // Assertions
-        assertEquals(expectedRevenue, result, 0.001); // Adjust the expectedRevenue based on actual calculation
+        assertEquals(expectedRevenue, result, 0.001);
         verify(contratRepository, times(1)).findAll();
     }
+
 
 
     @Test
