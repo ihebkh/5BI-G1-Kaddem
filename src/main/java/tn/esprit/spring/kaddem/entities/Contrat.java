@@ -8,6 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Getter
@@ -34,6 +35,7 @@ public class Contrat implements Serializable {
     private Integer montantContrat;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Etudiant etudiant;
 
     // Constructeur complet (exclut l'ID, car il est généré automatiquement)

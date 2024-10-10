@@ -2,14 +2,11 @@ package tn.esprit.spring.kaddem.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Contrat;
-import tn.esprit.spring.kaddem.entities.ContratRequestModel;
-
-import tn.esprit.spring.kaddem.entities.Specialite;
 import tn.esprit.spring.kaddem.services.IContratService;
+
 
 import java.util.Date;
 import java.util.List;
@@ -31,20 +28,9 @@ public class ContratRestController {
 	}
 
 	@PostMapping("/add-contrat")
-	public ResponseEntity<Contrat> addContract(@RequestBody ContratRequestModel contratRequestModel) {
-		// Convert the DTO to the persistent entity
-		Contrat contrat = new Contrat();
-		contrat.setDateDebutContrat(contratRequestModel.getDateDebutContrat());
-		contrat.setDateFinContrat(contratRequestModel.getDateFinContrat());
-		contrat.setSpecialite(Specialite.valueOf(contratRequestModel.getSpecialite()));
-		contrat.setArchive(contratRequestModel.getArchive());
-		contrat.setMontantContrat(contratRequestModel.getMontantContrat());
-
-		// Pass the entity to the service to handle persistence
-		Contrat savedContrat = contratService.addContrat(contrat);
-		return ResponseEntity.ok(savedContrat);
+	public Contrat addContrat(@RequestBody Contrat c) {
+		return contratService.addContrat(c);
 	}
-
 
 
 
@@ -56,19 +42,9 @@ public class ContratRestController {
 
 	// http://localhost:8089/Kaddem/contrat/update-contrat
 	@PutMapping("/update-contrat")
-	public Contrat updateContrat(@RequestBody ContratRequestModel contratRequestModel) {
-		// Retrieve the existing contract (you might need to use an ID field in the DTO for this)
-		Contrat existingContrat = contratService.retrieveContrat(contratRequestModel.getidContrat());
+	public Contrat updateContrat(@RequestBody Contrat c) {
+		return  contratService.updateContrat(c);
 
-		// Update the fields from ContratRequestModel
-		existingContrat.setDateDebutContrat(contratRequestModel.getDateDebutContrat());
-		existingContrat.setDateFinContrat(contratRequestModel.getDateFinContrat());
-		existingContrat.setSpecialite(Specialite.valueOf(contratRequestModel.getSpecialite()));
-		existingContrat.setArchive(contratRequestModel.getArchive());
-		existingContrat.setMontantContrat(contratRequestModel.getMontantContrat());
-
-		// Pass the updated entity to the service layer to handle persistence
-		return contratService.updateContrat(existingContrat);
 	}
 
 
