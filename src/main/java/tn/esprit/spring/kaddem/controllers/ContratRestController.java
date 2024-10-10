@@ -56,9 +56,19 @@ public class ContratRestController {
 
 	// http://localhost:8089/Kaddem/contrat/update-contrat
 	@PutMapping("/update-contrat")
-	public Contrat updateContrat(@RequestBody Contrat c) {
-		return  contratService.updateContrat(c);
+	public Contrat updateContrat(@RequestBody ContratRequestModel contratRequestModel) {
+		// Retrieve the existing contract (you might need to use an ID field in the DTO for this)
+		Contrat existingContrat = contratService.retrieveContrat(contratRequestModel.getidContrat());
 
+		// Update the fields from ContratRequestModel
+		existingContrat.setDateDebutContrat(contratRequestModel.getDateDebutContrat());
+		existingContrat.setDateFinContrat(contratRequestModel.getDateFinContrat());
+		existingContrat.setSpecialite(Specialite.valueOf(contratRequestModel.getSpecialite()));
+		existingContrat.setArchive(contratRequestModel.getArchive());
+		existingContrat.setMontantContrat(contratRequestModel.getMontantContrat());
+
+		// Pass the updated entity to the service layer to handle persistence
+		return contratService.updateContrat(existingContrat);
 	}
 
 

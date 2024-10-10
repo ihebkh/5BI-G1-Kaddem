@@ -1,8 +1,14 @@
 package tn.esprit.spring.kaddem.entities;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
 public class ContratRequestModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idContrat;
     private Date dateDebutContrat;
     private Date dateFinContrat;
     private String specialite;  // Will be converted to Enum in the controller
@@ -21,8 +27,9 @@ public class ContratRequestModel {
         this.archive = archive;
         this.montantContrat = montantContrat;
     }
-
-    // Getters and Setters
+    public int getidContrat() {
+        return idContrat;
+    }
     public Date getDateDebutContrat() {
         return dateDebutContrat;
     }
