@@ -1,4 +1,6 @@
 package tn.esprit.spring.kaddem;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,7 +18,8 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class ContratServiceTest {
+class ContratServiceTest {
+
     @Mock
     private ContratRepository contratRepository;
 
@@ -26,9 +29,16 @@ public class ContratServiceTest {
     @InjectMocks
     private ContratServiceImpl contratService;
 
+    private AutoCloseable mocks;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        mocks = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        mocks.close();
     }
 
     @Test
@@ -108,7 +118,7 @@ public class ContratServiceTest {
         when(contratRepository.findAll()).thenReturn(contrats);
 
         float result = contratService.getChiffreAffaireEntreDeuxDates(new Date(), new Date(System.currentTimeMillis() + 30L * 24 * 60 * 60 * 1000));
-        assertTrue(result > 0); // Assurer que le chiffre d'affaires calculé est positif
+        assertTrue(result > 0); // Ensure the calculated revenue is positive
         verify(contratRepository, times(1)).findAll();
     }
 }
