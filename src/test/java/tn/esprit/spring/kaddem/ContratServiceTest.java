@@ -185,14 +185,12 @@ class ContratServiceTest {
         Boolean archive = true;
         Integer montant = 1000;
 
-        // Test des setters
         contrat.setDateDebutContrat(startDate);
         contrat.setDateFinContrat(endDate);
         contrat.setSpecialite(specialite);
         contrat.setArchive(archive);
         contrat.setMontantContrat(montant);
 
-        // Test des getters
         assertEquals(startDate, contrat.getDateDebutContrat());
         assertEquals(endDate, contrat.getDateFinContrat());
         assertEquals(specialite, contrat.getSpecialite());
@@ -208,10 +206,8 @@ class ContratServiceTest {
         Boolean archive = false;
         Integer montant = 2000;
 
-        // Test du constructeur avec paramètres
         Contrat contrat = new Contrat(startDate, endDate, specialite, archive, montant);
 
-        // Vérifications des valeurs initialisées
         assertEquals(startDate, contrat.getDateDebutContrat());
         assertEquals(endDate, contrat.getDateFinContrat());
         assertEquals(specialite, contrat.getSpecialite());
@@ -224,10 +220,8 @@ class ContratServiceTest {
         Contrat contrat = new Contrat();
         Etudiant etudiant = new Etudiant();
 
-        // Test de la relation Many-to-One avec Etudiant
         contrat.setEtudiant(etudiant);
 
-        // Vérifie que l'association avec l'étudiant fonctionne
         assertEquals(etudiant, contrat.getEtudiant());
     }
 }
