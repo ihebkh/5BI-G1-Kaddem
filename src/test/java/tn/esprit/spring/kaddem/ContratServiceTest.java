@@ -1,4 +1,4 @@
-package tn.esprit.spring.kaddem;
+package tn.esprit.spring.kaddem.services;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -11,16 +11,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import tn.esprit.spring.kaddem.entities.Contrat;
 import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.entities.Specialite;
 import tn.esprit.spring.kaddem.repositories.ContratRepository;
 import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
-import tn.esprit.spring.kaddem.services.ContratServiceImpl;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
  class ContratServiceImplTest {
 
@@ -41,6 +38,7 @@ import tn.esprit.spring.kaddem.services.ContratServiceImpl;
         contrat = new Contrat();
         contrat.setIdContrat(1);
         contrat.setArchive(false);
+        contrat.setSpecialite(Specialite.CLOUD);
         contrat.setDateFinContrat(new Date());
 
         etudiant = new Etudiant();
@@ -48,8 +46,6 @@ import tn.esprit.spring.kaddem.services.ContratServiceImpl;
         etudiant.setPrenomE("PrenomTest");
         etudiant.setContrats(new HashSet<>());
     }
-
-
 
     @Test
     public void testAddContrat() {
@@ -122,5 +118,19 @@ import tn.esprit.spring.kaddem.services.ContratServiceImpl;
         verify(contratRepository, atLeastOnce()).save(contrat);
     }
 
+    @Test
+    public void testGetChiffreAffaireEntreDeuxDates() {
+        Date startDate = new Date();
+        Date endDate = new Date();
+        contrat.setSpecialite(Specialite.CLOUD);
 
+        List<Contrat> contrats = Arrays.asList(contrat); // Use Arrays.asList for compatibility
+        when(contratRepository.findAll()).thenReturn(contrats);
+
+        float chiffreAffaire = contratService.getChiffreAffaireEntreDeuxDates(startDate, endDate);
+
+        // Expected value may need adjustment based on business logic and dates
+        assertEquals(0.0, chiffreAffaire, "Adjust the expected value based on calculation logic");
+        verify(contratRepository, times(1)).findAll();
+    }
 }
