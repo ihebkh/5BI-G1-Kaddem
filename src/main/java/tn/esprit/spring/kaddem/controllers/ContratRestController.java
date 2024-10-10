@@ -26,11 +26,11 @@ public class ContratRestController {
 		return contratService.retrieveContrat(contratId);
 	}
 
-	// http://localhost:8089/Kaddem/econtrat/add-contrat
 	@PostMapping("/add-contrat")
 	public Contrat addContrat(@RequestBody Contrat c) {
 		return contratService.addContrat(c);
 	}
+
 
 	// http://localhost:8089/Kaddem/contrat/remove-contrat/1
 	@DeleteMapping("/remove-contrat/{contrat-id}")
@@ -47,9 +47,12 @@ public class ContratRestController {
 
 
 	@PutMapping(value = "/assignContratToEtudiant/{idContrat}/{nomE}/{prenomE}")
-	public Contrat assignContratToEtudiant (Integer idContrat, String nomE, String prenomE){
-		return 	(contratService.affectContratToEtudiant(idContrat, nomE, prenomE));
+	public Contrat assignContratToEtudiant(@PathVariable Integer idContrat,
+										   @PathVariable String nomE,
+										   @PathVariable String prenomE) {
+		return contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
 	}
+
 
 	//The most common ISO Date Format yyyy-MM-dd — for example, "2000-10-31".
 		@GetMapping(value = "/getnbContratsValides/{startDate}/{endDate}")
@@ -63,7 +66,6 @@ public class ContratRestController {
     @Scheduled(cron="0 0 13 * * *")//(cron="0 0 13 * * ?")(fixedRate =21600)
 	@PutMapping(value = "/majStatusContrat")
 	public void majStatusContrat (){
-		//return 	(contratService.affectContratToEtudiant(ce, nomE, prenomE));
 		contratService.retrieveAndUpdateStatusContrat();
 
 	}
