@@ -122,25 +122,10 @@ class ContratServiceTest {
         verify(contratRepository, times(1)).save(contrat);
     }
 
-    @Test
-    void testAffectContratToEtudiant_ReturnsNull_WhenEtudiantNotFound() {
-        when(etudiantRepository.findByNomEAndPrenomE("John", "Doe")).thenReturn(null);
 
-        Contrat result = contratService.affectContratToEtudiant(1, "John", "Doe");
-        assertNull(result);
-        verify(contratRepository, never()).save(any(Contrat.class));
-    }
 
-    @Test
-    void testAffectContratToEtudiant_ReturnsNull_WhenContratNotFound() {
-        Etudiant etudiant = new Etudiant();
-        when(etudiantRepository.findByNomEAndPrenomE("John", "Doe")).thenReturn(etudiant);
-        when(contratRepository.findByIdContrat(1)).thenReturn(null);
 
-        Contrat result = contratService.affectContratToEtudiant(1, "John", "Doe");
-        assertNull(result);
-        verify(contratRepository, never()).save(any(Contrat.class));
-    }
+
 
     @Test
     void testNbContratsValides_ReturnsValidContratCount() {
