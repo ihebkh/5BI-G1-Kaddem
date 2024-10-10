@@ -1,12 +1,10 @@
 package tn.esprit.spring.kaddem.controllers;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Contrat;
-import tn.esprit.spring.kaddem.services.ContratServiceImpl;
 import tn.esprit.spring.kaddem.services.IContratService;
 
 import java.util.Date;
@@ -49,14 +47,10 @@ public class ContratRestController {
 		return contrat;
 	}
 
-		/*@PutMapping(value = "/assignContratToEtudiant/{ce}/{nomE}/{prenomE}")
-		public Contrat assignContratToEtudiant (Contrat ce, String nomE, String prenomE){
-		return 	(contratService.affectContratToEtudiant(ce, nomE, prenomE));
-		}*/
+
 
 	@PutMapping(value = "/assignContratToEtudiant/{idContrat}/{nomE}/{prenomE}")
 	public Contrat assignContratToEtudiant (Integer idContrat, String nomE, String prenomE){
-	//	Contrat c= contratService.affectContratToEtudiant()
 		return 	(contratService.affectContratToEtudiant(idContrat, nomE, prenomE));
 	}
 
