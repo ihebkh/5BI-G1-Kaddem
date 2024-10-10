@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Contrat;
+import tn.esprit.spring.kaddem.entities.ContratRequestModel;
+
 import tn.esprit.spring.kaddem.entities.Specialite;
 import tn.esprit.spring.kaddem.services.IContratService;
 
@@ -29,16 +31,16 @@ public class ContratRestController {
 	}
 
 	@PostMapping("/add-contrat")
-	public ResponseEntity<Contrat> addContract(@RequestBody Contrat contratRequestModel) {
-		// Convert ContratRequestModel to Contrat entity
+	public ResponseEntity<Contrat> addContract(@RequestBody ContratRequestModel contratRequestModel) {
+		// Convert the DTO to the persistent entity
 		Contrat contrat = new Contrat();
 		contrat.setDateDebutContrat(contratRequestModel.getDateDebutContrat());
 		contrat.setDateFinContrat(contratRequestModel.getDateFinContrat());
-		contrat.setSpecialite(Specialite.valueOf(String.valueOf(contratRequestModel.getSpecialite()))); // Convert String to Enum
+		contrat.setSpecialite(Specialite.valueOf(contratRequestModel.getSpecialite()));
 		contrat.setArchive(contratRequestModel.getArchive());
 		contrat.setMontantContrat(contratRequestModel.getMontantContrat());
 
-		// Save the entity using the service layer
+		// Pass the entity to the service to handle persistence
 		Contrat savedContrat = contratService.addContrat(contrat);
 		return ResponseEntity.ok(savedContrat);
 	}
