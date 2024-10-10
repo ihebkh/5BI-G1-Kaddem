@@ -1,23 +1,41 @@
 pipeline {
     agent any
+
     tools {
-        maven 'M2_HOME'  // Make sure Maven is correctly configured in Jenkins
+        maven 'M2_HOME'
     }
+
     stages {
-        stage('GIT') {
+        stage('Checkout Git repository') {
             steps {
-                git branch: 'khmiriiheb-5BI4-G1',
-                    url: 'https://github.com/ihebkh/5BI4-G1-Kaddem.git'
+                echo 'Pulling'
+                git branch: 'khmiriiheb-5BI4-G1', url: 'https://github.com/ihebkh/5BI4-G1-Kaddem.git'
             }
         }
-        stage('Build') {
+
+        stage('Maven Clean Compile') {
             steps {
-                sh 'mvn clean install'
+                sh 'mvn clean'
+                echo 'Running Maven Compile'
+                sh 'mvn compile'
             }
         }
-        stage('MVN SONARQUBE') {
+
+        stage('Maven Install') {
             steps {
-                sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=201JmT1896@@ -Dmaven.test.skip=true'
+                sh 'mvn install'
+            }
+        }
+
+        stage('Build package') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+
+        stage('Tests - JUnit/Mockito') {
+            steps {
+                sh 'mvn test'
             }
         }
     }
