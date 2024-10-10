@@ -62,6 +62,13 @@ class ContratServiceTest {
     }
 
     @Test
+    void testAddContrat_DoesNotSaveNullContrat() {
+        Contrat result = contratService.addContrat(null);
+        assertNull(result);
+        verify(contratRepository, never()).save(any(Contrat.class));
+    }
+
+    @Test
     void testRetrieveContrat_ReturnsContrat_WhenExists() {
         Contrat contrat = new Contrat();
         when(contratRepository.findById(1)).thenReturn(Optional.of(contrat));
@@ -91,6 +98,14 @@ class ContratServiceTest {
     }
 
     @Test
+    void testRemoveContrat_DoesNothing_WhenContratNotFound() {
+        when(contratRepository.findById(1)).thenReturn(Optional.empty());
+
+        contratService.removeContrat(1);
+        verify(contratRepository, never()).delete(any(Contrat.class));
+    }
+
+    @Test
     void testAffectContratToEtudiant_AssignsContratToEtudiant() {
         Etudiant etudiant = new Etudiant();
         etudiant.setContrats(new HashSet<>());
@@ -105,6 +120,26 @@ class ContratServiceTest {
         assertNotNull(result);
         assertEquals(etudiant, result.getEtudiant());
         verify(contratRepository, times(1)).save(contrat);
+    }
+
+    @Test
+    void testAffectContratToEtudiant_ReturnsNull_WhenEtudiantNotFound() {
+        when(etudiantRepository.findByNomEAndPrenomE("John", "Doe")).thenReturn(null);
+
+        Contrat result = contratService.affectContratToEtudiant(1, "John", "Doe");
+        assertNull(result);
+        verify(contratRepository, never()).save(any(Contrat.class));
+    }
+
+    @Test
+    void testAffectContratToEtudiant_ReturnsNull_WhenContratNotFound() {
+        Etudiant etudiant = new Etudiant();
+        when(etudiantRepository.findByNomEAndPrenomE("John", "Doe")).thenReturn(etudiant);
+        when(contratRepository.findByIdContrat(1)).thenReturn(null);
+
+        Contrat result = contratService.affectContratToEtudiant(1, "John", "Doe");
+        assertNull(result);
+        verify(contratRepository, never()).save(any(Contrat.class));
     }
 
     @Test
@@ -129,5 +164,70 @@ class ContratServiceTest {
         float result = contratService.getChiffreAffaireEntreDeuxDates(new Date(), new Date(System.currentTimeMillis() + 30L * 24 * 60 * 60 * 1000));
         assertTrue(result > 0);
         verify(contratRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testUpdateContrat_UpdatesAndReturnsContrat() {
+        Contrat contrat = new Contrat();
+        when(contratRepository.save(any(Contrat.class))).thenReturn(contrat);
+
+        Contrat updatedContrat = contratService.updateContrat(contrat);
+        assertNotNull(updatedContrat);
+        verify(contratRepository, times(1)).save(contrat);
+    }
+
+    @Test
+    void testGettersAndSetters() {
+        Contrat contrat = new Contrat();
+        Date startDate = new Date();
+        Date endDate = new Date();
+        Specialite specialite = Specialite.IA;
+        Boolean archive = true;
+        Integer montant = 1000;
+
+        // Test des setters
+        contrat.setDateDebutContrat(startDate);
+        contrat.setDateFinContrat(endDate);
+        contrat.setSpecialite(specialite);
+        contrat.setArchive(archive);
+        contrat.setMontantContrat(montant);
+
+        // Test des getters
+        assertEquals(startDate, contrat.getDateDebutContrat());
+        assertEquals(endDate, contrat.getDateFinContrat());
+        assertEquals(specialite, contrat.getSpecialite());
+        assertEquals(archive, contrat.getArchive());
+        assertEquals(montant, contrat.getMontantContrat());
+    }
+
+    @Test
+    void testContratConstructor() {
+        Date startDate = new Date();
+        Date endDate = new Date();
+        Specialite specialite = Specialite.CLOUD;
+        Boolean archive = false;
+        Integer montant = 2000;
+
+        // Test du constructeur avec paramètres
+        Contrat contrat = new Contrat(startDate, endDate, specialite, archive, montant);
+
+        // Vérifications des valeurs initialisées
+        assertEquals(startDate, contrat.getDateDebutContrat());
+        assertEquals(endDate, contrat.getDateFinContrat());
+        assertEquals(specialite, contrat.getSpecialite());
+        assertEquals(archive, contrat.getArchive());
+        assertEquals(montant, contrat.getMontantContrat());
+    }
+
+    @Test
+    void testRelationshipWithEtudiant() {
+        Contrat contrat = new Contrat();
+        Etudiant etudiant = new Etudiant();
+
+        // Test de la relation Many-to-One avec Etudiant
+        contrat.setEtudiant(etudiant);
+
+        // Vérifie que l'association avec l'étudiant fonctionne
+        assertEquals(etudiant, contrat.getEtudiant());
     }
 }
