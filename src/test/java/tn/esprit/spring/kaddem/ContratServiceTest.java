@@ -162,26 +162,57 @@ class ContratServiceTest {
     }
 
     @Test
-    void testGettersAndSetters() {
+    void testLombokGeneratedMethods() {
         Contrat contrat = new Contrat();
+
+        // Testing setters
+        contrat.setIdContrat(1);
+        contrat.setDateDebutContrat(new Date());
+        contrat.setDateFinContrat(new Date());
+        contrat.setSpecialite(Specialite.IA);
+        contrat.setArchive(true);
+        contrat.setMontantContrat(500);
+
+        // Testing getters
+        assertEquals(1, contrat.getIdContrat());
+        assertNotNull(contrat.getDateDebutContrat());
+        assertNotNull(contrat.getDateFinContrat());
+        assertEquals(Specialite.IA, contrat.getSpecialite());
+        assertTrue(contrat.getArchive());
+        assertEquals(500, contrat.getMontantContrat());
+
+        // Testing toString (optional, based on your preference)
+        assertNotNull(contrat.toString());
+    }
+
+    @Test
+    void testToStringMethod() {
+        // Create a sample date
         Date startDate = new Date();
         Date endDate = new Date();
-        Specialite specialite = Specialite.IA;
-        Boolean archive = true;
-        Integer montant = 1000;
 
+        // Create a Contrat instance with specific values
+        Contrat contrat = new Contrat();
+        contrat.setIdContrat(1);
         contrat.setDateDebutContrat(startDate);
         contrat.setDateFinContrat(endDate);
-        contrat.setSpecialite(specialite);
-        contrat.setArchive(archive);
-        contrat.setMontantContrat(montant);
+        contrat.setSpecialite(Specialite.IA);
+        contrat.setArchive(true);
+        contrat.setMontantContrat(1500);
 
-        assertEquals(startDate, contrat.getDateDebutContrat());
-        assertEquals(endDate, contrat.getDateFinContrat());
-        assertEquals(specialite, contrat.getSpecialite());
-        assertEquals(archive, contrat.getArchive());
-        assertEquals(montant, contrat.getMontantContrat());
+        // Call toString and check if it contains expected values
+        String contratString = contrat.toString();
+
+        // Assertions - checking if certain properties are included in the toString output
+        assertTrue(contratString.contains("idContrat=1"));
+        assertTrue(contratString.contains("dateDebutContrat=" + startDate));
+        assertTrue(contratString.contains("dateFinContrat=" + endDate));
+        assertTrue(contratString.contains("specialite=IA"));
+        assertTrue(contratString.contains("archive=true"));
+        assertTrue(contratString.contains("montantContrat=1500"));
     }
+
+
 
     @Test
     void testContratConstructor() {
