@@ -39,7 +39,7 @@ public class Contrat implements Serializable {
     private Etudiant etudiant;
 
     // Constructeur complet (exclut l'ID, car il est généré automatiquement)
-    public Contrat(int i, Date dateDebutContrat, Date dateFinContrat, Specialite specialite, Boolean archive, Integer montantContrat) {
+    public Contrat(Date dateDebutContrat, Date dateFinContrat, Specialite specialite, Boolean archive, Integer montantContrat) {
         this.dateDebutContrat = dateDebutContrat;
         this.dateFinContrat = dateFinContrat;
         this.specialite = specialite;
