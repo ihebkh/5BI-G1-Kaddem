@@ -98,7 +98,7 @@ class ContratServiceImplTest {
     }
 
     @Test
-    public void testAffectContratToEtudiant() {
+     void testAffectContratToEtudiant() {
         Etudiant etudiant = new Etudiant();
         Contrat contrat = new Contrat();
         etudiant.setContrats(new HashSet<>());

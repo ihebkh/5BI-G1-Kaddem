@@ -8,7 +8,6 @@ import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.repositories.ContratRepository;
 import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -40,23 +39,27 @@ public class ContratServiceImpl implements IContratService{
 	}
 
 
-	public Contrat affectContratToEtudiant (Integer idContrat, String nomE, String prenomE){
-		Etudiant e=etudiantRepository.findByNomEAndPrenomE(nomE, prenomE);
-		Contrat ce=contratRepository.findByIdContrat(idContrat);
-		Set<Contrat> contrats= e.getContrats();
-		Integer nbContratssActifs=0;
-		if (contrats.size()!=0) {
+	public Contrat affectContratToEtudiant(Integer idContrat, String nomE, String prenomE) {
+		Etudiant e = etudiantRepository.findByNomEAndPrenomE(nomE, prenomE);
+		Contrat ce = contratRepository.findByIdContrat(idContrat);
+		Set<Contrat> contrats = e.getContrats();
+		Integer nbContratssActifs = 0;
+		if (!contrats.isEmpty()) {  // Use isEmpty() to check if the collection is empty
 			for (Contrat contrat : contrats) {
-				if (((contrat.getArchive())!=null)&& ((contrat.getArchive())!=false))  {
+				if (Boolean.TRUE.equals(contrat.getArchive())) {  // Remove the unnecessary boolean literal
 					nbContratssActifs++;
 				}
 			}
 		}
-		if (nbContratssActifs<=4){
+
+		if (nbContratssActifs <= 4) {  // Covered code
 			ce.setEtudiant(e);
-			contratRepository.save(ce);}
+			contratRepository.save(ce);
+		}
+
 		return ce;
 	}
+
 
 
 

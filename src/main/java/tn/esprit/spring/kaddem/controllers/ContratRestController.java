@@ -27,8 +27,11 @@ public class ContratRestController {
 	}
 
 	@PutMapping(value = "/assignContratToEtudiant/{idContrat}/{nomE}/{prenomE}")
-	public Contrat assignContratToEtudiant (Integer idContrat, String nomE, String prenomE){
-		return 	(contratService.affectContratToEtudiant(idContrat, nomE, prenomE));
+	public Contrat assignContratToEtudiant(
+			@PathVariable Integer idContrat,
+			@PathVariable String nomE,
+			@PathVariable String prenomE) {
+		return contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
 	}
 
 
