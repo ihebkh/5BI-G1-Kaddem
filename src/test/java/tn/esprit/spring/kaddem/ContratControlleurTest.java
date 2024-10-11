@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 
-public class ContratTestControlleur {
+ class ContratControlleurTest {
     @Mock
     private ContratRepository contratRepository;
 
