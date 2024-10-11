@@ -24,12 +24,6 @@ public class Contrat implements Serializable{
     @ManyToOne(cascade = CascadeType.ALL)
     private Etudiant etudiant;
 
-    public Contrat(int idContrat, Date dateDebutContrat, Date dateFinContrat, Specialite specialite) {
-        this.idContrat = idContrat;
-        this.dateDebutContrat = dateDebutContrat;
-        this.dateFinContrat = dateFinContrat;
-        this.specialite = specialite;
-    }
 
     public Contrat() {
         super();
