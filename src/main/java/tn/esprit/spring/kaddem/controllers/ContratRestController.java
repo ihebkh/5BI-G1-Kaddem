@@ -4,8 +4,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Contrat;
 import tn.esprit.spring.kaddem.services.IContratService;
-
-import java.util.Date;
 import java.util.List;
 
 
@@ -28,38 +26,6 @@ public class ContratRestController {
 	public Contrat retrieveContrat(@PathVariable("contrat-id") Integer contratId) {
 		return contratService.retrieveContrat(contratId);
 	}
-
-	@PutMapping(value = "/assignContratToEtudiant/{idContrat}/{nomE}/{prenomE}")
-	public Contrat assignContratToEtudiant(
-			@PathVariable Integer idContrat,
-			@PathVariable String nomE,
-			@PathVariable String prenomE) {
-		return contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
-	}
-
-	@GetMapping(value = "/getnbContratsValides/{startDate}/{endDate}")
-	public Integer getnbContratsValides(@PathVariable(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-										@PathVariable(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
-
-		return contratService.nbContratsValides(startDate, endDate);
-	}
-
-
-	@Scheduled(cron="0 0 13 * * *")
-	@PutMapping(value = "/majStatusContrat")
-	public void majStatusContrat (){
-		contratService.retrieveAndUpdateStatusContrat();
-
-	}
-
-
-	@GetMapping("/calculChiffreAffaireEntreDeuxDate/{startDate}/{endDate}")
-	public float calculChiffreAffaireEntreDeuxDates(@PathVariable(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-													@PathVariable(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
-
-		return contratService.getChiffreAffaireEntreDeuxDates(startDate, endDate);
-	}
-
 
 
 

@@ -63,69 +63,6 @@ public class ContratServiceImpl implements IContratService{
 	}
 
 
-	public 	Integer nbContratsValides(Date startDate, Date endDate){
-		return contratRepository.getnbContratsValides(startDate, endDate);
-	}
-
-	public  Contrat addContrat (Contrat ce){
-		return contratRepository.save(ce);
-	}
-
-
-
-	public void retrieveAndUpdateStatusContrat(){
-		List<Contrat>contrats=contratRepository.findAll();
-		List<Contrat>contrats15j=null;
-		List<Contrat>contratsAarchiver=null;
-		for (Contrat contrat : contrats) {
-			Date dateSysteme = new Date();
-			if (!contrat.getArchive()) {
-
-				long differenceInTime = dateSysteme.getTime() - contrat.getDateFinContrat().getTime();
-				long differenceInDays = (differenceInTime / (1000 * 60 * 60 * 24)) % 365;
-				if (differenceInDays==15){
-					contrats15j.add(contrat);
-					log.info(" Contrat : " + contrat);
-				}
-				if (differenceInDays==0) {
-					contratsAarchiver.add(contrat);
-					contrat.setArchive(true);
-					contratRepository.save(contrat);
-				}
-			}
-		}
-	}
-	public float getChiffreAffaireEntreDeuxDates(Date startDate, Date endDate){
-		float differenceInTime = endDate.getTime() - startDate.getTime();
-		float differenceInDays = (differenceInTime / (1000 * 60 * 60 * 24)) % 365;
-		float differenceInmonths =differenceInDays/30;
-		List<Contrat> contrats=contratRepository.findAll();
-		float chiffreAffaireEntreDeuxDates=0;
-		for (Contrat contrat : contrats) {
-			if (contrat.getSpecialite()== Specialite.IA){
-				chiffreAffaireEntreDeuxDates+=(differenceInmonths*300);
-			} else if (contrat.getSpecialite()== Specialite.CLOUD) {
-				chiffreAffaireEntreDeuxDates+=(differenceInmonths*400);
-			}
-			else if (contrat.getSpecialite()== Specialite.RESEAUX) {
-				chiffreAffaireEntreDeuxDates+=(differenceInmonths*350);
-			}
-
-			{
-				chiffreAffaireEntreDeuxDates+=(differenceInmonths*450);
-			}
-		}
-		return chiffreAffaireEntreDeuxDates;
-
-
-	}
-
-	public Contrat updateContrat (Contrat  ce){
-		return contratRepository.save(ce);
-	}
-
-
-
 
 
 }
