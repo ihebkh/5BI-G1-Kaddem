@@ -18,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ContratServiceImplTest {
 
+public class ContratTestControlleur {
     @Mock
     private ContratRepository contratRepository;
 
@@ -98,7 +98,7 @@ class ContratServiceImplTest {
     }
 
     @Test
-     void testAffectContratToEtudiant_NoExistingContracts() {
+    void testAffectContratToEtudiant_NoExistingContracts() {
         Integer idContrat = 1;
         String nomE = "Doe";
         String prenomE = "John";
@@ -117,7 +117,7 @@ class ContratServiceImplTest {
     }
 
     @Test
-     void testAffectContratToEtudiant_ActiveContractsUnderLimit() {
+    void testAffectContratToEtudiant_ActiveContractsUnderLimit() {
         Integer idContrat = 1;
         String nomE = "Doe";
         String prenomE = "John";
@@ -146,7 +146,7 @@ class ContratServiceImplTest {
     }
 
     @Test
-     void testAffectContratToEtudiant_ActiveContractsExceedsLimit() {
+    void testAffectContratToEtudiant_ActiveContractsExceedsLimit() {
         Integer idContrat = 1;
         String nomE = "Doe";
         String prenomE = "John";
@@ -184,7 +184,7 @@ class ContratServiceImplTest {
     }
 
     @Test
-     void testAffectContratToEtudiant_NullArchiveField() {
+    void testAffectContratToEtudiant_NullArchiveField() {
         Integer idContrat = 1;
         String nomE = "Doe";
         String prenomE = "John";
@@ -208,6 +208,8 @@ class ContratServiceImplTest {
         assertEquals(etudiant, result.getEtudiant()); // Contract should be assigned
         verify(contratRepository, times(1)).save(contrat);
     }
+
+
 
 
 }

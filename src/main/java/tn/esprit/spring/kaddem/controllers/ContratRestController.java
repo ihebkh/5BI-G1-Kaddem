@@ -35,12 +35,7 @@ public class ContratRestController {
 			@PathVariable String prenomE) {
 		return contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
 	}
-	@Scheduled(cron="0 0 13 * * *")//(cron="0 0 13 * * ?")(fixedRate =21600)
-	@PutMapping(value = "/majStatusContrat")
-	public void majStatusContrat (){
-		contratService.retrieveAndUpdateStatusContrat();
 
-	}
 
 
 
