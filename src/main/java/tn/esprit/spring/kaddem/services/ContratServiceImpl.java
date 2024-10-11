@@ -66,24 +66,21 @@ public class ContratServiceImpl implements IContratService{
 		List<Contrat> contrats = contratRepository.findAll();
 		List<Contrat> contrats15j = new ArrayList<>(); // Initialize the list
 		List<Contrat> contratsAarchiver = new ArrayList<>(); // Initialize the list
-
 		for (Contrat contrat : contrats) {
 			Date dateSysteme = new Date();
-			if (!contrat.getArchive()) {
-				long difference_In_Time = dateSysteme.getTime() - contrat.getDateFinContrat().getTime();
-				long difference_In_Days = (difference_In_Time / (1000 * 60 * 60 * 24)) % 365;
-
-				if (difference_In_Days == 15) {
+			if (!contrat.getArchive()) { // Using a primitive boolean expression here
+				long differenceInTime = dateSysteme.getTime() - contrat.getDateFinContrat().getTime(); // Renamed variable
+				long differenceInDays = (differenceInTime / (1000 * 60 * 60 * 24)) % 365; // Renamed variable
+				if (differenceInDays == 15) {
 					contrats15j.add(contrat);
 					log.info(" Contrat : " + contrat);
 				}
-				if (difference_In_Days == 0) {
+				if (differenceInDays == 0) {
 					contratsAarchiver.add(contrat);
-					contrat.setArchive(true);
-					contratRepository.save(contrat);
 				}
 			}
 		}
+
 	}
 
 
