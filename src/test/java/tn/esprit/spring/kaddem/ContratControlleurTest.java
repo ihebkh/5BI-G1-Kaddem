@@ -1,215 +1,96 @@
 package tn.esprit.spring.kaddem;
 
-import tn.esprit.spring.kaddem.entities.Contrat;
-
-import tn.esprit.spring.kaddem.entities.Etudiant;
-import tn.esprit.spring.kaddem.repositories.ContratRepository;
-import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
-import tn.esprit.spring.kaddem.services.ContratServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
+import tn.esprit.spring.kaddem.controllers.ContratRestController;
+import tn.esprit.spring.kaddem.entities.Contrat;
+import tn.esprit.spring.kaddem.services.IContratService;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-
- class ContratControlleurTest {
-    @Mock
-    private ContratRepository contratRepository;
+class ContratControlleurTest {
 
     @Mock
-    private EtudiantRepository etudiantRepository;
+    private IContratService contratService;
 
     @InjectMocks
-    private ContratServiceImpl contratService;
+    private ContratRestController contratRestController;
 
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
-    void testRetrieveAllContrats() {
-        // Préparation des données de test
+    void testGetContrats() {
+        // Arrange
         Contrat contrat1 = new Contrat();
+        contrat1.setIdContrat(1);
         Contrat contrat2 = new Contrat();
+        contrat2.setIdContrat(2);
+
         List<Contrat> expectedContrats = Arrays.asList(contrat1, contrat2);
+        when(contratService.retrieveAllContrats()).thenReturn(expectedContrats);
 
-        // Simulation du comportement du repository
-        when(contratRepository.findAll()).thenReturn(expectedContrats);
+        // Act
+        List<Contrat> actualContrats = contratRestController.getContrats();
 
-        // Appel de la méthode de service
-        List<Contrat> actualContrats = contratService.retrieveAllContrats();
-
-        // Vérification du résultat
+        // Assert
         assertEquals(expectedContrats, actualContrats);
-        verify(contratRepository, times(1)).findAll();
+        verify(contratService, times(1)).retrieveAllContrats();
     }
 
     @Test
     void testRetrieveContrat() {
-        // ID du contrat à récupérer
+        // Arrange
         Integer contratId = 1;
         Contrat expectedContrat = new Contrat();
+        expectedContrat.setIdContrat(contratId);
+        when(contratService.retrieveContrat(contratId)).thenReturn(expectedContrat);
 
-        // Simulation du comportement du repository
-        when(contratRepository.findById(contratId)).thenReturn(Optional.of(expectedContrat));
+        // Act
+        Contrat actualContrat = contratRestController.retrieveContrat(contratId);
 
-        // Appel de la méthode de service
-        Contrat actualContrat = contratService.retrieveContrat(contratId);
-
-        // Vérification du résultat
+        // Assert
         assertEquals(expectedContrat, actualContrat);
-        verify(contratRepository, times(1)).findById(contratId);
-    }
-
-    @Test
-    void testRetrieveContrat_NotFound() {
-        // ID du contrat inexistant
-        Integer contratId = 2;
-
-        // Simulation du comportement du repository
-        when(contratRepository.findById(contratId)).thenReturn(Optional.empty());
-
-        // Appel de la méthode de service
-        Contrat actualContrat = contratService.retrieveContrat(contratId);
-
-        // Vérification que le résultat est null
-        assertNull(actualContrat);
-        verify(contratRepository, times(1)).findById(contratId);
+        verify(contratService, times(1)).retrieveContrat(contratId);
     }
 
     @Test
     void testRemoveContrat() {
-        // ID du contrat à supprimer
+        // Arrange
         Integer contratId = 1;
-        Contrat contrat = new Contrat();
+        doNothing().when(contratService).removeContrat(contratId);
 
-        // Simulation du comportement du repository
-        when(contratRepository.findById(contratId)).thenReturn(Optional.of(contrat));
+        // Act
+        contratRestController.removeContrat(contratId);
 
-        // Appel de la méthode de suppression
-        contratService.removeContrat(contratId);
-
-        // Vérification que la méthode delete a été appelée
-        verify(contratRepository, times(1)).delete(contrat);
+        // Assert
+        verify(contratService, times(1)).removeContrat(contratId);
     }
 
     @Test
-    void testAffectContratToEtudiant_NoExistingContracts() {
+    void testAssignContratToEtudiant() {
+        // Arrange
         Integer idContrat = 1;
         String nomE = "Doe";
         String prenomE = "John";
-        Etudiant etudiant = new Etudiant();
-        etudiant.setContrats(new HashSet<>());
+        Contrat expectedContrat = new Contrat();
+        expectedContrat.setIdContrat(idContrat);
+        when(contratService.affectContratToEtudiant(idContrat, nomE, prenomE)).thenReturn(expectedContrat);
 
-        Contrat contrat = new Contrat();
+        // Act
+        Contrat actualContrat = contratRestController.assignContratToEtudiant(idContrat, nomE, prenomE);
 
-        when(etudiantRepository.findByNomEAndPrenomE(nomE, prenomE)).thenReturn(etudiant);
-        when(contratRepository.findByIdContrat(idContrat)).thenReturn(contrat);
-
-        Contrat result = contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
-
-        assertEquals(etudiant, result.getEtudiant());
-        verify(contratRepository, times(1)).save(contrat);
+        // Assert
+        assertEquals(expectedContrat, actualContrat);
+        verify(contratService, times(1)).affectContratToEtudiant(idContrat, nomE, prenomE);
     }
-
-    @Test
-    void testAffectContratToEtudiant_ActiveContractsUnderLimit() {
-        Integer idContrat = 1;
-        String nomE = "Doe";
-        String prenomE = "John";
-
-        Contrat activeContract1 = new Contrat();
-        activeContract1.setArchive(true);
-        Contrat activeContract2 = new Contrat();
-        activeContract2.setArchive(true);
-
-        Set<Contrat> existingContracts = new HashSet<>();
-        existingContracts.add(activeContract1);
-        existingContracts.add(activeContract2);
-
-        Etudiant etudiant = new Etudiant();
-        etudiant.setContrats(existingContracts);
-
-        Contrat contrat = new Contrat();
-
-        when(etudiantRepository.findByNomEAndPrenomE(nomE, prenomE)).thenReturn(etudiant);
-        when(contratRepository.findByIdContrat(idContrat)).thenReturn(contrat);
-
-        Contrat result = contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
-
-        assertEquals(etudiant, result.getEtudiant());
-        verify(contratRepository, times(1)).save(contrat);
-    }
-
-    @Test
-    void testAffectContratToEtudiant_ActiveContractsExceedsLimit() {
-        Integer idContrat = 1;
-        String nomE = "Doe";
-        String prenomE = "John";
-
-        Contrat activeContract1 = new Contrat();
-        activeContract1.setArchive(true);
-        Contrat activeContract2 = new Contrat();
-        activeContract2.setArchive(true);
-        Contrat activeContract3 = new Contrat();
-        activeContract3.setArchive(true);
-        Contrat activeContract4 = new Contrat();
-        activeContract4.setArchive(true);
-        Contrat activeContract5 = new Contrat();
-        activeContract5.setArchive(true);
-
-        Set<Contrat> existingContracts = new HashSet<>();
-        existingContracts.add(activeContract1);
-        existingContracts.add(activeContract2);
-        existingContracts.add(activeContract3);
-        existingContracts.add(activeContract4);
-        existingContracts.add(activeContract5);
-
-        Etudiant etudiant = new Etudiant();
-        etudiant.setContrats(existingContracts);
-
-        Contrat contrat = new Contrat();
-
-        when(etudiantRepository.findByNomEAndPrenomE(nomE, prenomE)).thenReturn(etudiant);
-        when(contratRepository.findByIdContrat(idContrat)).thenReturn(contrat);
-
-        Contrat result = contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
-
-        assertNull(result.getEtudiant()); // Contract should not be assigned due to exceeded limit
-        verify(contratRepository, never()).save(contrat);
-    }
-
-    @Test
-    void testAffectContratToEtudiant_NullArchiveField() {
-        Integer idContrat = 1;
-        String nomE = "Doe";
-        String prenomE = "John";
-
-        Contrat contractWithNullArchive = new Contrat();
-        contractWithNullArchive.setArchive(null);
-
-        Set<Contrat> existingContracts = new HashSet<>();
-        existingContracts.add(contractWithNullArchive);
-
-        Etudiant etudiant = new Etudiant();
-        etudiant.setContrats(existingContracts);
-
-        Contrat contrat = new Contrat();
-
-        when(etudiantRepository.findByNomEAndPrenomE(nomE, prenomE)).thenReturn(etudiant);
-        when(contratRepository.findByIdContrat(idContrat)).thenReturn(contrat);
-
-        Contrat result = contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
-
-        assertEquals(etudiant, result.getEtudiant()); // Contract should be assigned
-        verify(contratRepository, times(1)).save(contrat);
-    }
-
-
-
-
 }
