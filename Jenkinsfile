@@ -13,6 +13,14 @@ pipeline {
             }
         }
 
+        stage('Status Mysql') {
+                    steps {
+                        script {
+                            sh 'sudo systemctl start mysql'
+                        }
+                    }
+                }
+
         stage('Maven Clean Compile') {
             steps {
                 sh 'mvn clean'
