@@ -98,17 +98,114 @@ class ContratServiceImplTest {
     }
 
     @Test
-     void testAffectContratToEtudiant() {
+    public void testAffectContratToEtudiant_NoExistingContracts() {
+        Integer idContrat = 1;
+        String nomE = "Doe";
+        String prenomE = "John";
         Etudiant etudiant = new Etudiant();
-        Contrat contrat = new Contrat();
         etudiant.setContrats(new HashSet<>());
-        when(etudiantRepository.findByNomEAndPrenomE(anyString(), anyString())).thenReturn(etudiant);
-        when(contratRepository.findByIdContrat(anyInt())).thenReturn(contrat);
-        when(contratRepository.save(any(Contrat.class))).thenReturn(contrat);
 
-        Contrat result = contratService.affectContratToEtudiant(1, "nom", "prenom");
-        assertNotNull(result);
+        Contrat contrat = new Contrat();
+
+        when(etudiantRepository.findByNomEAndPrenomE(nomE, prenomE)).thenReturn(etudiant);
+        when(contratRepository.findByIdContrat(idContrat)).thenReturn(contrat);
+
+        Contrat result = contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
+
         assertEquals(etudiant, result.getEtudiant());
+        verify(contratRepository, times(1)).save(contrat);
+    }
+
+    @Test
+    public void testAffectContratToEtudiant_ActiveContractsUnderLimit() {
+        Integer idContrat = 1;
+        String nomE = "Doe";
+        String prenomE = "John";
+
+        Contrat activeContract1 = new Contrat();
+        activeContract1.setArchive(true);
+        Contrat activeContract2 = new Contrat();
+        activeContract2.setArchive(true);
+
+        Set<Contrat> existingContracts = new HashSet<>();
+        existingContracts.add(activeContract1);
+        existingContracts.add(activeContract2);
+
+        Etudiant etudiant = new Etudiant();
+        etudiant.setContrats(existingContracts);
+
+        Contrat contrat = new Contrat();
+
+        when(etudiantRepository.findByNomEAndPrenomE(nomE, prenomE)).thenReturn(etudiant);
+        when(contratRepository.findByIdContrat(idContrat)).thenReturn(contrat);
+
+        Contrat result = contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
+
+        assertEquals(etudiant, result.getEtudiant());
+        verify(contratRepository, times(1)).save(contrat);
+    }
+
+    @Test
+    public void testAffectContratToEtudiant_ActiveContractsExceedsLimit() {
+        Integer idContrat = 1;
+        String nomE = "Doe";
+        String prenomE = "John";
+
+        Contrat activeContract1 = new Contrat();
+        activeContract1.setArchive(true);
+        Contrat activeContract2 = new Contrat();
+        activeContract2.setArchive(true);
+        Contrat activeContract3 = new Contrat();
+        activeContract3.setArchive(true);
+        Contrat activeContract4 = new Contrat();
+        activeContract4.setArchive(true);
+        Contrat activeContract5 = new Contrat();
+        activeContract5.setArchive(true);
+
+        Set<Contrat> existingContracts = new HashSet<>();
+        existingContracts.add(activeContract1);
+        existingContracts.add(activeContract2);
+        existingContracts.add(activeContract3);
+        existingContracts.add(activeContract4);
+        existingContracts.add(activeContract5);
+
+        Etudiant etudiant = new Etudiant();
+        etudiant.setContrats(existingContracts);
+
+        Contrat contrat = new Contrat();
+
+        when(etudiantRepository.findByNomEAndPrenomE(nomE, prenomE)).thenReturn(etudiant);
+        when(contratRepository.findByIdContrat(idContrat)).thenReturn(contrat);
+
+        Contrat result = contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
+
+        assertNull(result.getEtudiant()); // Contract should not be assigned due to exceeded limit
+        verify(contratRepository, never()).save(contrat);
+    }
+
+    @Test
+    public void testAffectContratToEtudiant_NullArchiveField() {
+        Integer idContrat = 1;
+        String nomE = "Doe";
+        String prenomE = "John";
+
+        Contrat contractWithNullArchive = new Contrat();
+        contractWithNullArchive.setArchive(null);
+
+        Set<Contrat> existingContracts = new HashSet<>();
+        existingContracts.add(contractWithNullArchive);
+
+        Etudiant etudiant = new Etudiant();
+        etudiant.setContrats(existingContracts);
+
+        Contrat contrat = new Contrat();
+
+        when(etudiantRepository.findByNomEAndPrenomE(nomE, prenomE)).thenReturn(etudiant);
+        when(contratRepository.findByIdContrat(idContrat)).thenReturn(contrat);
+
+        Contrat result = contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
+
+        assertEquals(etudiant, result.getEtudiant()); // Contract should be assigned
         verify(contratRepository, times(1)).save(contrat);
     }
 
