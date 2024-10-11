@@ -33,11 +33,6 @@ public class Contrat implements Serializable{
 
     public Contrat() {
         super();
-        this.dateDebutContrat = dateDebutContrat;
-        this.dateFinContrat = dateFinContrat;
-        this.specialite = specialite;
-        this.archive = archive;
-        this.montantContrat = montantContrat;
     }
 
     public Contrat(Integer idContrat, Date dateDebutContrat, Date dateFinContrat, Specialite specialite,
