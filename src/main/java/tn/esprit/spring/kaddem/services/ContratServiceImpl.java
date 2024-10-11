@@ -13,7 +13,7 @@ import java.util.List;
 @Slf4j
 @Service
 public class ContratServiceImpl implements IContratService{
-	@Autowired
+
 	ContratRepository contratRepository;
 
 	public List<Contrat> retrieveAllContrats(){
