@@ -1,7 +1,10 @@
 package tn.esprit.spring.kaddem;
 
 import tn.esprit.spring.kaddem.entities.Contrat;
+
+import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.repositories.ContratRepository;
+import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 import tn.esprit.spring.kaddem.services.ContratServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,22 +12,23 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ContratServiceImplTest {
 
     @Mock
-    ContratRepository contratRepository;
+    private ContratRepository contratRepository;
+
+    @Mock
+    private EtudiantRepository etudiantRepository;
 
     @InjectMocks
-    ContratServiceImpl contratService;
+    private ContratServiceImpl contratService;
+
 
     @Test
     void testRetrieveAllContrats() {
@@ -92,4 +96,22 @@ class ContratServiceImplTest {
         // Vérification que la méthode delete a été appelée
         verify(contratRepository, times(1)).delete(contrat);
     }
+
+    @Test
+    public void testAffectContratToEtudiant() {
+        Etudiant etudiant = new Etudiant();
+        Contrat contrat = new Contrat();
+        etudiant.setContrats(new HashSet<>());
+        when(etudiantRepository.findByNomEAndPrenomE(anyString(), anyString())).thenReturn(etudiant);
+        when(contratRepository.findByIdContrat(anyInt())).thenReturn(contrat);
+        when(contratRepository.save(any(Contrat.class))).thenReturn(contrat);
+
+        Contrat result = contratService.affectContratToEtudiant(1, "nom", "prenom");
+        assertNotNull(result);
+        assertEquals(etudiant, result.getEtudiant());
+        verify(contratRepository, times(1)).save(contrat);
+    }
+
+
+
 }

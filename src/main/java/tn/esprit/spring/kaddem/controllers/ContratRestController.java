@@ -26,6 +26,13 @@ public class ContratRestController {
 		return contratService.retrieveContrat(contratId);
 	}
 
+	@PutMapping(value = "/assignContratToEtudiant/{idContrat}/{nomE}/{prenomE}")
+	public Contrat assignContratToEtudiant (Integer idContrat, String nomE, String prenomE){
+		return 	(contratService.affectContratToEtudiant(idContrat, nomE, prenomE));
+	}
+
+
+
 
 
 

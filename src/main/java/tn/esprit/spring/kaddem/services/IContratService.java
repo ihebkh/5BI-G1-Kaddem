@@ -6,11 +6,13 @@ import java.util.List;
 
 public interface IContratService {
 
-    public List<Contrat> retrieveAllContrats();
+     List<Contrat> retrieveAllContrats();
 
-    public Contrat retrieveContrat (Integer  idContrat);
+     Contrat retrieveContrat (Integer  idContrat);
 
-    public  void removeContrat(Integer idContrat);
+      void removeContrat(Integer idContrat);
+
+     Contrat affectContratToEtudiant (Integer idContrat, String nomE, String prenomE);
 
 }
 

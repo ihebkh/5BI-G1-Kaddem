@@ -14,5 +14,7 @@ public interface ContratRepository extends CrudRepository<Contrat, Integer> {
 
 
  List<Contrat> findAll();
+ Contrat findByIdContrat(Integer idContrat);
+
 
 }

@@ -2,6 +2,7 @@ package tn.esprit.spring.kaddem;
 
 import tn.esprit.spring.kaddem.controllers.ContratRestController;
 import tn.esprit.spring.kaddem.entities.Contrat;
+import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.services.ContratServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -87,4 +88,28 @@ class ContratControllerTest {
         assertNull(actualContrat);
         verify(contratService, times(1)).retrieveContrat(contratId);
     }
+
+    @Test
+    void testAssignContratToEtudiant() {
+        // Variables for the test
+        Integer contratId = 1;
+        String nomE = "Doe";
+        String prenomE = "John";
+        Contrat expectedContrat = new Contrat();
+        Etudiant etudiant = new Etudiant();
+        etudiant.setNomE(nomE);
+        etudiant.setPrenomE(prenomE);
+        expectedContrat.setEtudiant(etudiant);
+
+        // Simulate the service behavior
+        when(contratService.affectContratToEtudiant(contratId, nomE, prenomE)).thenReturn(expectedContrat);
+
+        // Call the method in the controller
+        Contrat actualContrat = contratController.assignContratToEtudiant(contratId, nomE, prenomE);
+
+        // Assert that the returned contract matches the expected contract
+        assertEquals(expectedContrat, actualContrat);
+        verify(contratService, times(1)).affectContratToEtudiant(contratId, nomE, prenomE);
+    }
+
 }
