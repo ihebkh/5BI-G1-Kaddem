@@ -98,7 +98,7 @@ class ContratServiceImplTest {
     }
 
     @Test
-    public void testAffectContratToEtudiant_NoExistingContracts() {
+     void testAffectContratToEtudiant_NoExistingContracts() {
         Integer idContrat = 1;
         String nomE = "Doe";
         String prenomE = "John";
@@ -117,7 +117,7 @@ class ContratServiceImplTest {
     }
 
     @Test
-    public void testAffectContratToEtudiant_ActiveContractsUnderLimit() {
+     void testAffectContratToEtudiant_ActiveContractsUnderLimit() {
         Integer idContrat = 1;
         String nomE = "Doe";
         String prenomE = "John";
@@ -146,7 +146,7 @@ class ContratServiceImplTest {
     }
 
     @Test
-    public void testAffectContratToEtudiant_ActiveContractsExceedsLimit() {
+     void testAffectContratToEtudiant_ActiveContractsExceedsLimit() {
         Integer idContrat = 1;
         String nomE = "Doe";
         String prenomE = "John";
@@ -184,7 +184,7 @@ class ContratServiceImplTest {
     }
 
     @Test
-    public void testAffectContratToEtudiant_NullArchiveField() {
+     void testAffectContratToEtudiant_NullArchiveField() {
         Integer idContrat = 1;
         String nomE = "Doe";
         String prenomE = "John";
