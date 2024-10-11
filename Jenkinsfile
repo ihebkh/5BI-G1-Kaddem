@@ -13,13 +13,7 @@ pipeline {
             }
         }
 
-        stage('Status Mysql') {
-                    steps {
-                        script {
-                            sh 'sudo systemctl start mysql'
-                        }
-                    }
-                }
+
 
         stage('Maven Clean Compile') {
             steps {
@@ -40,6 +34,12 @@ pipeline {
                 sh 'mvn package'
             }
         }
+
+         stage('Tests - JUnit/Mockito') {
+                    steps {
+                        sh 'mvn test'
+                    }
+                }
 
         stage('Rapport JaCoCo') {
             steps {
