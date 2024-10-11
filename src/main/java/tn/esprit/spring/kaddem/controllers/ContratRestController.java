@@ -21,6 +21,11 @@ public class ContratRestController {
 		return contratService.retrieveAllContrats();
 	}
 
+	@GetMapping("/retrieve-contrat/{contrat-id}")
+	public Contrat retrieveContrat(@PathVariable("contrat-id") Integer contratId) {
+		return contratService.retrieveContrat(contratId);
+	}
+
 
 
 

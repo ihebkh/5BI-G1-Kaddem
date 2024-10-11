@@ -14,6 +14,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
 class ContratControllerTest {
@@ -52,5 +53,38 @@ class ContratControllerTest {
         // Vérification du résultat
         assertEquals(expectedContrats, actualContrats);
         verify(contratService, times(1)).retrieveAllContrats();
+    }
+
+    @Test
+    void testRetrieveContrat() {
+        // ID du contrat à récupérer
+        Integer contratId = 1;
+        Contrat expectedContrat = new Contrat();
+
+        // Simulation du comportement du service
+        when(contratService.retrieveContrat(contratId)).thenReturn(expectedContrat);
+
+        // Appel de la méthode du contrôleur
+        Contrat actualContrat = contratController.retrieveContrat(contratId);
+
+        // Vérification du résultat
+        assertEquals(expectedContrat, actualContrat);
+        verify(contratService, times(1)).retrieveContrat(contratId);
+    }
+
+    @Test
+    void testRetrieveContrat_NotFound() {
+        // ID du contrat inexistant
+        Integer contratId = 2;
+
+        // Simulation du comportement du service
+        when(contratService.retrieveContrat(contratId)).thenReturn(null);
+
+        // Appel de la méthode du contrôleur
+        Contrat actualContrat = contratController.retrieveContrat(contratId);
+
+        // Vérification que le contrat retourné est null pour un ID inexistant
+        assertNull(actualContrat);
+        verify(contratService, times(1)).retrieveContrat(contratId);
     }
 }
