@@ -43,19 +43,19 @@ public class ContratRestController {
 
 		return contratService.nbContratsValides(startDate, endDate);
 	}
-
+/*
 	@PostMapping("/add-contrat")
 	public Contrat addContrat(@RequestBody Contrat c) {
-		Contrat contrat = contratService.addContrat(c);
-		return contrat;
+		 return contratService.addContrat(c);
+
 	}
 
 	@PutMapping("/update-contrat")
 	public Contrat updateContrat(@RequestBody Contrat c) {
-		Contrat contrat= contratService.updateContrat(c);
-		return contrat;
-	}
+		return contratService.updateContrat(c);
 
+	}
+*/
 
 	@Scheduled(cron="0 0 13 * * *")
 	@PutMapping(value = "/majStatusContrat")
@@ -66,7 +66,6 @@ public class ContratRestController {
 
 
 	@GetMapping("/calculChiffreAffaireEntreDeuxDate/{startDate}/{endDate}")
-	@ResponseBody
 	public float calculChiffreAffaireEntreDeuxDates(@PathVariable(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
 													@PathVariable(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
 
