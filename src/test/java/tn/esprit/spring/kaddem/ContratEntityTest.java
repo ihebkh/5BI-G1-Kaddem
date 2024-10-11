@@ -48,6 +48,25 @@ class ContratEntityTest {
         // Validate relationship
         assertEquals(etudiant, contrat.getEtudiant());
     }
+    @Test
+    void testParameterizedConstructor() {
+        Integer idContrat = 1;
+        Date dateDebutContrat = new Date();
+        Date dateFinContrat = new Date();
+        Specialite specialite = Specialite.IA;
+        Boolean archive = true;
+        Integer montantContrat = 1000;
+
+        Contrat contrat = new Contrat(idContrat, dateDebutContrat, dateFinContrat, specialite, archive, montantContrat);
+
+        assertEquals(idContrat, contrat.getIdContrat());
+        assertEquals(dateDebutContrat, contrat.getDateDebutContrat());
+        assertEquals(dateFinContrat, contrat.getDateFinContrat());
+        assertEquals(specialite, contrat.getSpecialite());
+        assertEquals(archive, contrat.getArchive());
+        assertEquals(montantContrat, contrat.getMontantContrat());
+    }
+
 
     @Test
     void testToStringMethod() {
