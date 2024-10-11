@@ -1,9 +1,9 @@
 package tn.esprit.spring.kaddem.controllers;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Contrat;
 import tn.esprit.spring.kaddem.services.IContratService;
+
+
 import java.util.List;
 
 
@@ -26,6 +26,17 @@ public class ContratRestController {
 	public Contrat retrieveContrat(@PathVariable("contrat-id") Integer contratId) {
 		return contratService.retrieveContrat(contratId);
 	}
+
+	@PutMapping(value = "/assignContratToEtudiant/{idContrat}/{nomE}/{prenomE}")
+	public Contrat assignContratToEtudiant(
+			@PathVariable Integer idContrat,
+			@PathVariable String nomE,
+			@PathVariable String prenomE) {
+		return contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
+	}
+
+
+
 
 
 
