@@ -3,6 +3,7 @@ package tn.esprit.spring.kaddem;
 import tn.esprit.spring.kaddem.controllers.ContratRestController;
 import tn.esprit.spring.kaddem.entities.Contrat;
 import tn.esprit.spring.kaddem.entities.Etudiant;
+import tn.esprit.spring.kaddem.repositories.ContratRepository;
 import tn.esprit.spring.kaddem.services.ContratServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +27,8 @@ class ContratControllerTest {
 
     @Mock
     ContratServiceImpl contratService;
+    @Mock
+    ContratRepository contratRepository
 
     @InjectMocks
     ContratRestController contratController;
@@ -115,26 +120,25 @@ class ContratControllerTest {
     }
 
     @Test
-    void testGetNbContratsValides() throws Exception {
-        // Define test data
-        String startDateStr = "2023-01-01";
-        String endDateStr = "2023-12-31";
+    void testNbContratsValides() {
+        // Define test data using LocalDate
+        LocalDate startDate = LocalDate.of(2023, 1, 1); // January 1, 2023
+        LocalDate endDate = LocalDate.of(2023, 12, 31); // December 31, 2023
         Integer expectedNbContratsValides = 5;
 
-        // Parse the dates for the test
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date startDate = dateFormat.parse(startDateStr);
-        Date endDate = dateFormat.parse(endDateStr);
+        // Convert LocalDate to Date for compatibility, if necessary
+        Date startDateAsDate = Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date endDateAsDate = Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        // Mock the service method
-        when(contratService.nbContratsValides(startDate, endDate)).thenReturn(expectedNbContratsValides);
+        // Mock the repository method
+        when(contratRepository.getnbContratsValides(startDateAsDate, endDateAsDate)).thenReturn(expectedNbContratsValides);
 
-        // Call the controller method
-        Integer actualNbContratsValides = contratController.getnbContratsValides(startDate, endDate);
+        // Call the service method
+        Integer actualNbContratsValides = contratService.nbContratsValides(startDateAsDate, endDateAsDate);
 
-        // Assert that the returned value matches the expected value
+        // Verify the result
         assertEquals(expectedNbContratsValides, actualNbContratsValides);
-        verify(contratService, times(1)).nbContratsValides(startDate, endDate);
-    }
+        verify(contratRepository, times(1)).getnbContratsValides(startDateAsDate, endDateAsDate);
 
+    }
 }
