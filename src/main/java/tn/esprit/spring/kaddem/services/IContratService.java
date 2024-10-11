@@ -12,6 +12,5 @@ public interface IContratService {
 
     public  void removeContrat(Integer idContrat);
 
-    public List<Contrat> retrieveAllContrats();
 }
 
