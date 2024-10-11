@@ -24,8 +24,11 @@ public class Contrat implements Serializable{
     @ManyToOne(cascade = CascadeType.ALL)
     private Etudiant etudiant;
 
-    public Contrat(int i, Date date, Date date1, Specialite ia) {
-        // TODO Auto-generated constructor stub
+    public Contrat(int idContrat, Date dateDebutContrat, Date dateFinContrat, Specialite specialite) {
+        this.idContrat = idContrat;
+        this.dateDebutContrat = dateDebutContrat;
+        this.dateFinContrat = dateFinContrat;
+        this.specialite = specialite;
     }
 
     public Contrat() {
