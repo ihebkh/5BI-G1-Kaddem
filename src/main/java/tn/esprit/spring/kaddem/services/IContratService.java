@@ -2,6 +2,8 @@ package tn.esprit.spring.kaddem.services;
 
 import tn.esprit.spring.kaddem.entities.Contrat;
 
+import java.util.List;
+
 
 public interface IContratService {
 
@@ -10,6 +12,6 @@ public interface IContratService {
 
     public  void removeContrat(Integer idContrat);
 
-
+    public List<Contrat> retrieveAllContrats();
 }
 
