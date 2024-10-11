@@ -43,19 +43,7 @@ public class ContratRestController {
 
 		return contratService.nbContratsValides(startDate, endDate);
 	}
-/*
-	@PostMapping("/add-contrat")
-	public Contrat addContrat(@RequestBody Contrat c) {
-		 return contratService.addContrat(c);
 
-	}
-
-	@PutMapping("/update-contrat")
-	public Contrat updateContrat(@RequestBody Contrat c) {
-		return contratService.updateContrat(c);
-
-	}
-*/
 
 	@Scheduled(cron="0 0 13 * * *")
 	@PutMapping(value = "/majStatusContrat")
