@@ -209,6 +209,24 @@ class ContratServiceImplTest {
         verify(contratRepository, times(1)).save(contrat);
     }
 
+    @Test
+     void testNbContratsValides() {
+        // Define test data
+        Date startDate = new Date(2023, 1, 1); // January 1, 2023
+        Date endDate = new Date(2023, 12, 31); // December 31, 2023
+        Integer expectedNbContratsValides = 5;
+
+        // Mock the repository method
+        when(contratRepository.getnbContratsValides(startDate, endDate)).thenReturn(expectedNbContratsValides);
+
+        // Call the service method
+        Integer actualNbContratsValides = contratService.nbContratsValides(startDate, endDate);
+
+        // Verify the result
+        assertEquals(expectedNbContratsValides, actualNbContratsValides);
+        verify(contratRepository, times(1)).getnbContratsValides(startDate, endDate);
+    }
+
 
 
 }

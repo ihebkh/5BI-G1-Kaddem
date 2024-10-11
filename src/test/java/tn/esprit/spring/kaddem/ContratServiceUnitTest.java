@@ -10,7 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -110,6 +112,29 @@ class ContratControllerTest {
         // Assert that the returned contract matches the expected contract
         assertEquals(expectedContrat, actualContrat);
         verify(contratService, times(1)).affectContratToEtudiant(contratId, nomE, prenomE);
+    }
+
+    @Test
+    void testGetNbContratsValides() throws Exception {
+        // Define test data
+        String startDateStr = "2023-01-01";
+        String endDateStr = "2023-12-31";
+        Integer expectedNbContratsValides = 5;
+
+        // Parse the dates for the test
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = dateFormat.parse(startDateStr);
+        Date endDate = dateFormat.parse(endDateStr);
+
+        // Mock the service method
+        when(contratService.nbContratsValides(startDate, endDate)).thenReturn(expectedNbContratsValides);
+
+        // Call the controller method
+        Integer actualNbContratsValides = contratController.getnbContratsValides(startDate, endDate);
+
+        // Assert that the returned value matches the expected value
+        assertEquals(expectedNbContratsValides, actualNbContratsValides);
+        verify(contratService, times(1)).nbContratsValides(startDate, endDate);
     }
 
 }

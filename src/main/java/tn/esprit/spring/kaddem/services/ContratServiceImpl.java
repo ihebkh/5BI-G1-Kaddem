@@ -8,6 +8,7 @@ import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.repositories.ContratRepository;
 import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -61,7 +62,9 @@ public class ContratServiceImpl implements IContratService{
 	}
 
 
-
+	public 	Integer nbContratsValides(Date startDate, Date endDate){
+		return contratRepository.getnbContratsValides(startDate, endDate);
+	}
 
 
 

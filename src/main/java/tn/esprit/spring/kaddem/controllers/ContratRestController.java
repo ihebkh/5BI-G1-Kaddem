@@ -1,8 +1,10 @@
 package tn.esprit.spring.kaddem.controllers;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Contrat;
 import tn.esprit.spring.kaddem.services.IContratService;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -32,6 +34,13 @@ public class ContratRestController {
 			@PathVariable String nomE,
 			@PathVariable String prenomE) {
 		return contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
+	}
+
+	@GetMapping(value = "/getnbContratsValides/{startDate}/{endDate}")
+	public Integer getnbContratsValides(@PathVariable(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+										@PathVariable(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+
+		return contratService.nbContratsValides(startDate, endDate);
 	}
 
 

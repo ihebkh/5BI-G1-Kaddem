@@ -2,6 +2,7 @@ package tn.esprit.spring.kaddem.services;
 
 import tn.esprit.spring.kaddem.entities.Contrat;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IContratService {
@@ -13,6 +14,6 @@ public interface IContratService {
       void removeContrat(Integer idContrat);
 
      Contrat affectContratToEtudiant (Integer idContrat, String nomE, String prenomE);
-
+     Integer nbContratsValides(Date startDate, Date endDate);
 }
 
