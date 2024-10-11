@@ -1,55 +1,43 @@
 package tn.esprit.spring.kaddem;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
 import tn.esprit.spring.kaddem.services.ContratServiceImpl;
-import tn.esprit.spring.kaddem.entities.Contrat;
-import tn.esprit.spring.kaddem.entities.Specialite;
-import tn.esprit.spring.kaddem.repositories.ContratRepository;
 
-import java.util.Arrays;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
- class ContratServiceImplTest {
+@WebMvcTest(ContratControllerTest.class)
+ class ContratControllerTest {
 
-    @Mock
-    private ContratRepository contratRepository;
+    @Autowired
+    private MockMvc mockMvc;
 
-    @InjectMocks
+    @MockBean
     private ContratServiceImpl contratService;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
     @Test
-    public void testGetChiffreAffaireEntreDeuxDates() {
+    public void testCalculChiffreAffaireEntreDeuxDates() throws Exception {
         // Arrange
-        Date startDate = new Date(2024, 1, 1); // Example start date
-        Date endDate = new Date(2024, 3, 1); // Example end date (two months later)
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = sdf.parse("2024-01-01");
+        Date endDate = sdf.parse("2024-03-01");
+        float expectedChiffreAffaire = 3000.0f; // Example expected result
 
-        List<Contrat> contrats = Arrays.asList(
-                new Contrat(Specialite.IA),       // Expecting 2 * 300
-                new Contrat(Specialite.CLOUD),    // Expecting 2 * 400
-                new Contrat(Specialite.RESEAUX),  // Expecting 2 * 350
-                new Contrat(Specialite.SECURITE)  // Expecting 2 * 450
-        );
+        // Mock the service call
+        Mockito.when(contratService.getChiffreAffaireEntreDeuxDates(startDate, endDate)).thenReturn(expectedChiffreAffaire);
 
-        when(contratRepository.findAll()).thenReturn(contrats);
-
-        // Act
-        float result = contratService.getChiffreAffaireEntreDeuxDates(startDate, endDate);
-
-        // Assert
-        float expectedChiffreAffaire = (2 * 300) + (2 * 400) + (2 * 350) + (2 * 450);
-        assertEquals(expectedChiffreAffaire, result, "The chiffre d'affaire calculated is incorrect.");
+        // Act and Assert
+        mockMvc.perform(get("/calculChiffreAffaireEntreDeuxDate/2024-01-01/2024-03-01"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(String.valueOf(expectedChiffreAffaire)));
     }
 }
