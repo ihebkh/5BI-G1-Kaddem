@@ -13,6 +13,6 @@ public interface IContratService {
       void removeContrat(Integer idContrat);
 
      Contrat affectContratToEtudiant (Integer idContrat, String nomE, String prenomE);
-
+     void retrieveAndUpdateStatusContrat();
 }
 

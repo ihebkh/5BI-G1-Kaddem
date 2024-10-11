@@ -1,4 +1,5 @@
 package tn.esprit.spring.kaddem.controllers;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Contrat;
 import tn.esprit.spring.kaddem.services.IContratService;
@@ -34,7 +35,13 @@ public class ContratRestController {
 			@PathVariable String prenomE) {
 		return contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
 	}
+	@Scheduled(cron="0 0 13 * * *")//(cron="0 0 13 * * ?")(fixedRate =21600)
+	@PutMapping(value = "/majStatusContrat")
+	public void majStatusContrat (){
+		//return 	(contratService.affectContratToEtudiant(ce, nomE, prenomE));
+		contratService.retrieveAndUpdateStatusContrat();
 
+	}
 
 
 

@@ -115,5 +115,14 @@ class ContratControllerTest {
         verify(contratService, times(1)).affectContratToEtudiant(contratId, nomE, prenomE);
     }
 
+    @Test
+    void testMajStatusContrat() {
+        // Call the majStatusContrat method in the controller
+        contratController.majStatusContrat();
+
+        // Verify that the retrieveAndUpdateStatusContrat method is called exactly once
+        verify(contratService, times(1)).retrieveAndUpdateStatusContrat();
+    }
+
 
 }
