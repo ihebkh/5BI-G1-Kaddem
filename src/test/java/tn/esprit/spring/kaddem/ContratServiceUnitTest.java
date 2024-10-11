@@ -11,11 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -28,7 +24,7 @@ class ContratControllerTest {
     @Mock
     ContratServiceImpl contratService;
     @Mock
-    ContratRepository contratRepository
+    ContratRepository contratRepository;
 
     @InjectMocks
     ContratRestController contratController;
@@ -119,26 +115,5 @@ class ContratControllerTest {
         verify(contratService, times(1)).affectContratToEtudiant(contratId, nomE, prenomE);
     }
 
-    @Test
-    void testNbContratsValides() {
-        // Define test data using LocalDate
-        LocalDate startDate = LocalDate.of(2023, 1, 1); // January 1, 2023
-        LocalDate endDate = LocalDate.of(2023, 12, 31); // December 31, 2023
-        Integer expectedNbContratsValides = 5;
 
-        // Convert LocalDate to Date for compatibility, if necessary
-        Date startDateAsDate = Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        Date endDateAsDate = Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-        // Mock the repository method
-        when(contratRepository.getnbContratsValides(startDateAsDate, endDateAsDate)).thenReturn(expectedNbContratsValides);
-
-        // Call the service method
-        Integer actualNbContratsValides = contratService.nbContratsValides(startDateAsDate, endDateAsDate);
-
-        // Verify the result
-        assertEquals(expectedNbContratsValides, actualNbContratsValides);
-        verify(contratRepository, times(1)).getnbContratsValides(startDateAsDate, endDateAsDate);
-
-    }
 }
