@@ -1,5 +1,6 @@
 package tn.esprit.spring.kaddem.controllers;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Contrat;
 import tn.esprit.spring.kaddem.services.IContratService;
@@ -41,6 +42,35 @@ public class ContratRestController {
 										@PathVariable(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
 
 		return contratService.nbContratsValides(startDate, endDate);
+	}
+
+	@PostMapping("/add-contrat")
+	public Contrat addContrat(@RequestBody Contrat c) {
+		Contrat contrat = contratService.addContrat(c);
+		return contrat;
+	}
+
+	@PutMapping("/update-contrat")
+	public Contrat updateContrat(@RequestBody Contrat c) {
+		Contrat contrat= contratService.updateContrat(c);
+		return contrat;
+	}
+
+
+	@Scheduled(cron="0 0 13 * * *")
+	@PutMapping(value = "/majStatusContrat")
+	public void majStatusContrat (){
+		contratService.retrieveAndUpdateStatusContrat();
+
+	}
+
+
+	@GetMapping("/calculChiffreAffaireEntreDeuxDate/{startDate}/{endDate}")
+	@ResponseBody
+	public float calculChiffreAffaireEntreDeuxDates(@PathVariable(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+													@PathVariable(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+
+		return contratService.getChiffreAffaireEntreDeuxDates(startDate, endDate);
 	}
 
 
