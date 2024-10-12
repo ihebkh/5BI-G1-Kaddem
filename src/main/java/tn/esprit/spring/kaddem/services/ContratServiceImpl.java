@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import tn.esprit.spring.kaddem.entities.Contrat;
 import tn.esprit.spring.kaddem.entities.Etudiant;
+import tn.esprit.spring.kaddem.entities.Specialite;
 import tn.esprit.spring.kaddem.repositories.ContratRepository;
 import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 
@@ -93,6 +94,48 @@ public class ContratServiceImpl implements IContratService{
 			}
 		}
 	}
+
+	public Contrat updateContrat (Contrat  ce){
+		log.info("la mise a jour  sera faite");
+		return contratRepository.save(ce);
+	}
+
+	public  Contrat addContrat (Contrat ce){
+		log.info("l'ajout sera faite");
+		return contratRepository.save(ce);
+	}
+
+	public 	Integer nbContratsValides(Date startDate, Date endDate){
+		log.info("le calcule sera fait");
+		return contratRepository.getnbContratsValides(startDate, endDate);
+	}
+
+	public float getChiffreAffaireEntreDeuxDates(Date startDate, Date endDate){
+		float difference_In_Time = endDate.getTime() - startDate.getTime();
+		float difference_In_Days = (difference_In_Time / (1000 * 60 * 60 * 24)) % 365;
+		float difference_In_months =difference_In_Days/30;
+		List<Contrat> contrats=contratRepository.findAll();
+		float chiffreAffaireEntreDeuxDates=0;
+		for (Contrat contrat : contrats) {
+			if (contrat.getSpecialite()== Specialite.IA){
+				chiffreAffaireEntreDeuxDates+=(difference_In_months*300);
+			} else if (contrat.getSpecialite()== Specialite.CLOUD) {
+				chiffreAffaireEntreDeuxDates+=(difference_In_months*400);
+			}
+			else if (contrat.getSpecialite()== Specialite.RESEAUX) {
+				chiffreAffaireEntreDeuxDates+=(difference_In_months*350);
+			}else
+			{
+				chiffreAffaireEntreDeuxDates+=(difference_In_months*450);
+			}
+			log.info("le calcule sera fait");
+		}
+		return chiffreAffaireEntreDeuxDates;
+
+
+	}
+
+
 
 
 }
