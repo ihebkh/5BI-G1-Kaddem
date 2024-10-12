@@ -13,12 +13,34 @@ pipeline {
             }
         }
 
-         stage('Check MySQL Service') {
-                    steps {
-                        echo 'Checking MySQL Service Status'
-                        sh 'systemctl status mysql || service mysql status'
-                    }
-                }
+       stage('Install MySQL') {
+           steps {
+               echo 'Installing MySQL'
+               sh 'sudo apt-get update && sudo apt-get install -y mysql-server'
+           }
+       }
+
+
+stage('Check MySQL Service') {
+    steps {
+        echo 'Checking MySQL Service Status'
+        sh '''
+            if systemctl list-units --type=service | grep -q mysqld; then
+                systemctl status mysqld
+            elif systemctl list-units --type=service | grep -q mysql; then
+                systemctl status mysql
+            elif service --status-all | grep -q mysqld; then
+                service mysqld status
+            elif service --status-all | grep -q mysql; then
+                service mysql status
+            else
+                echo "MySQL service is not found."
+                exit 1
+            fi
+        '''
+    }
+}
+
 
 
 
