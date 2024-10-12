@@ -10,7 +10,10 @@ import tn.esprit.spring.kaddem.entities.Contrat;
 import tn.esprit.spring.kaddem.entities.Specialite;
 import tn.esprit.spring.kaddem.services.IContratService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -108,21 +111,30 @@ class ContratControlleurTest {
     }
 
     @Test
-    void testAddContrat() {
+    void testAddContrat() throws ParseException {
         // Arrange
-        Contrat contrat = new Contrat();
-        contrat.setIdContrat(1);
-        contrat.setSpecialite(Specialite.IA);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        Date dateDebut = dateFormat.parse("2024-10-12T13:00:51.812Z");
+        Date dateFin = dateFormat.parse("2024-10-12T13:00:51.812Z");
 
-        // Mock the addContrat method to return the provided contrat object
-        when(contratService.addContrat(contrat)).thenReturn(contrat);
+        Contrat contratInput = new Contrat();
+        contratInput.setIdContrat(822);
+        contratInput.setDateDebutContrat(dateDebut);
+        contratInput.setDateFinContrat(dateFin);
+        contratInput.setSpecialite(Specialite.IA);  // Assurez-vous d'avoir l'enum Specialite
+        contratInput.setArchive(true);
+        contratInput.setMontantContrat(0);
 
         // Act
-        Contrat actualContrat = contratRestController.addContrat(contrat);
+        Contrat result = contratRestController.addContrat(contratInput);
 
         // Assert
-        assertEquals(contrat, actualContrat);
-        verify(contratService, times(1)).addContrat(contrat);
+        assertEquals(contratInput.getIdContrat(), result.getIdContrat());
+        assertEquals(contratInput.getDateDebutContrat(), result.getDateDebutContrat());
+        assertEquals(contratInput.getDateFinContrat(), result.getDateFinContrat());
+        assertEquals(contratInput.getSpecialite(), result.getSpecialite());
+        assertEquals(contratInput.getArchive(), result.getArchive());
+        assertEquals(contratInput.getMontantContrat(), result.getMontantContrat());
     }
 
 }

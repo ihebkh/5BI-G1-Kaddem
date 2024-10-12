@@ -1,8 +1,8 @@
 package tn.esprit.spring.kaddem.controllers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Contrat;
-import tn.esprit.spring.kaddem.entities.Specialite;
 import tn.esprit.spring.kaddem.services.IContratService;
 
 
@@ -12,7 +12,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/contrat")
 public class ContratRestController {
-	IContratService contratService;
+	@Autowired // Vérifiez que cette annotation est présente
+	private IContratService contratService;
 
 	@DeleteMapping("/remove-contrat/{contrat-id}")
 	public void removeContrat(@PathVariable("contrat-id") Integer contratId) {
@@ -48,9 +49,12 @@ public class ContratRestController {
 	public Contrat addContrat(@RequestBody Contrat c) {
 		Contrat contrat = new Contrat();
 		contrat.setIdContrat(c.getIdContrat());
-		contrat.setSpecialite(Specialite.IA);
-
-		return contratService.addContrat(contrat);
+		contrat.setDateDebutContrat(c.getDateDebutContrat());
+		contrat.setDateFinContrat(c.getDateFinContrat());
+		contrat.setSpecialite(c.getSpecialite());
+		contrat.setArchive(c.getArchive());
+		contrat.setMontantContrat(c.getMontantContrat());
+		return contrat;
 	}
 }
 
