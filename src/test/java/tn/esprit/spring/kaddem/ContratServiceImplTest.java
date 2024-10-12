@@ -208,6 +208,30 @@ class ContratServiceImplTest {
         assertEquals(etudiant, result.getEtudiant()); // Contract should be assigned
         verify(contratRepository, times(1)).save(contrat);
     }
+    @Test
+    void testRetrieveAndUpdateStatusContrat() {
+        // Prepare test data
+        Contrat contrat1 = new Contrat();
+        contrat1.setDateFinContrat(new Date(System.currentTimeMillis() - 15L * 24 * 60 * 60 * 1000)); // 15 days ago
+        contrat1.setArchive(false);
+
+        Contrat contrat2 = new Contrat();
+        contrat2.setDateFinContrat(new Date()); // today
+        contrat2.setArchive(false);
+
+        List<Contrat> allContrats = Arrays.asList(contrat1, contrat2);
+
+        // Define repository behavior
+        when(contratRepository.findAll()).thenReturn(allContrats);
+
+        // Call the method under test
+        contratService.retrieveAndUpdateStatusContrat();
+
+        // Verify contracts 15 days past are logged and not archived
+        verify(contratRepository, times(1)).save(contrat2); // Only contrat2 should be saved as archived
+        assertFalse(contrat1.getArchive());
+        assertTrue(contrat2.getArchive());
+    }
 
 
 }

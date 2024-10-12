@@ -93,4 +93,16 @@ class ContratControlleurTest {
         assertEquals(expectedContrat, actualContrat);
         verify(contratService, times(1)).affectContratToEtudiant(idContrat, nomE, prenomE);
     }
+
+    @Test
+    void testMajStatusContrat() {
+        // Arrange
+        doNothing().when(contratService).retrieveAndUpdateStatusContrat();
+
+        // Act
+        contratRestController.majStatusContrat();
+
+        // Assert
+        verify(contratService, times(1)).retrieveAndUpdateStatusContrat();
+    }
 }
