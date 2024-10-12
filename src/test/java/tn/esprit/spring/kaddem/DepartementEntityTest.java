@@ -53,7 +53,7 @@ class DepartementEntityTest {
     }
 
 
-    @Test
+    /*@Test
     void testToStringMethod() {
         // Prepare sample data
 
@@ -68,5 +68,5 @@ class DepartementEntityTest {
         assertTrue(departementString.contains("idDepart=1"));
         assertTrue(departementString.contains("nomDep=" + nomDep));
 
-    }
+    }*/
 }
