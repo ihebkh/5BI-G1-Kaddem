@@ -45,17 +45,7 @@ public class ContratRestController {
 
 	}
 
-	@PostMapping("/add-contrat")
-	public Contrat addContrat(@RequestBody Contrat c) {
-		Contrat contrat = new Contrat();
-		contrat.setIdContrat(c.getIdContrat());
-		contrat.setDateDebutContrat(c.getDateDebutContrat());
-		contrat.setDateFinContrat(c.getDateFinContrat());
-		contrat.setSpecialite(c.getSpecialite());
-		contrat.setArchive(c.getArchive());
-		contrat.setMontantContrat(c.getMontantContrat());
-		return contrat;
-	}
+
 }
 
 

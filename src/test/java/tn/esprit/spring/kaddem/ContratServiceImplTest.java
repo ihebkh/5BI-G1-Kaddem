@@ -234,23 +234,7 @@ class ContratServiceImplTest {
         assertTrue(contrat2.getArchive());
     }
 
-    @Test
-    void testAddContrat() {
-        // Arrange
-        Contrat contrat = new Contrat();
-        contrat.setIdContrat(1);
-        contrat.setSpecialite(Specialite.IA);
 
-        // Mock the save method to return the same contrat object
-        when(contratRepository.save(contrat)).thenReturn(contrat);
-
-        // Act
-        Contrat savedContrat = contratService.addContrat(contrat);
-
-        // Assert
-        assertEquals(contrat, savedContrat);
-        verify(contratRepository, times(1)).save(contrat);
-    }
 
 
 }

@@ -29,16 +29,21 @@ public class ContratServiceImpl implements IContratService{
 	}
 
 	public List<Contrat> retrieveAllContrats(){
+
+		log.info("affichage : ",contratRepository.findAll());
 		return  contratRepository.findAll();
 	}
 
 	public Contrat retrieveContrat (Integer  idContrat){
+
+		log.info("affichage : ",contratRepository.findById(idContrat).orElse(null));
 		return contratRepository.findById(idContrat).orElse(null);
 	}
 
 	public  void removeContrat(Integer idContrat){
 		Contrat c=retrieveContrat(idContrat);
 		contratRepository.delete(c);
+		log.info("le contart a ete supprimer  : ",retrieveContrat(idContrat));
 	}
 
 
@@ -57,6 +62,7 @@ public class ContratServiceImpl implements IContratService{
 
 		if (nbContratssActifs <= 4) {  // Covered code
 			ce.setEtudiant(e);
+			log.info("l'affectation sera faite");
 			contratRepository.save(ce);
 		}
 
@@ -89,9 +95,6 @@ public class ContratServiceImpl implements IContratService{
 		}
 	}
 
-	public  Contrat addContrat (Contrat ce){
-		return contratRepository.save(ce);
-	}
 
 }
 

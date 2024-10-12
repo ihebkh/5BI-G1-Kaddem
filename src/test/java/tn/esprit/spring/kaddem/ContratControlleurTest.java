@@ -110,31 +110,5 @@ class ContratControlleurTest {
         verify(contratService, times(1)).retrieveAndUpdateStatusContrat();
     }
 
-    @Test
-    void testAddContrat() throws ParseException {
-        // Arrange
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        Date dateDebut = dateFormat.parse("2024-10-12T13:00:51.812Z");
-        Date dateFin = dateFormat.parse("2024-10-12T13:00:51.812Z");
-
-        Contrat contratInput = new Contrat();
-        contratInput.setIdContrat(822);
-        contratInput.setDateDebutContrat(dateDebut);
-        contratInput.setDateFinContrat(dateFin);
-        contratInput.setSpecialite(Specialite.IA);  // Assurez-vous d'avoir l'enum Specialite
-        contratInput.setArchive(true);
-        contratInput.setMontantContrat(0);
-
-        // Act
-        Contrat result = contratRestController.addContrat(contratInput);
-
-        // Assert
-        assertEquals(contratInput.getIdContrat(), result.getIdContrat());
-        assertEquals(contratInput.getDateDebutContrat(), result.getDateDebutContrat());
-        assertEquals(contratInput.getDateFinContrat(), result.getDateFinContrat());
-        assertEquals(contratInput.getSpecialite(), result.getSpecialite());
-        assertEquals(contratInput.getArchive(), result.getArchive());
-        assertEquals(contratInput.getMontantContrat(), result.getMontantContrat());
-    }
 
 }
