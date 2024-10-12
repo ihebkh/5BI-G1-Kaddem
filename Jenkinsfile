@@ -29,6 +29,15 @@ pipeline {
             }
         }
 
+        stage('Status Mysql') {
+                    steps {
+                        script {
+                            sh 'sudo systemctl start mysql'
+                        }
+                    }
+                }
+
+
         stage('Build package') {
             steps {
                 sh 'mvn package'
