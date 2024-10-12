@@ -173,7 +173,7 @@ class ContratServiceImplTest {
     }
 
     @Test
-    public void testUpdateContrat() {
+     void testUpdateContrat() {
         Contrat contrat = new Contrat();
         when(contratRepository.save(contrat)).thenReturn(contrat);
         Contrat result = contratService.updateContrat(contrat);
@@ -182,7 +182,7 @@ class ContratServiceImplTest {
     }
 
     @Test
-    public void testAddContrat() {
+     void testAddContrat() {
         Contrat contrat = new Contrat();
         when(contratRepository.save(contrat)).thenReturn(contrat);
         Contrat result = contratService.addContrat(contrat);
@@ -191,7 +191,7 @@ class ContratServiceImplTest {
     }
 
     @Test
-    public void testNbContratsValides() {
+     void testNbContratsValides() {
         Date startDate = new Date();
         Date endDate = new Date();
         Integer expectedCount = 5;
@@ -201,7 +201,7 @@ class ContratServiceImplTest {
         verify(contratRepository, times(1)).getnbContratsValides(startDate, endDate);
     }
 @Test
-    public void testGetChiffreAffaireEntreDeuxDates() {
+     void testGetChiffreAffaireEntreDeuxDates() {
         Date startDate = new Date();
         Date endDate = new Date(startDate.getTime() + (30L * 24 * 60 * 60 * 1000)); // 30 days later
 
