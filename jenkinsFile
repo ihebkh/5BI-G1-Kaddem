@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout Git repository') {
             steps {
                 echo 'Pulling'
-                git branch: 'khmiriiheb-5BI4-G1', url: 'https://github.com/ihebkh/5BI4-G1-Kaddem.git'
+                git branch: 'ZouariAYMEN-5BI4-G1', url: 'https://github.com/ihebkh/5BI4-G1-Kaddem.git'
             }
         }
 
@@ -60,7 +60,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.33.10:9000 -Dsonar.login=admin -Dsonar.password=201JmT1896@@'
+                sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.33.10:9000 -Dsonar.login=admin -Dsonar.password=Aymenzouari58604483!'
             }
         }
     }
