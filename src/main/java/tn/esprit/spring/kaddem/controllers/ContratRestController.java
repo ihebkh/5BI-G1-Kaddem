@@ -1,5 +1,4 @@
 package tn.esprit.spring.kaddem.controllers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Contrat;
@@ -12,7 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/contrat")
 public class ContratRestController {
-	@Autowired // Vérifiez que cette annotation est présente
 	private IContratService contratService;
 
 	@DeleteMapping("/remove-contrat/{contrat-id}")
