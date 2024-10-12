@@ -126,7 +126,7 @@ public class ContratServiceImpl implements IContratService{
 				chiffreAffaireEntreDeuxDates+=(differenceInmonths*350);
 			}else
 			{
-				chiffreAffaireEntreDeuxDates+=(difference_In_months*450);
+				chiffreAffaireEntreDeuxDates+=(differenceInmonths*450);
 			}
 			log.info("le calcule sera fait");
 		}
