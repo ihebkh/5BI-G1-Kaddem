@@ -13,6 +13,13 @@ pipeline {
             }
         }
 
+         stage('Check MySQL Service') {
+                    steps {
+                        echo 'Checking MySQL Service Status'
+                        sh 'systemctl status mysql || service mysql status'
+                    }
+                }
+
 
 
         stage('Maven Clean Compile') {
@@ -29,13 +36,7 @@ pipeline {
             }
         }
 
-        stage('Status Mysql') {
-                    steps {
-                        script {
-                            sh 'sudo systemctl start mysql'
-                        }
-                    }
-                }
+
 
 
         stage('Build package') {
