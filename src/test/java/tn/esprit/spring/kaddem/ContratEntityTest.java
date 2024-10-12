@@ -1,19 +1,16 @@
 package tn.esprit.spring.kaddem;
-
 import tn.esprit.spring.kaddem.entities.Contrat;
 import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.entities.Specialite;
 import org.junit.jupiter.api.Test;
-
 import java.util.Date;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ContratEntityTest {
 
     @Test
     void testGettersAndSetters() {
-        // Create instances for test
+
         Contrat contrat = new Contrat();
         Date startDate = new Date();
         Date endDate = new Date();
@@ -21,14 +18,12 @@ class ContratEntityTest {
         Boolean archive = true;
         Integer montant = 1000;
 
-        // Set values
         contrat.setDateDebutContrat(startDate);
         contrat.setDateFinContrat(endDate);
         contrat.setSpecialite(specialite);
         contrat.setArchive(archive);
         contrat.setMontantContrat(montant);
 
-        // Validate values with getters
         assertEquals(startDate, contrat.getDateDebutContrat());
         assertEquals(endDate, contrat.getDateFinContrat());
         assertEquals(specialite, contrat.getSpecialite());
@@ -38,14 +33,9 @@ class ContratEntityTest {
 
     @Test
     void testRelationshipWithEtudiant() {
-        // Create instances for test
         Contrat contrat = new Contrat();
         Etudiant etudiant = new Etudiant();
-
-        // Set relationship
         contrat.setEtudiant(etudiant);
-
-        // Validate relationship
         assertEquals(etudiant, contrat.getEtudiant());
     }
     @Test

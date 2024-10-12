@@ -139,7 +139,6 @@ public class ContratServiceImpl implements IContratService{
 			log.info("Calcul du chiffre d'affaires effectué avec succès : {}", chiffreAffaireEntreDeuxDates);
 		} catch (Exception e) {
 			log.error("Erreur lors du calcul du chiffre d'affaires : ", e);
-			// Renvoie une valeur par défaut ou gérez l'exception selon vos besoins
 			return 0;
 		}
 

@@ -1,7 +1,5 @@
 package tn.esprit.spring.kaddem;
-
 import tn.esprit.spring.kaddem.entities.Contrat;
-
 import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.entities.Specialite;
 import tn.esprit.spring.kaddem.repositories.ContratRepository;
@@ -12,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -203,23 +200,17 @@ class ContratServiceImplTest {
 @Test
      void testGetChiffreAffaireEntreDeuxDates() {
         Date startDate = new Date();
-        Date endDate = new Date(startDate.getTime() + (30L * 24 * 60 * 60 * 1000)); // 30 days later
-
+        Date endDate = new Date(startDate.getTime() + (30L * 24 * 60 * 60 * 1000));
         Contrat contrat1 = new Contrat();
         contrat1.setSpecialite(Specialite.IA);
-
         Contrat contrat2 = new Contrat();
         contrat2.setSpecialite(Specialite.CLOUD);
-
         Contrat contrat3 = new Contrat();
         contrat3.setSpecialite(Specialite.RESEAUX);
-
         List<Contrat> contrats = Arrays.asList(contrat1, contrat2, contrat3);
         when(contratRepository.findAll()).thenReturn(contrats);
-
         float expectedChiffreAffaire = (30f / 30) * (300 + 400 + 350);
         float result = contratService.getChiffreAffaireEntreDeuxDates(startDate, endDate);
-
         assertEquals(expectedChiffreAffaire, result, 0.01);
         verify(contratRepository, times(1)).findAll();
     }
