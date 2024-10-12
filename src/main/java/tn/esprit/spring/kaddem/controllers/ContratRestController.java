@@ -2,6 +2,7 @@ package tn.esprit.spring.kaddem.controllers;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Contrat;
+import tn.esprit.spring.kaddem.entities.Specialite;
 import tn.esprit.spring.kaddem.services.IContratService;
 
 
@@ -45,17 +46,14 @@ public class ContratRestController {
 
 	@PostMapping("/add-contrat")
 	public Contrat addContrat(@RequestBody Contrat c) {
-		return contratService.addContrat(c);
+		Contrat contrat = new Contrat();
+		contrat.setIdContrat(c.getIdContrat());
+		contrat.setSpecialite(Specialite.IA);
 
+		return contratService.addContrat(contrat);
 	}
-
-
-
-
-
-
-
-
 }
+
+
 
 
