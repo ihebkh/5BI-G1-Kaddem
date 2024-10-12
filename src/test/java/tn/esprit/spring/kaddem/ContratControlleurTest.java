@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import tn.esprit.spring.kaddem.controllers.ContratRestController;
 import tn.esprit.spring.kaddem.entities.Contrat;
+import tn.esprit.spring.kaddem.entities.Specialite;
 import tn.esprit.spring.kaddem.services.IContratService;
 
 import java.util.Arrays;
@@ -105,4 +106,23 @@ class ContratControlleurTest {
         // Assert
         verify(contratService, times(1)).retrieveAndUpdateStatusContrat();
     }
+
+    @Test
+    void testAddContrat() {
+        // Arrange
+        Contrat contrat = new Contrat();
+        contrat.setIdContrat(1);
+        contrat.setSpecialite(Specialite.IA);
+
+        // Mock the addContrat method to return the provided contrat object
+        when(contratService.addContrat(contrat)).thenReturn(contrat);
+
+        // Act
+        Contrat actualContrat = contratRestController.addContrat(contrat);
+
+        // Assert
+        assertEquals(contrat, actualContrat);
+        verify(contratService, times(1)).addContrat(contrat);
+    }
+
 }

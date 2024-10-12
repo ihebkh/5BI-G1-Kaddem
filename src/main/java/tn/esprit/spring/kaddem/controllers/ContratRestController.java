@@ -43,6 +43,12 @@ public class ContratRestController {
 
 	}
 
+	@PostMapping("/add-contrat")
+	public Contrat addContrat(@RequestBody Contrat c) {
+		return contratService.addContrat(c);
+
+	}
+
 
 
 

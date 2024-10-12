@@ -3,6 +3,7 @@ package tn.esprit.spring.kaddem;
 import tn.esprit.spring.kaddem.entities.Contrat;
 
 import tn.esprit.spring.kaddem.entities.Etudiant;
+import tn.esprit.spring.kaddem.entities.Specialite;
 import tn.esprit.spring.kaddem.repositories.ContratRepository;
 import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 import tn.esprit.spring.kaddem.services.ContratServiceImpl;
@@ -231,6 +232,24 @@ class ContratServiceImplTest {
         verify(contratRepository, times(1)).save(contrat2); // Only contrat2 should be saved as archived
         assertFalse(contrat1.getArchive());
         assertTrue(contrat2.getArchive());
+    }
+
+    @Test
+    void testAddContrat() {
+        // Arrange
+        Contrat contrat = new Contrat();
+        contrat.setIdContrat(1);
+        contrat.setSpecialite(Specialite.IA);
+
+        // Mock the save method to return the same contrat object
+        when(contratRepository.save(contrat)).thenReturn(contrat);
+
+        // Act
+        Contrat savedContrat = contratService.addContrat(contrat);
+
+        // Assert
+        assertEquals(contrat, savedContrat);
+        verify(contratRepository, times(1)).save(contrat);
     }
 
 
