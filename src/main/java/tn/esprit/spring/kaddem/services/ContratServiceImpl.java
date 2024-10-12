@@ -71,15 +71,15 @@ public class ContratServiceImpl implements IContratService{
 
 		for (Contrat contrat : contrats) {
 			Date dateSysteme = new Date();
-			if (contrat.getArchive() == false) {
-				long difference_In_Time = dateSysteme.getTime() - contrat.getDateFinContrat().getTime();
-				long difference_In_Days = (difference_In_Time / (1000 * 60 * 60 * 24)) % 365;
+			if (!contrat.getArchive()) {
+				long differenceInTime = dateSysteme.getTime() - contrat.getDateFinContrat().getTime();
+				long differenceInDays = (differenceInTime / (1000 * 60 * 60 * 24)) % 365;
 
-				if (difference_In_Days == 15) {
+				if (differenceInDays == 15) {
 					contrats15j.add(contrat);
 					log.info("Contrat : " + contrat);
 				}
-				if (difference_In_Days == 0) {
+				if (differenceInDays == 0) {
 					contratsAarchiver.add(contrat);
 					contrat.setArchive(true);
 					contratRepository.save(contrat);
