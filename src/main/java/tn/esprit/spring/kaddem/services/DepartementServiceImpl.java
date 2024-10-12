@@ -6,10 +6,13 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import tn.esprit.spring.kaddem.entities.Departement;
 import tn.esprit.spring.kaddem.entities.Equipe;
+import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.repositories.ContratRepository;
 import tn.esprit.spring.kaddem.repositories.DepartementRepository;
+import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 
@@ -17,6 +20,8 @@ import java.util.List;
 public class DepartementServiceImpl implements IDepartementService{
 	@Autowired
 	DepartementRepository departementRepository;
+	@Autowired
+	EtudiantRepository etudiantRepository;
 	public List<Departement> retrieveAllDepartements(){
 		return (List<Departement>) departementRepository.findAll();
 	}
@@ -42,6 +47,40 @@ public class DepartementServiceImpl implements IDepartementService{
 		Departement d=retrieveDepartement(idDepartement);
 		departementRepository.delete(d);
 	}
+
+	// Method to affect a Departement to a list of Etudiants
+	public void affectDepartementToEtudiants(Integer departementId, List<Integer> etudiantIds) {
+		Departement departement = retrieveDepartement(departementId); // Retrieve the departement
+		Set<Etudiant> etudiants = (Set<Etudiant>) etudiantRepository.findAllById(etudiantIds); // Retrieve students
+
+		for (Etudiant etudiant : etudiants) {
+			etudiant.setDepartement(departement);
+		}
+
+		etudiantRepository.saveAll(etudiants); // Save the updated students
+		log.info("Affected departement ID {} to students: {}", departementId, etudiantIds);
+	}
+
+	public void removeEtudiantFromDepartement(Integer etudiantId) {
+		Etudiant etudiant = etudiantRepository.findById(etudiantId).orElse(null);
+		if (etudiant != null) {
+			etudiant.setDepartement(null); // Disassociate the department
+			etudiantRepository.save(etudiant); // Save the updated student
+			log.info("Removed student ID {} from their departement", etudiantId);
+		} else {
+			log.warn("Etudiant with ID {} not found", etudiantId);
+		}
+	}
+
+
+	public Integer countEtudiantsInDepartement(Integer departementId) {
+		Departement departement = retrieveDepartement(departementId);
+		Integer count = departement.getEtudiants().size();
+		log.info("Departement ID {} has {} students", departementId, count);
+		return count;
+	}
+
+
 
 
 
