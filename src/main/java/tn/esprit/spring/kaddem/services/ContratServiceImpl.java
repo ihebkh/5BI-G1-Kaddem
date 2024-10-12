@@ -111,7 +111,7 @@ public class ContratServiceImpl implements IContratService{
 	}
 
 	public float getChiffreAffaireEntreDeuxDates(Date startDate, Date endDate){
-		float differenceInTime = (float)(endDate.getTime() - startDate.getTime());
+		float differenceInTime = endDate.getTime() - startDate.getTime();
 		float differenceInDays = (differenceInTime / (1000 * 60 * 60 * 24)) % 365;
 		float differenceInmonths =differenceInDays/30;
 		List<Contrat> contrats=contratRepository.findAll();
