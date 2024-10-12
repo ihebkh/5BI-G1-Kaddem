@@ -110,31 +110,41 @@ public class ContratServiceImpl implements IContratService{
 		return contratRepository.getnbContratsValides(startDate, endDate);
 	}
 
-	public float getChiffreAffaireEntreDeuxDates(Date startDate, Date endDate){
-		float differenceInTime = endDate.getTime() - startDate.getTime();
-		float differenceInDays = (differenceInTime / (1000 * 60 * 60 * 24)) % 365;
-		float differenceInmonths =differenceInDays/30;
-		List<Contrat> contrats=contratRepository.findAll();
-		float chiffreAffaireEntreDeuxDates=0;
-		for (Contrat contrat : contrats) {
-			if (contrat.getSpecialite()== Specialite.IA){
-				chiffreAffaireEntreDeuxDates+=(differenceInmonths*300);
-			} else if (contrat.getSpecialite()== Specialite.CLOUD) {
-				chiffreAffaireEntreDeuxDates+=(differenceInmonths*400);
+	public float getChiffreAffaireEntreDeuxDates(Date startDate, Date endDate) {
+		float chiffreAffaireEntreDeuxDates = 0;
+
+		try {
+			float differenceInTime = (float) (endDate.getTime() - startDate.getTime());
+			float differenceInDays = (differenceInTime / (1000 * 60 * 60 * 24)) % 365;
+			float differenceInMonths = differenceInDays / 30;
+
+			List<Contrat> contrats = contratRepository.findAll();
+			if (contrats.isEmpty()) {
+				log.info("Aucun contrat trouvé.");
+				return 0;
 			}
-			else if (contrat.getSpecialite()== Specialite.RESEAUX) {
-				chiffreAffaireEntreDeuxDates+=(differenceInmonths*350);
-			}else
-			{
-				chiffreAffaireEntreDeuxDates+=(differenceInmonths*450);
+
+			for (Contrat contrat : contrats) {
+				if (contrat.getSpecialite() == Specialite.IA) {
+					chiffreAffaireEntreDeuxDates += (differenceInMonths * 300);
+				} else if (contrat.getSpecialite() == Specialite.CLOUD) {
+					chiffreAffaireEntreDeuxDates += (differenceInMonths * 400);
+				} else if (contrat.getSpecialite() == Specialite.RESEAUX) {
+					chiffreAffaireEntreDeuxDates += (differenceInMonths * 350);
+				} else {
+					chiffreAffaireEntreDeuxDates += (differenceInMonths * 450);
+				}
 			}
-			log.info("le calcule sera fait");
+
+			log.info("Calcul du chiffre d'affaires effectué avec succès : {}", chiffreAffaireEntreDeuxDates);
+		} catch (Exception e) {
+			log.error("Erreur lors du calcul du chiffre d'affaires : ", e);
+			// Renvoie une valeur par défaut ou gérez l'exception selon vos besoins
+			return 0;
 		}
+
 		return chiffreAffaireEntreDeuxDates;
-
-
 	}
-
 
 
 
