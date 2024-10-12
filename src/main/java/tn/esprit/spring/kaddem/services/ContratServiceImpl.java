@@ -30,20 +30,20 @@ public class ContratServiceImpl implements IContratService{
 
 	public List<Contrat> retrieveAllContrats(){
 
-		log.info("affichage : ",contratRepository.findAll());
+		log.info("affichage avec succées");
 		return  contratRepository.findAll();
 	}
 
 	public Contrat retrieveContrat (Integer  idContrat){
 
-		log.info("affichage : ",contratRepository.findById(idContrat).orElse(null));
+		log.info("affichage avec succées ");
 		return contratRepository.findById(idContrat).orElse(null);
 	}
 
 	public  void removeContrat(Integer idContrat){
 		Contrat c=retrieveContrat(idContrat);
 		contratRepository.delete(c);
-		log.info("le contart a ete supprimer  : ",retrieveContrat(idContrat));
+		log.info("le contart a ete supprimer ");
 	}
 
 
