@@ -39,7 +39,6 @@ public class ContratRestController {
 	@Scheduled(cron="0 0 13 * * *")//(cron="0 0 13 * * ?")(fixedRate =21600)
 	@PutMapping(value = "/majStatusContrat")
 	public void majStatusContrat (){
-		//return 	(contratService.affectContratToEtudiant(ce, nomE, prenomE));
 		contratService.retrieveAndUpdateStatusContrat();
 
 	}
