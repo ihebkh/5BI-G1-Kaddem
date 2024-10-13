@@ -4,7 +4,6 @@ import tn.esprit.spring.kaddem.entities.Departement;
 
 import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.repositories.DepartementRepository;
-import tn.esprit.spring.kaddem.repositories.DepartementRepository;
 import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 import tn.esprit.spring.kaddem.services.DepartementServiceImpl;
 import org.junit.jupiter.api.Test;

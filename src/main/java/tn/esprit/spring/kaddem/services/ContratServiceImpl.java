@@ -1,6 +1,5 @@
 package tn.esprit.spring.kaddem.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,12 +16,10 @@ import java.util.Set;
 @Slf4j
 @Service
 public class ContratServiceImpl implements IContratService{
-@Autowired
 ContratRepository contratRepository;
-@Autowired
 	EtudiantRepository etudiantRepository;
 	public List<Contrat> retrieveAllContrats(){
-		return (List<Contrat>) contratRepository.findAll();
+		return contratRepository.findAll();
 	}
 
 	public Contrat updateContrat (Contrat  ce){

@@ -1,13 +1,10 @@
 package tn.esprit.spring.kaddem.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import tn.esprit.spring.kaddem.entities.Departement;
-import tn.esprit.spring.kaddem.entities.Equipe;
 import tn.esprit.spring.kaddem.entities.Etudiant;
-import tn.esprit.spring.kaddem.repositories.ContratRepository;
 import tn.esprit.spring.kaddem.repositories.DepartementRepository;
 import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 
@@ -18,9 +15,7 @@ import java.util.Set;
 
 @Service
 public class DepartementServiceImpl implements IDepartementService{
-	@Autowired
 	DepartementRepository departementRepository;
-	@Autowired
 	EtudiantRepository etudiantRepository;
 	public List<Departement> retrieveAllDepartements(){
 		return (List<Departement>) departementRepository.findAll();
@@ -71,16 +66,6 @@ public class DepartementServiceImpl implements IDepartementService{
 			log.warn("Etudiant with ID {} not found", etudiantId);
 		}
 	}
-
-
-	public Integer countEtudiantsInDepartement(Integer departementId) {
-		Departement departement = retrieveDepartement(departementId);
-		Integer count = departement.getEtudiants().size();
-		log.info("Departement ID {} has {} students", departementId, count);
-		return count;
-	}
-
-
 
 
 
