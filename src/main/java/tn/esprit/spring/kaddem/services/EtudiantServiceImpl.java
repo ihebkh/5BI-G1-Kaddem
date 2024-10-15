@@ -21,10 +21,7 @@ import java.util.NoSuchElementException;
 public class EtudiantServiceImpl implements IEtudiantService{
 	@Autowired
 	EtudiantRepository etudiantRepository ;
-	@Autowired
-	ContratRepository contratRepository;
-	@Autowired
-	EquipeRepository equipeRepository;
+
     @Autowired
     DepartementRepository departementRepository;
 	public List<Etudiant> retrieveAllEtudiants(){
@@ -56,14 +53,7 @@ public class EtudiantServiceImpl implements IEtudiantService{
         etudiant.setDepartement(departement);
         etudiantRepository.save(etudiant);
 	}
-	@Transactional
-	public Etudiant addAndAssignEtudiantToEquipeAndContract(Etudiant e, Integer idContrat, Integer idEquipe){
-		Contrat c=contratRepository.findById(idContrat).orElse(null);
-		Equipe eq=equipeRepository.findById(idEquipe).orElse(null);
-		c.setEtudiant(e);
-		eq.getEtudiants().add(e);
-return e;
-	}
+
 
 	public 	List<Etudiant> getEtudiantsByDepartement (Integer idDepartement){
 return  etudiantRepository.findEtudiantsByDepartement_IdDepart((idDepartement));
