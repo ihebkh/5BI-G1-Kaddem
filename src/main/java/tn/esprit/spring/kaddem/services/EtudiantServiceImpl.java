@@ -16,6 +16,7 @@ import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 @Service
@@ -41,8 +42,9 @@ public class EtudiantServiceImpl implements IEtudiantService{
 		return etudiantRepository.save(e);
 	}
 
-	public Etudiant retrieveEtudiant(Integer  idEtudiant){
-		return etudiantRepository.findById(idEtudiant).get();
+	public Etudiant retrieveEtudiant(Integer idEtudiant) {
+		return etudiantRepository.findById(idEtudiant)
+				.orElseThrow(() -> new NoSuchElementException("Etudiant not found with id: " + idEtudiant));
 	}
 
 	public void removeEtudiant(Integer idEtudiant){
