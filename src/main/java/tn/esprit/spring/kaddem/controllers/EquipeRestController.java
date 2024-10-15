@@ -26,12 +26,7 @@ public class EquipeRestController {
 		return equipeService.retrieveEquipe(equipeId);
 	}
 
-	// http://localhost:8089/Kaddem/equipe/add-equipe
-	@PostMapping("/add-equipe")
-	public Equipe addEquipe(@RequestBody Equipe e) {
-		Equipe equipe = equipeService.addEquipe(e);
-		return equipe;
-	}
+
 
 	// http://localhost:8089/Kaddem/equipe/remove-equipe/1
 	@DeleteMapping("/remove-equipe/{equipe-id}")
@@ -39,12 +34,7 @@ public class EquipeRestController {
 		equipeService.deleteEquipe(equipeId);
 	}
 
-	// http://localhost:8089/Kaddem/equipe/update-equipe
-	@PutMapping("/update-equipe")
-	public Equipe updateEtudiant(@RequestBody Equipe e) {
-		Equipe equipe= equipeService.updateEquipe(e);
-		return equipe;
-	}
+
 
 	@Scheduled(cron="0 0 13 * * *")
 	@PutMapping("/faireEvoluerEquipes")

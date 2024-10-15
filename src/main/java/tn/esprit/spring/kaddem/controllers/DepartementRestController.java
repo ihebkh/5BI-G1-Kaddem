@@ -24,12 +24,6 @@ public class DepartementRestController {
 		return departementService.retrieveDepartement(departementId);
 	}
 
-	// http://localhost:8089/Kaddem/departement/add-departement
-	@PostMapping("/add-departement")
-	public Departement addDepartement(@RequestBody Departement d) {
-		Departement departement = departementService.addDepartement(d);
-		return departement;
-	}
 
 	// http://localhost:8089/Kaddem/departement/remove-departement/1
 	@DeleteMapping("/remove-departement/{departement-id}")
@@ -37,12 +31,7 @@ public class DepartementRestController {
 		departementService.deleteDepartement(departementId);
 	}
 
-	// http://localhost:8089/Kaddem/departement/update-departement
-	@PutMapping("/update-departement")
-	public Departement updateDepartement(@RequestBody Departement e) {
-		Departement departement= departementService.updateDepartement(e);
-		return departement;
-	}
+
 }
 
 

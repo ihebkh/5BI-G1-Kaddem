@@ -28,12 +28,6 @@ public class UniversiteRestController {
 		return universiteService.retrieveUniversite(universiteId);
 	}
 
-	// http://localhost:8089/Kaddem/universite/add-universite
-	@PostMapping("/add-universite")
-	public Universite addUniversite(@RequestBody Universite u) {
-		Universite universite = universiteService.addUniversite(u);
-		return universite;
-	}
 
 	// http://localhost:8089/Kaddem/universite/remove-universite/1
 	@DeleteMapping("/remove-universite/{universite-id}")
@@ -41,12 +35,7 @@ public class UniversiteRestController {
 		universiteService.deleteUniversite(universiteId);
 	}
 
-	// http://localhost:8089/Kaddem/universite/update-universite
-	@PutMapping("/update-universite")
-	public Universite updateUniversite(@RequestBody Universite u) {
-		Universite u1= universiteService.updateUniversite(u);
-		return u1;
-	}
+
 
 	//@PutMapping("/affecter-etudiant-departement")
 	@PutMapping(value="/affecter-universite-departement/{universiteId}/{departementId}")
