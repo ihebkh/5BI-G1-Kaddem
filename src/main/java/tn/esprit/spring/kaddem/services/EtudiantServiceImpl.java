@@ -53,6 +53,7 @@ public class EtudiantServiceImpl implements IEtudiantService{
 	public void assignEtudiantToDepartement (Integer etudiantId, Integer departementId){
         Etudiant etudiant = etudiantRepository.findById(etudiantId).orElse(null);
         Departement departement = departementRepository.findById(departementId).orElse(null);
+        assert etudiant != null;
         etudiant.setDepartement(departement);
         etudiantRepository.save(etudiant);
 	}
