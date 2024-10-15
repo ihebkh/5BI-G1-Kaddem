@@ -56,11 +56,11 @@ public class Etudiant implements Serializable{
     }
 
     public Set<Contrat> getContrats() {
-        return Contrats;
+        return contrats;
     }
 
     public void setContrats(Set<Contrat> contrats) {
-        Contrats = contrats;
+        contrats = contrats;
     }
 
     public Departement getDepartement() {
