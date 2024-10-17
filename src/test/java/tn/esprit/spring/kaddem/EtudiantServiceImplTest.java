@@ -1,10 +1,8 @@
 package tn.esprit.spring.kaddem;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
@@ -24,7 +22,7 @@ class EtudiantServiceImplTest {
 
     @InjectMocks
     private EtudiantServiceImpl etudiantService;
-    
+
 
 
     @Test
