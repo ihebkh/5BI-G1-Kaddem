@@ -24,11 +24,7 @@ class EtudiantServiceImplTest {
 
     @InjectMocks
     private EtudiantServiceImpl etudiantService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+    
 
 
     @Test
