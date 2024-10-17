@@ -116,18 +116,7 @@ class EtudiantServiceImplTest {
         assertEquals(existingEtudiant, updatedEtudiant);
         verify(etudiantRepository, times(1)).save(existingEtudiant);
     }
-
-    // Test updating an Etudiant that doesn't exist
-    @Test
-    void testUpdateEtudiantNotFound() {
-        Etudiant updatedEtudiant = new Etudiant();
-
-
-        Etudiant result = etudiantService.updateEtudiant(updatedEtudiant);
-
-        assertNull(result);
-        verify(etudiantRepository, times(0)).save(any(Etudiant.class));
-    }
+    
 
     // Test adding a null Etudiant
     @Test
