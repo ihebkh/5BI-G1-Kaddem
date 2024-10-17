@@ -115,6 +115,20 @@ class DepartementServiceImplTest {
         verify(etudiantRepository, never()).save(any(Etudiant.class));
     }
 
+    @Test
+    public void testAllArgsConstructor() {
+        // Given
+        String nomDep = "Computer Science";
+        Integer idDep = 3;
+
+        // When
+        Departement departement = new Departement(idDep, nomDep);
+
+        // Then
+        assertEquals(idDep, departement.getIdDepart());
+        assertEquals(nomDep, departement.getNomDepart());
+    }
+
 
 
 
