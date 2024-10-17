@@ -50,7 +50,7 @@ pipeline {
 */
          stage('nexus') {
                             steps {
-                                sh 'mvn deploy -D maven.test.skip =true'
+                                sh 'mvn deploy'
                             }
                         }
 /*
