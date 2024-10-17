@@ -1,4 +1,4 @@
-package tn.esprit.spring.kaddem.services.test;
+package tn.esprit.spring.kaddem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
