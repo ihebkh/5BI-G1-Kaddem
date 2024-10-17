@@ -33,9 +33,9 @@ public class DepartementServiceImpl implements IDepartementService{
 	}
 
 	// Method to affect a Departement to a list of Etudiants
-	public void affectDepartementToEtudiants(Integer departementId, List<Integer> etudiantIds) {
+	public Departement affectDepartementToEtudiants(Integer departementId, List<Integer> etudiantIds) {
 		Departement departement = retrieveDepartement(departementId); // Retrieve the departement
-		Set<Etudiant> etudiants = (Set<Etudiant>) etudiantRepository.findAllById(etudiantIds); // Retrieve students
+		List<Etudiant> etudiants = (List<Etudiant>) etudiantRepository.findAllById(etudiantIds); // Retrieve students
 
 		for (Etudiant etudiant : etudiants) {
 			etudiant.setDepartement(departement);
@@ -43,6 +43,8 @@ public class DepartementServiceImpl implements IDepartementService{
 
 		etudiantRepository.saveAll(etudiants); // Save the updated students
 		log.info("Affected departement ID {} to students: {}", departementId, etudiantIds);
+
+		return departement;
 	}
 
 	public void removeEtudiantFromDepartement(Integer etudiantId) {

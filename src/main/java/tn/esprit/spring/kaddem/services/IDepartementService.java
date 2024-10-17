@@ -11,7 +11,7 @@ public interface IDepartementService {
     public  Departement retrieveDepartement (Integer idDepart);
 
     public  void deleteDepartement(Integer idDepartement);
-    public void affectDepartementToEtudiants(Integer departementId, List<Integer> etudiantIds);
+    public Departement affectDepartementToEtudiants(Integer departementId, List<Integer> etudiantIds);
 
     public void removeEtudiantFromDepartement(Integer etudiantId);
 

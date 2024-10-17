@@ -1,5 +1,7 @@
 package tn.esprit.spring.kaddem;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.mockito.MockitoAnnotations;
 import tn.esprit.spring.kaddem.entities.Departement;
 
 import tn.esprit.spring.kaddem.entities.Etudiant;
@@ -28,6 +30,13 @@ class DepartementServiceImplTest {
 
     @InjectMocks
     private DepartementServiceImpl departementService;
+
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+
+    }
 
 
     @Test
@@ -115,6 +124,49 @@ class DepartementServiceImplTest {
         verify(etudiantRepository, never()).save(any(Etudiant.class));
     }
 
+    @Test
+    void testAssignEtudiantsToDepartement() {
+        // Arrange
+        Departement departement = new Departement(1, "Computer Science");
+        Etudiant etudiant1 = new Etudiant(1, "John", "Doe", null);
+        Etudiant etudiant2 = new Etudiant(2, "Jane", "Doe", null);
+        List<Integer> etudiantIds = Arrays.asList(etudiant1.getIdEtudiant(), etudiant2.getIdEtudiant());
+
+        // Mock repository calls
+        when(departementRepository.findById(1)).thenReturn(Optional.of(departement));
+        when(etudiantRepository.findAllById(etudiantIds)).thenReturn(Arrays.asList(etudiant1, etudiant2));
+
+        // Act
+        Departement assignedDepartement = departementService.affectDepartementToEtudiants(1, etudiantIds);
+
+        // Assert
+        assertEquals(1, assignedDepartement.getIdDepart());
+        assertEquals(departement, etudiant1.getDepartement());
+        assertEquals(departement, etudiant2.getDepartement());
+
+        // Verify that saveAll was called on the repository
+        verify(etudiantRepository, times(1)).saveAll(anyList());
+    }
+
+    @Test
+    void testAssignEtudiantsToNonExistingDepartement() {
+        Departement departement = new Departement(1, "Computer Science");
+        Etudiant etudiant1 = new Etudiant(1, "John", "Doe", null);
+        Etudiant etudiant2 = new Etudiant(2, "Jane", "Doe", null);
+        // Arrange
+        List<Integer> etudiantIds = Arrays.asList(etudiant1.getIdEtudiant(), etudiant2.getIdEtudiant());
+
+        // Mock repository to return empty when searching for a department
+        when(departementRepository.findById(1)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> {
+            departementService.affectDepartementToEtudiants(1, etudiantIds);
+        });
+
+        // Verify that save was never called because the department was not found
+        verify(etudiantRepository, never()).save(any(Etudiant.class));
+    }
 
 
 
