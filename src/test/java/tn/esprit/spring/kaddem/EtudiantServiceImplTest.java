@@ -13,8 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,6 +25,7 @@ class EtudiantServiceImplTest {
     @InjectMocks
     private EtudiantServiceImpl etudiantService;
 
+    // Test retrieving all Etudiants
     @Test
     void testRetrieveAllEtudiants() {
         Etudiant etudiant1 = new Etudiant();
@@ -40,6 +40,7 @@ class EtudiantServiceImplTest {
         verify(etudiantRepository, times(1)).findAll();
     }
 
+    // Test retrieving an Etudiant by ID
     @Test
     void testRetrieveEtudiant() {
         Integer etudiantId = 1;
@@ -53,19 +54,20 @@ class EtudiantServiceImplTest {
         verify(etudiantRepository, times(1)).findById(etudiantId);
     }
 
+    // Test retrieving an Etudiant that is not found
     @Test
     void testRetrieveEtudiantNotFound() {
         Integer etudiantId = 1;
 
         when(etudiantRepository.findById(etudiantId)).thenReturn(Optional.empty());
 
-        Etudiant actualEtudiant;
-        actualEtudiant = etudiantService.retrieveEtudiant(etudiantId);
+        Etudiant actualEtudiant = etudiantService.retrieveEtudiant(etudiantId);
 
         assertNull(actualEtudiant);
         verify(etudiantRepository, times(1)).findById(etudiantId);
     }
 
+    // Test removing an Etudiant
     @Test
     void testRemoveEtudiant() {
         Integer etudiantId = 1;
@@ -78,6 +80,7 @@ class EtudiantServiceImplTest {
         verify(etudiantRepository, times(1)).delete(etudiant);
     }
 
+    // Test removing an Etudiant that is not found
     @Test
     void testRemoveEtudiantNotFound() {
         Integer etudiantId = 1;
@@ -87,5 +90,51 @@ class EtudiantServiceImplTest {
         etudiantService.removeEtudiant(etudiantId);
 
         verify(etudiantRepository, times(0)).delete(any(Etudiant.class));
+    }
+
+    // Test adding a new Etudiant
+    @Test
+    void testAddEtudiant() {
+        Etudiant newEtudiant = new Etudiant();
+        when(etudiantRepository.save(newEtudiant)).thenReturn(newEtudiant);
+
+        Etudiant addedEtudiant = etudiantService.addEtudiant(newEtudiant);
+
+        assertEquals(newEtudiant, addedEtudiant);
+        verify(etudiantRepository, times(1)).save(newEtudiant);
+    }
+
+    // Test updating an existing Etudiant
+    @Test
+    void testUpdateEtudiant() {
+        Etudiant existingEtudiant = new Etudiant();
+
+        when(etudiantRepository.save(existingEtudiant)).thenReturn(existingEtudiant);
+
+        Etudiant updatedEtudiant = etudiantService.updateEtudiant(existingEtudiant);
+
+        assertEquals(existingEtudiant, updatedEtudiant);
+        verify(etudiantRepository, times(1)).save(existingEtudiant);
+    }
+
+    // Test updating an Etudiant that doesn't exist
+    @Test
+    void testUpdateEtudiantNotFound() {
+        Etudiant updatedEtudiant = new Etudiant();
+
+
+        Etudiant result = etudiantService.updateEtudiant(updatedEtudiant);
+
+        assertNull(result);
+        verify(etudiantRepository, times(0)).save(any(Etudiant.class));
+    }
+
+    // Test adding a null Etudiant
+    @Test
+    void testAddNullEtudiant() {
+        Etudiant result = etudiantService.addEtudiant(null);
+
+        assertNull(result);
+        verify(etudiantRepository, times(0)).save(any(Etudiant.class));
     }
 }
