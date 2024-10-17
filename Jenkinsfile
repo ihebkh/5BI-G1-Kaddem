@@ -48,6 +48,12 @@ pipeline {
             }
         }
 
+         stage('Nexus') {
+                    steps {
+                        sh 'mvn deploy'
+                  }
+               }
+
 
 
         stage('Rapport JaCoCo') {
