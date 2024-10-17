@@ -23,13 +23,13 @@ class EtudiantServiceImplTest {
     private EtudiantServiceImpl etudiantService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
 
     @Test
-    public void testRetrieveAllEtudiants() {
+    void testRetrieveAllEtudiants() {
         // Arrange
         List<Etudiant> etudiants = new ArrayList<>();
         etudiants.add(new Etudiant());
@@ -45,7 +45,7 @@ class EtudiantServiceImplTest {
     }
 
     @Test
-    public void testAddEtudiant() {
+    void testAddEtudiant() {
         // Arrange
         Etudiant etudiant = new Etudiant();
         when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
@@ -59,7 +59,7 @@ class EtudiantServiceImplTest {
     }
 
     @Test
-    public void testUpdateEtudiant() {
+    void testUpdateEtudiant() {
         // Arrange
         Etudiant etudiant = new Etudiant();
         when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
@@ -73,7 +73,7 @@ class EtudiantServiceImplTest {
     }
 
     @Test
-    public void testRemoveEtudiant() {
+    void testRemoveEtudiant() {
         // Arrange
         Integer etudiantId = 1;
         Etudiant etudiant = new Etudiant();
@@ -84,4 +84,5 @@ class EtudiantServiceImplTest {
 
         // Assert
         verify(etudiantRepository, times(1)).delete(etudiant);
-    }}
+    }
+}
