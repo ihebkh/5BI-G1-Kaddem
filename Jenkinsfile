@@ -41,11 +41,18 @@ pipeline {
             }
         }
 
+
         stage('Tests - JUnit/Mockito') {
             steps {
                 sh 'mvn test'
             }
         }
+
+         stage('nexus') {
+                            steps {
+                                sh 'mvn deploy'
+                            }
+                        }
 
         stage('Rapport JaCoCo') {
             steps {
