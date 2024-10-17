@@ -47,6 +47,17 @@ pipeline {
                 sh 'mvn test'
             }
         }
+stage('Check Nexus URL Accessibility') {
+    steps {
+        script {
+            try {
+                sh 'curl -I http://192.168.33.10:8081/repository/maven-releases/'
+            } catch (Exception e) {
+                error "Nexus repository URL is not accessible from Jenkins environment."
+            }
+        }
+    }
+}
 
         stage('Deploy to Nexus') {
                steps {
