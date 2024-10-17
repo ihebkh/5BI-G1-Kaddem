@@ -48,11 +48,11 @@ pipeline {
             }
         }
 
-         stage('Nexus') {
-                    steps {
-                        sh 'mvn deploy'
-                  }
+        stage('Deploy to Nexus') {
+               steps {
+                   sh 'mvn deploy'
                }
+           }
 
 
 
