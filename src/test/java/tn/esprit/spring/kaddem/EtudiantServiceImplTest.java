@@ -14,18 +14,18 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class EtudiantServiceImplTest {
+
     @Mock
     private EtudiantRepository etudiantRepository;
 
-
     @InjectMocks
     private EtudiantServiceImpl etudiantService;
-    
-    
+
     @Test
     void testRetrieveAllEtudiants() {
         Etudiant etudiant1 = new Etudiant();
@@ -42,35 +42,50 @@ class EtudiantServiceImplTest {
 
     @Test
     void testRetrieveEtudiant() {
-        // ID du etudiant à récupérer
         Integer etudiantId = 1;
         Etudiant expectedEtudiant = new Etudiant();
 
-        // Simulation du comportement du repository
         when(etudiantRepository.findById(etudiantId)).thenReturn(Optional.of(expectedEtudiant));
 
-        // Appel de la méthode de service
         Etudiant actualEtudiant = etudiantService.retrieveEtudiant(etudiantId);
 
-        // Vérification du résultat
         assertEquals(expectedEtudiant, actualEtudiant);
         verify(etudiantRepository, times(1)).findById(etudiantId);
     }
-    
+
+    @Test
+    void testRetrieveEtudiantNotFound() {
+        Integer etudiantId = 1;
+
+        when(etudiantRepository.findById(etudiantId)).thenReturn(Optional.empty());
+
+        Etudiant actualEtudiant;
+        actualEtudiant = etudiantService.retrieveEtudiant(etudiantId);
+
+        assertNull(actualEtudiant);
+        verify(etudiantRepository, times(1)).findById(etudiantId);
+    }
+
     @Test
     void testRemoveEtudiant() {
-        // ID du etudiant à supprimer
         Integer etudiantId = 1;
         Etudiant etudiant = new Etudiant();
 
-        // Simulation du comportement du repository
         when(etudiantRepository.findById(etudiantId)).thenReturn(Optional.of(etudiant));
 
-        // Appel de la méthode de suppression
         etudiantService.removeEtudiant(etudiantId);
 
-        // Vérification que la méthode delete a été appelée
         verify(etudiantRepository, times(1)).delete(etudiant);
     }
 
+    @Test
+    void testRemoveEtudiantNotFound() {
+        Integer etudiantId = 1;
+
+        when(etudiantRepository.findById(etudiantId)).thenReturn(Optional.empty());
+
+        etudiantService.removeEtudiant(etudiantId);
+
+        verify(etudiantRepository, times(0)).delete(any(Etudiant.class));
+    }
 }

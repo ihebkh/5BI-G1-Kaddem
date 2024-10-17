@@ -1,6 +1,7 @@
 package tn.esprit.spring.kaddem.services;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.kaddem.entities.Departement;
@@ -32,8 +33,7 @@ public class EtudiantServiceImpl implements IEtudiantService{
 	}
 
 	public Etudiant retrieveEtudiant(Integer idEtudiant) {
-		return etudiantRepository.findById(idEtudiant)
-				.orElseThrow(() -> new NoSuchElementException("Etudiant not found with id: " + idEtudiant));
+		return etudiantRepository.findById(idEtudiant).orElse(null);
 	}
 
 	public void removeEtudiant(Integer idEtudiant){
