@@ -65,21 +65,6 @@ class DepartementServiceImplTest {
         verify(departementRepository, times(1)).findById(departementId);
     }
 
-    /*@Test
-    void testRetrieveDepartement_NotFound() {
-        // ID du departement inexistant
-        Integer departementId = 2;
-
-        // Simulation du comportement du repository
-        when(departementRepository.findById(departementId)).thenReturn(Optional.empty());
-
-        // Appel de la méthode de service
-        Departement actualDepartement = departementService.retrieveDepartement(departementId);
-
-        // Vérification que le résultat est null
-        assertNull(actualDepartement);
-        verify(departementRepository, times(1)).findById(departementId);
-    }*/
 
     @Test
     void testRemoveDepartement() {

@@ -21,17 +21,6 @@ public class DepartementServiceImpl implements IDepartementService{
 		return (List<Departement>) departementRepository.findAll();
 	}
 
-	public Departement addDepartement (Departement d){
-		log.info("Departemetn ajouté :\n" +
-				"Nom d'Departement "+d.getIdDepart() +" " +
-				"ID d'Departement " +d.getNomDepart() );
-		return departementRepository.save(d);
-	}
-
-	public   Departement updateDepartement (Departement d){
-		log.info("modification d'un departement");
-		return departementRepository.save(d);
-	}
 
 	public  Departement retrieveDepartement (Integer idDepart){
 		log.info("Récupération d'un departement par ID");
