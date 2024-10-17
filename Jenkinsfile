@@ -41,19 +41,15 @@ pipeline {
             }
         }
 
-/*
+
         stage('Tests - JUnit/Mockito') {
             steps {
                 sh 'mvn test'
             }
         }
-*/
-         stage('nexus') {
-                            steps {
-                                sh 'mvn deploy'
-                            }
-                        }
-/*
+
+
+
         stage('Rapport JaCoCo') {
             steps {
                 sh 'mvn jacoco:report'
@@ -77,7 +73,7 @@ pipeline {
             }
         }
     }
-*/
+
     post {
         success {
             mail bcc: '', body: 'Final Report: The pipeline has completed successfully. No action required.',
