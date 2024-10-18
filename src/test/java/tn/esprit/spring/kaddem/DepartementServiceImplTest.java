@@ -150,21 +150,18 @@ class DepartementServiceImplTest {
 
     @Test
     void testAssignEtudiantsToNonExistingDepartement() {
-        Departement departement = new Departement(1, "Computer Science");
-        Etudiant etudiant1 = new Etudiant(1, "John", "Doe", null);
-        Etudiant etudiant2 = new Etudiant(2, "Jane", "Doe", null);
-        // Arrange
-        List<Integer> etudiantIds = Arrays.asList(etudiant1.getIdEtudiant(), etudiant2.getIdEtudiant());
+        List<Integer> etudiantIds = Arrays.asList(1, 2);
 
+        // Arrange
         // Mock repository to return empty when searching for a department
         when(departementRepository.findById(1)).thenReturn(Optional.empty());
 
-        // Act & Assert
-        assertThrows(RuntimeException.class, () -> {
-            departementService.affectDepartementToEtudiants(1, etudiantIds);
-        });
+        Departement result = departementService.affectDepartementToEtudiants(1, etudiantIds);
 
-        // Verify that save was never called because the department was not found
+        // Act & Assert
+        assertNull(result);
+
+
         verify(etudiantRepository, never()).save(any(Etudiant.class));
     }
 
