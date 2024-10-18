@@ -55,6 +55,8 @@ public class Etudiant implements Serializable{
         this.op = op;
     }
 
+
+
     public Set<Contrat> getContrats() {
         return contrats;
     }

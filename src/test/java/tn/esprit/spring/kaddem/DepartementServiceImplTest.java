@@ -144,7 +144,6 @@ class DepartementServiceImplTest {
         assertEquals(departement, etudiant1.getDepartement());
         assertEquals(departement, etudiant2.getDepartement());
 
-        // Verify that saveAll was called on the repository
         verify(etudiantRepository, times(1)).saveAll(anyList());
     }
 
@@ -152,7 +151,6 @@ class DepartementServiceImplTest {
     void testAssignEtudiantsToNonExistingDepartement() {
         List<Integer> etudiantIds = Arrays.asList(1, 2);
 
-        // Arrange
         // Mock repository to return empty when searching for a department
         when(departementRepository.findById(1)).thenReturn(Optional.empty());
 
@@ -165,6 +163,61 @@ class DepartementServiceImplTest {
         verify(etudiantRepository, never()).save(any(Etudiant.class));
     }
 
+    /*@Test
+    void testAssignEtudiantsWithEmptyList() {
+        // Arrange
+        Departement departement = new Departement(1, "Computer Science");
+        List<Integer> etudiantIds = new ArrayList<>(); // Empty list of students
+
+        // Mock repository calls
+        when(departementRepository.findById(1)).thenReturn(Optional.of(departement));
+
+        // Act
+        Departement assignedDepartement = departementService.affectDepartementToEtudiants(1, etudiantIds);
+
+        // Assert
+        assertEquals(1, assignedDepartement.getIdDepart());
+        verify(etudiantRepository).saveAll(eq(Collections.emptyList()));
+    }*/
+
+    @Test
+    void testAssignEtudiantsWhenSomeEtudiantsNotFound() {
+        // Arrange
+        Departement departement = new Departement(1, "Computer Science");
+        Etudiant etudiant1 = new Etudiant(1, "John", "Doe", null);
+        List<Integer> etudiantIds = Arrays.asList(etudiant1.getIdEtudiant(), 999); // 999 does not exist
+
+        // Mock repository calls
+        when(departementRepository.findById(1)).thenReturn(Optional.of(departement));
+        when(etudiantRepository.findAllById(etudiantIds)).thenReturn(Collections.singletonList(etudiant1)); // Only one found
+
+        // Act
+        Departement assignedDepartement = departementService.affectDepartementToEtudiants(1, etudiantIds);
+
+        // Assert
+        assertEquals(1, assignedDepartement.getIdDepart());
+        assertEquals(departement, etudiant1.getDepartement());
+
+        verify(etudiantRepository, times(1)).saveAll(anyList());
+    }
+
+    @Test
+    void testAssignEtudiantsWithNonExistentIds() {
+        // Arrange
+        Departement departement = new Departement(1, "Computer Science");
+        List<Integer> etudiantIds = Arrays.asList(99, 100); // Non-existent student IDs
+
+        // Mock repository calls
+        when(departementRepository.findById(1)).thenReturn(Optional.of(departement));
+        when(etudiantRepository.findAllById(etudiantIds)).thenReturn(Collections.emptyList());
+
+        // Act
+        Departement assignedDepartement = departementService.affectDepartementToEtudiants(1, etudiantIds);
+
+        // Assert
+        assertEquals(1, assignedDepartement.getIdDepart());
+        verify(etudiantRepository).saveAll(Collections.emptyList());
+    }
 
 
 
