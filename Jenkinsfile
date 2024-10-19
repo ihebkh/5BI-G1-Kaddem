@@ -41,11 +41,7 @@ pipeline {
             }
         }
 
-           stage('Deploy to Nexus') {
-                       steps {
-                           sh 'mvn deploy -D skipTests=true'
-                       }
-                   }
+
 
 
         stage('Tests - JUnit/Mockito') {
@@ -53,11 +49,6 @@ pipeline {
                 sh 'mvn test'
             }
         }
-
-
-
-
-
 
         stage('Rapport JaCoCo') {
             steps {
@@ -82,6 +73,12 @@ pipeline {
             }
         }
     }
+
+        stage('Deploy to Nexus') {
+                           steps {
+                               sh 'mvn deploy -DskipTests'
+                           }
+                       }
 
     post {
         success {
