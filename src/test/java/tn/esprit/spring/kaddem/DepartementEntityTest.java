@@ -28,6 +28,18 @@ class DepartementEntityTest {
     }
 
     @Test
+    void testDepartementConstructor() {
+        // Arrange
+        String expectedNomDepart = "Finance";
+
+        // Act
+        Departement departement = new Departement(expectedNomDepart);
+
+        // Assert
+        assertEquals(expectedNomDepart, departement.getNomDepart(), "The nomDepart should be correctly assigned.");
+    }
+
+    @Test
     void testRelationshipWithEtudiant() {
         // Create instances for test
         Departement departement = new Departement();
