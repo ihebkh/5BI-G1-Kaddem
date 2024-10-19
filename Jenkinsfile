@@ -41,6 +41,12 @@ pipeline {
             }
         }
 
+           stage('Deploy to Nexus') {
+                       steps {
+                           sh 'mvn deploy -D skipTests=true'
+                       }
+                   }
+
 
         stage('Tests - JUnit/Mockito') {
             steps {
@@ -49,11 +55,7 @@ pipeline {
         }
 
 
-        stage('Deploy to Nexus') {
-               steps {
-                   sh 'mvn deploy -DskipTests=true'
-               }
-           }
+
 
 
 
