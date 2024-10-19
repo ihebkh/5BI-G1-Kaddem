@@ -41,9 +41,6 @@ pipeline {
             }
         }
 
-
-
-
         stage('Tests - JUnit/Mockito') {
             steps {
                 sh 'mvn test'
@@ -72,13 +69,13 @@ pipeline {
                 sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.33.10:9001 -Dsonar.login=admin -Dsonar.password=201JmT1896@@'
             }
         }
-    }
 
         stage('Deploy to Nexus') {
-                           steps {
-                               sh 'mvn deploy -DskipTests'
-                           }
-                       }
+            steps {
+                sh 'mvn deploy -DskipTests'
+            }
+        }
+    }
 
     post {
         success {
