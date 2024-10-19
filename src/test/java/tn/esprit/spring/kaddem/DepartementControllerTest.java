@@ -27,7 +27,6 @@ class DepartementControllerTest {
 
     @Test
     void testGetDepartements() {
-
         Departement departement1 = new Departement();
         departement1.setIdDepart(1);
         Departement departement2 = new Departement();
@@ -37,6 +36,17 @@ class DepartementControllerTest {
         List<Departement> actualDepartements = departementRestController.getDepartements();
         assertEquals(expectedDepartements, actualDepartements);
         verify(departementService, times(1)).retrieveAllDepartements();
+    }
+
+    @Test
+    void testRetrieveContrat() {
+        Integer departementId = 1;
+        Departement expectedDepartement = new Departement();
+        expectedDepartement.setIdDepart(departementId);
+        when(departementService.retrieveDepartement(departementId)).thenReturn(expectedDepartement);
+        Departement actualContrat = departementRestController.retrieveDepartement(departementId);
+        assertEquals(expectedDepartement, actualContrat);
+        verify(departementService, times(1)).retrieveDepartement(departementId);
     }
 
     @Test
