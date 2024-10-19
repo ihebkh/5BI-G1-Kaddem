@@ -13,14 +13,6 @@ pipeline {
             }
         }
 
-        stage('Status Mysql') {
-            steps {
-                script {
-                    sh 'sudo systemctl start mysql'
-                }
-            }
-        }
-
         stage('Maven Clean Compile') {
             steps {
                 sh 'mvn clean'
@@ -59,34 +51,29 @@ pipeline {
                       execPattern: '**/target/jacoco.exec',
                       classPattern: '**/classes',
                       sourcePattern: '**/src',
-                      exclusionPattern: '*/target/**/,**/*Test*,**/*_javassist/**'
+                      exclusionPattern: '/target/**/,**/*Test,**/*_javassist/**'
                 ])
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
-                sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.33.10:9000 -Dsonar.login=admin -Dsonar.password=201JmT1896@@'
+                sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.33.10:9000 -Dsonar.login=admin -Dsonar.password=Aymenzouari58604483!'
             }
         }
 
         stage('Deploy to Nexus') {
             steps {
+                echo 'Deploying to Nexus'
                 sh 'mvn deploy -DskipTests'
             }
         }
-    }
 
-    post {
-        success {
-            mail bcc: '', body: 'Final Report: The pipeline has completed successfully. No action required.',
-                 cc: '', from: '', replyTo: '', subject: 'Succès de la pipeline DevOps',
-                 to: 'khmiriiheb3@gmail.com'
+        stage('Email Notification') {
+            steps {
+                mail bcc: '', body: 'All stages built successfully', cc: '', from: '', replyTo: '', subject: 'Email Jenkins Pipeline', to: 'khmiriiheb3@gmail.com'
+            }
         }
-        failure {
-            mail bcc: '', body: 'The pipeline has failed. Please check the Jenkins logs for details.',
-                 cc: '', from: '', replyTo: '', subject: 'Échec de la pipeline DevOps',
-                 to: 'khmiriiheb3@gmail.com'
-        }
+
     }
 }
