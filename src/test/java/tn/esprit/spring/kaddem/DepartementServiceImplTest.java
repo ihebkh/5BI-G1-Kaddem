@@ -94,7 +94,7 @@ class DepartementServiceImplTest {
 
 
     @Test
-    public void testRemoveEtudiantFromDepartement() {
+    void testRemoveEtudiantFromDepartement() {
         Integer etudiantId = 101;
 
         Etudiant etudiant = new Etudiant();
@@ -114,7 +114,7 @@ class DepartementServiceImplTest {
     }
 
     @Test
-    public void testRemoveEtudiantFromDepartementNotFound() {
+    void testRemoveEtudiantFromDepartementNotFound() {
         Integer etudiantId = 101;
 
         when(etudiantRepository.findById(etudiantId)).thenReturn(Optional.empty());

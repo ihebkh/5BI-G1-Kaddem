@@ -63,22 +63,4 @@ class DepartementEntityTest {
         assertEquals(nomDep, departement.getNomDepart());
 
     }
-
-
-    /*@Test
-    void testToStringMethod() {
-        // Prepare sample data
-
-        Departement departement = new Departement();
-        String nomDep = "TECH";
-        departement.setIdDepart(1);
-        departement.setNomDepart(nomDep);
-
-
-        // Validate toString output
-        String departementString = departement.toString();
-        assertTrue(departementString.contains("idDepart=1"));
-        assertTrue(departementString.contains("nomDep=" + nomDep));
-
-    }*/
 }
