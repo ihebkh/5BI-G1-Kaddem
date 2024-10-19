@@ -163,22 +163,6 @@ class DepartementServiceImplTest {
         verify(etudiantRepository, never()).save(any(Etudiant.class));
     }
 
-    /*@Test
-    void testAssignEtudiantsWithEmptyList() {
-        // Arrange
-        Departement departement = new Departement(1, "Computer Science");
-        List<Integer> etudiantIds = new ArrayList<>(); // Empty list of students
-
-        // Mock repository calls
-        when(departementRepository.findById(1)).thenReturn(Optional.of(departement));
-
-        // Act
-        Departement assignedDepartement = departementService.affectDepartementToEtudiants(1, etudiantIds);
-
-        // Assert
-        assertEquals(1, assignedDepartement.getIdDepart());
-        verify(etudiantRepository).saveAll(eq(Collections.emptyList()));
-    }*/
 
     @Test
     void testAssignEtudiantsWhenSomeEtudiantsNotFound() {
