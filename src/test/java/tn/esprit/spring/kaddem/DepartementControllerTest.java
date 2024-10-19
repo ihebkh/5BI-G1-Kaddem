@@ -38,4 +38,12 @@ class DepartementControllerTest {
         assertEquals(expectedDepartements, actualDepartements);
         verify(departementService, times(1)).retrieveAllDepartements();
     }
+
+    @Test
+    void testRemoveDepartement() {
+        Integer departementId = 1;
+        doNothing().when(departementService).deleteDepartement(departementId);
+        departementRestController.removeDepartement(departementId);
+        verify(departementService, times(1)).deleteDepartement(departementId);
+    }
 }
