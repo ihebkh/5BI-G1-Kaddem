@@ -69,11 +69,6 @@ pipeline {
             }
         }
 
-        stage('Email Notification') {
-            steps {
-                mail bcc: '', body: 'All stages built successfully', cc: '', from: '', replyTo: '', subject: 'Email Jenkins Pipeline', to: 'khmiriiheb3@gmail.com'
-            }
-        }
 
     }
 }
