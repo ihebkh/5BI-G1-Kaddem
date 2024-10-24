@@ -68,7 +68,9 @@ pipeline {
                 sh 'mvn clean deploy -DskipTests'
             }
         }
-post {
+    }
+
+    post {
         success {
             mail bcc: '', body: 'Final Report: The pipeline has completed successfully. No action required.',
                  cc: '', from: '', replyTo: '', subject: 'Succès de la pipeline DevOps',
@@ -79,6 +81,5 @@ post {
                  cc: '', from: '', replyTo: '', subject: 'Échec de la pipeline DevOps',
                  to: 'khmiriiheb3@gmail.com'
         }
-
     }
 }
