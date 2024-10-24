@@ -68,7 +68,36 @@ pipeline {
                 sh 'mvn clean deploy -DskipTests'
             }
         }
+ stage('Build Docker Image ') {
+            steps {
+                script {
+                    sh 'sudo chmod 666 /var/run/docker.sock'
+                    def dockerImage=docker.build("ihebkh336/kaddem:0.0.1")
+                }
+            }
 
+  stage('Deploy Image') {
+             steps {
+                 script {
+                     // Connexion à DockerHub en utilisant le mot de passe en clair
+                     sh 'docker login -u ihebkh336 -p a1b2c3IHEB'
+
+                     // Pousser l'image Docker sur DockerHub
+                     sh 'docker push ihebkh336/kaddem:0.0.1'
+                 }
+             }
+
+             stage('Deploy with Docker Compose') {
+                         steps {
+                             script {
+                                 // Assurez-vous que vous êtes dans le répertoire contenant le fichier docker-compose.yml
+
+                                     // Exécutez docker-compose up -d
+                                     sh 'docker-compose up -d'
+
+                             }
+                         }
+        }
 
     }
 }
