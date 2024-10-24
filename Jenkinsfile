@@ -69,17 +69,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        success {
-            mail bcc: '', body: 'Final Report: The pipeline has completed successfully. No action required.',
-                 cc: '', from: '', replyTo: '', subject: 'Succès de la pipeline DevOps',
-                 to: 'khmiriiheb3@gmail.com'
-        }
-        failure {
-            mail bcc: '', body: 'The pipeline has failed. Please check the Jenkins logs for details.',
-                 cc: '', from: '', replyTo: '', subject: 'Échec de la pipeline DevOps',
-                 to: 'khmiriiheb3@gmail.com'
-        }
-    }
 }
