@@ -78,7 +78,6 @@ pipeline {
             steps {
                 script {
                     echo 'Building Docker Image'
-                    sh 'sudo chmod 666 /var/run/docker.sock'
                     def dockerImage = docker.build("ihebkh336/kaddem:0.0.1")
                 }
             }
