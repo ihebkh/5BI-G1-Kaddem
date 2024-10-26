@@ -1,6 +1,5 @@
 package tn.esprit.spring.kaddem.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Contrat;
@@ -17,10 +16,14 @@ import java.util.List;
 @RequestMapping("/contrat")
 public class ContratRestController {
 
-	@Autowired
-	private IContratService contratService;
-    @Autowired
-    private EtudiantRepository etudiantRepository;
+	private final IContratService contratService;
+	private final EtudiantRepository etudiantRepository;
+
+	// Injection des dépendances via le constructeur
+	public ContratRestController(IContratService contratService, EtudiantRepository etudiantRepository) {
+		this.contratService = contratService;
+		this.etudiantRepository = etudiantRepository;
+	}
 
 	@DeleteMapping("/remove-contrat/{contrat-id}")
 	public void removeContrat(@PathVariable("contrat-id") Integer contratId) {
@@ -50,6 +53,7 @@ public class ContratRestController {
 	public void majStatusContrat() {
 		contratService.retrieveAndUpdateStatusContrat();
 	}
+
 	@PostMapping("/add-contrat")
 	public Contrat addContrat(@RequestBody ContratDTO contratDTO) {
 		// Convertir ContratDTO en Contrat
@@ -69,7 +73,4 @@ public class ContratRestController {
 
 		return contratService.addContrat(contrat);
 	}
-
-
-
 }
