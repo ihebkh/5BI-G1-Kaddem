@@ -12,7 +12,6 @@ public class ContratDTO {
         private Boolean archive;
         private Integer montantContrat;
 
-        // Getters et Setters pour chaque champ
     }
 
 

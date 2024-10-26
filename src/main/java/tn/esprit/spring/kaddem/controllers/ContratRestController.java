@@ -4,9 +4,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Contrat;
 import tn.esprit.spring.kaddem.entities.ContratDTO;
-import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.entities.Specialite;
-import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 import tn.esprit.spring.kaddem.services.IContratService;
 
 import java.sql.Date;
@@ -61,9 +59,6 @@ public class ContratRestController {
 		contrat.setSpecialite(Specialite.valueOf(contratDTO.getSpecialite())); // Assurez-vous que la valeur existe dans l'énumération Specialite
 		contrat.setArchive(contratDTO.getArchive());
 		contrat.setMontantContrat(contratDTO.getMontantContrat());
-
-
-
 		return contratService.addContrat(contrat);
 	}
 }
