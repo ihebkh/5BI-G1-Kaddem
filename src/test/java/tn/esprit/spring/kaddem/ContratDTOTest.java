@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 import tn.esprit.spring.kaddem.entities.ContratDTO;
 import static org.junit.jupiter.api.Assertions.*;
 
- class ContratDTOTest {
+public class ContratDTOTest {
     @Test
-     void testGettersAndSetters() {
+    public void testGettersAndSetters() {
         ContratDTO contratDTO = new ContratDTO();
 
         String dateDebut = "2024-10-26";
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
         String specialite = "INFORMATIQUE";
         Boolean archive = false;
         Integer montant = 1500;
-        Integer etudiantId = 1;
+
 
         // Tester les setters
         contratDTO.setDateDebutContrat(dateDebut);
@@ -22,13 +22,11 @@ import static org.junit.jupiter.api.Assertions.*;
         contratDTO.setSpecialite(specialite);
         contratDTO.setArchive(archive);
         contratDTO.setMontantContrat(montant);
-        contratDTO.setEtudiantId(etudiantId);
 
         assertEquals(dateDebut, contratDTO.getDateDebutContrat());
         assertEquals(dateFin, contratDTO.getDateFinContrat());
         assertEquals(specialite, contratDTO.getSpecialite());
         assertEquals(archive, contratDTO.getArchive());
         assertEquals(montant, contratDTO.getMontantContrat());
-        assertEquals(etudiantId, contratDTO.getEtudiantId());
     }
 }

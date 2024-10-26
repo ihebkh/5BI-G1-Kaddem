@@ -6,6 +6,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import tn.esprit.spring.kaddem.controllers.ContratRestController;
 import tn.esprit.spring.kaddem.entities.Contrat;
+import tn.esprit.spring.kaddem.entities.ContratDTO;
+import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.services.IContratService;
 import java.util.Arrays;
 import java.util.List;
@@ -78,5 +80,27 @@ class ContratControlleurTest {
         verify(contratService, times(1)).retrieveAndUpdateStatusContrat();
     }
 
+    @Test
+    void testAddContrat() {
+        // Initialiser le DTO de contrat
+        ContratDTO contratDTO = new ContratDTO();
+        contratDTO.setDateDebutContrat("2024-01-01");
+        contratDTO.setDateFinContrat("2024-12-31");
+        contratDTO.setSpecialite("INFORMATIQUE");
+        contratDTO.setArchive(false);
+        contratDTO.setMontantContrat(1000);
+
+        // Mock du contrat ajouté
+        Contrat expectedContrat = new Contrat();
+        expectedContrat.setIdContrat(1);
+        when(contratService.addContrat(any(Contrat.class))).thenReturn(expectedContrat);
+
+        // Appel de la méthode de test
+        Contrat actualContrat = contratRestController.addContrat(contratDTO);
+
+        // Vérifications
+        assertEquals(expectedContrat, actualContrat);
+        verify(contratService, times(1)).addContrat(any(Contrat.class));
+    }
 
 }

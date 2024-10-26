@@ -11,7 +11,6 @@ public class ContratDTO {
         private String specialite;
         private Boolean archive;
         private Integer montantContrat;
-        private Integer etudiantId; // Id de l'étudiant associé
 
         // Getters et Setters pour chaque champ
     }

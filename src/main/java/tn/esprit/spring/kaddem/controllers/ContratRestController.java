@@ -64,12 +64,7 @@ public class ContratRestController {
 		contrat.setArchive(contratDTO.getArchive());
 		contrat.setMontantContrat(contratDTO.getMontantContrat());
 
-		// Associer l'étudiant si nécessaire
-		if (contratDTO.getEtudiantId() != null) {
-			Etudiant etudiant = etudiantRepository.findById(contratDTO.getEtudiantId())
-					.orElseThrow(() -> new RuntimeException("Etudiant non trouvé"));
-			contrat.setEtudiant(etudiant);
-		}
+
 
 		return contratService.addContrat(contrat);
 	}
