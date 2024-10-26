@@ -11,7 +11,7 @@ public class ContratDTOTest {
 
         String dateDebut = "2024-10-26";
         String dateFin = "2025-10-26";
-        String specialite = "INFORMATIQUE";
+        String specialite = "RESEAUX";
         Boolean archive = false;
         Integer montant = 1500;
 
