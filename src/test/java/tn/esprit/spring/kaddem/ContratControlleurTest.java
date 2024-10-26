@@ -7,7 +7,10 @@ import org.mockito.MockitoAnnotations;
 import tn.esprit.spring.kaddem.controllers.ContratRestController;
 import tn.esprit.spring.kaddem.entities.Contrat;
 import tn.esprit.spring.kaddem.entities.ContratDTO;
+import tn.esprit.spring.kaddem.entities.Specialite;
 import tn.esprit.spring.kaddem.services.IContratService;
+
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -80,28 +83,29 @@ class ContratControlleurTest {
     }
 
     @Test
-     void testGettersAndSetters() {
+     void testAddContrat() {
+        // Création de l'objet ContratDTO pour le test
         ContratDTO contratDTO = new ContratDTO();
+        contratDTO.setDateDebutContrat("2024-10-26");
+        contratDTO.setDateFinContrat("2025-10-26");
+        contratDTO.setSpecialite("RESEAUX");
+        contratDTO.setArchive(false);
+        contratDTO.setMontantContrat(1500);
 
-        String dateDebut = "2024-10-26";
-        String dateFin = "2025-10-26";
-        String specialite = "RESEAUX";
-        Boolean archive = false;
-        Integer montant = 1500;
+        // Création de l'objet Contrat attendu
+        Contrat expectedContrat = new Contrat();
+        expectedContrat.setDateDebutContrat(Date.valueOf("2024-10-26"));
+        expectedContrat.setDateFinContrat(Date.valueOf("2025-10-26"));
+        expectedContrat.setSpecialite(Specialite.RESEAUX);
+        expectedContrat.setArchive(false);
+        expectedContrat.setMontantContrat(1500);
 
-        // Tester les setters
-        contratDTO.setDateDebutContrat(dateDebut);
-        contratDTO.setDateFinContrat(dateFin);
-        contratDTO.setSpecialite(specialite);
-        contratDTO.setArchive(archive);
-        contratDTO.setMontantContrat(montant);
+        // Simulation du comportement du service
+        when(contratService.addContrat(any(Contrat.class))).thenReturn(expectedContrat);
 
-        // Vérifier les valeurs
-        assertEquals(dateDebut, contratDTO.getDateDebutContrat());
-        assertEquals(dateFin, contratDTO.getDateFinContrat());
-        assertEquals(specialite, contratDTO.getSpecialite());
-        assertEquals(archive, contratDTO.getArchive());
-        assertEquals(montant, contratDTO.getMontantContrat());
+        // Appel de la méthode et vérification
+        Contrat result = contratRestController.addContrat(contratDTO);
+        assertEquals(expectedContrat, result);
     }
 
 }
