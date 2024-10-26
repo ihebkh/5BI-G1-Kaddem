@@ -61,4 +61,18 @@ public class ContratRestController {
 		contrat.setMontantContrat(contratDTO.getMontantContrat());
 		return contratService.addContrat(contrat);
 	}
+
+	@PutMapping("/update-contrat/{contrat-id}")
+	public Contrat updateContrat(@PathVariable("contrat-id") Integer contratId, @RequestBody ContratDTO contratDTO) {
+		Contrat contrat = new Contrat();
+		contrat.setIdContrat(contratId);
+		contrat.setDateDebutContrat(Date.valueOf(contratDTO.getDateDebutContrat()));
+		contrat.setDateFinContrat(Date.valueOf(contratDTO.getDateFinContrat()));
+		contrat.setSpecialite(Specialite.valueOf(contratDTO.getSpecialite()));
+		contrat.setArchive(contratDTO.getArchive());
+		contrat.setMontantContrat(contratDTO.getMontantContrat());
+		// Appelez le service pour mettre à jour le contrat
+		return contratService.updateContrat(contrat);
+	}
+
 }

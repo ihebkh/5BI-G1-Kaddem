@@ -108,4 +108,34 @@ class ContratControlleurTest {
         assertEquals(expectedContrat, result);
     }
 
+    @Test
+     void testUpdateContrat() {
+        // ID du contrat à mettre à jour
+        Integer contratId = 1;
+
+        // Création de l'objet ContratDTO avec les nouvelles valeurs
+        ContratDTO contratDTO = new ContratDTO();
+        contratDTO.setDateDebutContrat("2024-11-01");
+        contratDTO.setDateFinContrat("2025-11-01");
+        contratDTO.setSpecialite("RESEAUX");
+        contratDTO.setArchive(true);
+        contratDTO.setMontantContrat(2000);
+
+        // Création de l'objet Contrat attendu après la mise à jour
+        Contrat updatedContrat = new Contrat();
+        updatedContrat.setIdContrat(contratId);
+        updatedContrat.setDateDebutContrat(Date.valueOf("2024-11-01"));
+        updatedContrat.setDateFinContrat(Date.valueOf("2025-11-01"));
+        updatedContrat.setSpecialite(Specialite.RESEAUX);
+        updatedContrat.setArchive(true);
+        updatedContrat.setMontantContrat(2000);
+
+        // Simulation du comportement du service
+        when(contratService.updateContrat(any(Contrat.class))).thenReturn(updatedContrat);
+
+        // Appel de la méthode et vérification
+        Contrat result = contratRestController.updateContrat(contratId, contratDTO);
+        assertEquals(updatedContrat, result);
+    }
+
 }
