@@ -43,4 +43,9 @@ public class ContratRestController {
 	public void majStatusContrat() {
 		contratService.retrieveAndUpdateStatusContrat();
 	}
+	@PostMapping("/add-contrat")
+	public Contrat addContrat(@RequestBody Contrat contrat) {
+		return contratService.addContrat(contrat);
+	}
+
 }
