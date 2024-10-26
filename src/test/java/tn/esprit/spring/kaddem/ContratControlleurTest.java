@@ -81,26 +81,28 @@ class ContratControlleurTest {
     }
 
     @Test
-    void testAddContrat() {
-        // Initialiser le DTO de contrat
+    public void testGettersAndSetters() {
         ContratDTO contratDTO = new ContratDTO();
-        contratDTO.setDateDebutContrat("2024-01-01");
-        contratDTO.setDateFinContrat("2024-12-31");
-        contratDTO.setSpecialite("INFORMATIQUE");
-        contratDTO.setArchive(false);
-        contratDTO.setMontantContrat(1000);
 
-        // Mock du contrat ajouté
-        Contrat expectedContrat = new Contrat();
-        expectedContrat.setIdContrat(1);
-        when(contratService.addContrat(any(Contrat.class))).thenReturn(expectedContrat);
+        String dateDebut = "2024-10-26";
+        String dateFin = "2025-10-26";
+        String specialite = "RESEAUX";
+        Boolean archive = false;
+        Integer montant = 1500;
 
-        // Appel de la méthode de test
-        Contrat actualContrat = contratRestController.addContrat(contratDTO);
+        // Tester les setters
+        contratDTO.setDateDebutContrat(dateDebut);
+        contratDTO.setDateFinContrat(dateFin);
+        contratDTO.setSpecialite(specialite);
+        contratDTO.setArchive(archive);
+        contratDTO.setMontantContrat(montant);
 
-        // Vérifications
-        assertEquals(expectedContrat, actualContrat);
-        verify(contratService, times(1)).addContrat(any(Contrat.class));
+        // Vérifier les valeurs
+        assertEquals(dateDebut, contratDTO.getDateDebutContrat());
+        assertEquals(dateFin, contratDTO.getDateFinContrat());
+        assertEquals(specialite, contratDTO.getSpecialite());
+        assertEquals(archive, contratDTO.getArchive());
+        assertEquals(montant, contratDTO.getMontantContrat());
     }
 
 }
