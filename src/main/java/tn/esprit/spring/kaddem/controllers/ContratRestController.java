@@ -17,12 +17,10 @@ import java.util.List;
 public class ContratRestController {
 
 	private final IContratService contratService;
-	private final EtudiantRepository etudiantRepository;
 
 	// Injection des dépendances via le constructeur
-	public ContratRestController(IContratService contratService, EtudiantRepository etudiantRepository) {
+	public ContratRestController(IContratService contratService) {
 		this.contratService = contratService;
-		this.etudiantRepository = etudiantRepository;
 	}
 
 	@DeleteMapping("/remove-contrat/{contrat-id}")

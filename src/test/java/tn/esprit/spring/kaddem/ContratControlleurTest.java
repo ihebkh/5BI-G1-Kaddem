@@ -7,7 +7,6 @@ import org.mockito.MockitoAnnotations;
 import tn.esprit.spring.kaddem.controllers.ContratRestController;
 import tn.esprit.spring.kaddem.entities.Contrat;
 import tn.esprit.spring.kaddem.entities.ContratDTO;
-import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.services.IContratService;
 import java.util.Arrays;
 import java.util.List;
@@ -81,7 +80,7 @@ class ContratControlleurTest {
     }
 
     @Test
-    public void testGettersAndSetters() {
+     void testGettersAndSetters() {
         ContratDTO contratDTO = new ContratDTO();
 
         String dateDebut = "2024-10-26";

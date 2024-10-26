@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ContratDTOTest {
     @Test
-    public void testGettersAndSetters() {
+     void testGettersAndSetters() {
         ContratDTO contratDTO = new ContratDTO();
 
         String dateDebut = "2024-10-26";
