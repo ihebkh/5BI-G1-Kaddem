@@ -1,16 +1,18 @@
 package tn.esprit.spring.kaddem.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Contrat;
 import tn.esprit.spring.kaddem.services.IContratService;
 
-
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/contrat")
 public class ContratRestController {
+
+	@Autowired
 	private IContratService contratService;
 
 	@DeleteMapping("/remove-contrat/{contrat-id}")
@@ -36,16 +38,9 @@ public class ContratRestController {
 		return contratService.affectContratToEtudiant(idContrat, nomE, prenomE);
 	}
 
-	@Scheduled(cron="0 0 13 * * *")//(cron="0 0 13 * * ?")(fixedRate =21600)
+	@Scheduled(cron="0 0 13 * * *")
 	@PutMapping(value = "/majStatusContrat")
-	public void majStatusContrat (){
+	public void majStatusContrat() {
 		contratService.retrieveAndUpdateStatusContrat();
-
 	}
-
-
 }
-
-
-
-
