@@ -8,7 +8,7 @@ services:
       - MYSQL_ROOT_PASSWORD=rootpassword
       - MYSQL_DATABASE=kaddem
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - db:/var/lib/mysql
 
@@ -18,7 +18,7 @@ services:
     image: ihebkh336/kaddem:0.0.1  # Utilisez ici la version spécifique 0.0.1
     restart: on-failure
     ports:
-      - 8082:8082
+      - "8082:8082"
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.datasource.url": "jdbc:mysql://mysqlDb:3306/kaddem?createDatabaseIfNotExist=true",
