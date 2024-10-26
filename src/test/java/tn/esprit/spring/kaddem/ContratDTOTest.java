@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import tn.esprit.spring.kaddem.entities.ContratDTO;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ContratDTOTest {
+ class ContratDTOTest {
     @Test
      void testGettersAndSetters() {
         ContratDTO contratDTO = new ContratDTO();

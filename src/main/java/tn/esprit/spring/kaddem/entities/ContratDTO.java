@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
- class ContratDTO {
+ public class ContratDTO {
         private String dateDebutContrat;
         private String dateFinContrat;
         private String specialite;
