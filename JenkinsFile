@@ -13,8 +13,6 @@ pipeline {
             }
         }
 
-
-
         stage('Maven Clean Compile') {
             steps {
                 sh 'mvn clean'
@@ -34,8 +32,6 @@ pipeline {
                 sh 'mvn package'
             }
         }
+    } // Close stages
 
-
-        }
-    }
-}
+} // Close pipeline
