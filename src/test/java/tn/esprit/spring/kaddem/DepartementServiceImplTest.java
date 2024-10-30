@@ -203,6 +203,15 @@ class DepartementServiceImplTest {
         verify(etudiantRepository).saveAll(Collections.emptyList());
     }
 
+    @Test
+    void testAddDepartement() {
+        Departement departement = new Departement();
+        when(departementRepository.save(departement)).thenReturn(departement);
+        Departement result = departementService.addDepartement(departement);
+        assertEquals(departement, result);
+        verify(departementRepository, times(1)).save(departement);
+    }
+
 
 
 }

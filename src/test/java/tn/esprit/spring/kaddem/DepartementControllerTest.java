@@ -6,6 +6,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import tn.esprit.spring.kaddem.controllers.DepartementRestController;
 import tn.esprit.spring.kaddem.entities.Departement;
+import tn.esprit.spring.kaddem.entities.DepartementDTO;
 import tn.esprit.spring.kaddem.services.IDepartementService;
 import java.util.Arrays;
 import java.util.List;
@@ -39,13 +40,13 @@ class DepartementControllerTest {
     }
 
     @Test
-    void testRetrieveContrat() {
+    void testRetrieveDepartement() {
         Integer departementId = 1;
         Departement expectedDepartement = new Departement();
         expectedDepartement.setIdDepart(departementId);
         when(departementService.retrieveDepartement(departementId)).thenReturn(expectedDepartement);
-        Departement actualContrat = departementRestController.retrieveDepartement(departementId);
-        assertEquals(expectedDepartement, actualContrat);
+        Departement actualDepartement = departementRestController.retrieveDepartement(departementId);
+        assertEquals(expectedDepartement, actualDepartement);
         verify(departementService, times(1)).retrieveDepartement(departementId);
     }
 
@@ -55,5 +56,25 @@ class DepartementControllerTest {
         doNothing().when(departementService).deleteDepartement(departementId);
         departementRestController.removeDepartement(departementId);
         verify(departementService, times(1)).deleteDepartement(departementId);
+    }
+
+    @Test
+    void testAddDepartement() {
+        // Création de l'objet DepartementDTO pour le test
+        DepartementDTO departementDTO = new DepartementDTO();
+        departementDTO.setNomDep("Informatique");
+
+
+        // Création de l'objet Departement attendu
+        Departement expectedDepartement = new Departement();
+        expectedDepartement.setNomDepart("Informatique");
+
+
+        // Simulation du comportement du service
+        when(departementService.addDepartement(any(Departement.class))).thenReturn(expectedDepartement);
+
+        // Appel de la méthode et vérification
+        Departement result = departementRestController.addDepartement(departementDTO);
+        assertEquals(expectedDepartement, result);
     }
 }
