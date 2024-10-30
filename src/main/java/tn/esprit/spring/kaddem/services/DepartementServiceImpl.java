@@ -9,7 +9,6 @@ import tn.esprit.spring.kaddem.repositories.DepartementRepository;
 import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 
@@ -21,6 +20,10 @@ public class DepartementServiceImpl implements IDepartementService{
 		return (List<Departement>) departementRepository.findAll();
 	}
 
+	public  Departement addDepartement (Departement departement){
+		log.info("l'ajout sera faite");
+		return departementRepository.save(departement);
+	}
 
 	public  Departement retrieveDepartement (Integer idDepart){
 		log.info("Récupération d'un departement par ID");

@@ -3,6 +3,7 @@ package tn.esprit.spring.kaddem.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Departement;
+import tn.esprit.spring.kaddem.entities.DepartementDTO;
 import tn.esprit.spring.kaddem.services.IDepartementService;
 
 import java.util.List;
@@ -28,6 +29,15 @@ public class DepartementRestController {
 	@DeleteMapping("/remove-departement/{departement-id}")
 	public void removeDepartement(@PathVariable("departement-id") Integer departementId) {
 		departementService.deleteDepartement(departementId);
+	}
+
+	@PostMapping("/add-departement")
+	public Departement addDepartement(@RequestBody DepartementDTO departementDTO) {
+		// Convertir DepartementDTO en Departement
+		Departement departement = new Departement();
+		departement.setNomDepart(departementDTO.getNomDep()); // Conversion de String en Date
+
+		return departementService.addDepartement(departement);
 	}
 
 
