@@ -14,8 +14,13 @@ import java.util.List;
 
 @Service
 public class DepartementServiceImpl implements IDepartementService{
-	DepartementRepository departementRepository;
-	EtudiantRepository etudiantRepository;
+	final DepartementRepository departementRepository;
+	final EtudiantRepository etudiantRepository;
+
+	public DepartementServiceImpl(DepartementRepository departementRepository, EtudiantRepository etudiantRepository) {
+		this.departementRepository = departementRepository;
+		this.etudiantRepository = etudiantRepository;
+	}
 	public List<Departement> retrieveAllDepartements(){
 		return (List<Departement>) departementRepository.findAll();
 	}
