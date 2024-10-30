@@ -32,12 +32,6 @@ class DepartementServiceImplTest {
     private DepartementServiceImpl departementService;
 
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-
-    }
-
 
     @Test
     void testRetrieveAllDepartements() {
