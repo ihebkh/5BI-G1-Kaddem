@@ -28,9 +28,6 @@ public class EtudiantServiceImpl implements IEtudiantService{
 		return etudiantRepository.save(e);
 	}
 
-	public Etudiant updateEtudiant (Etudiant e){
-		return etudiantRepository.save(e);
-	}
 
 	public Etudiant retrieveEtudiant(Integer  idEtudiant){
 		return etudiantRepository.findById(idEtudiant).orElse(null);

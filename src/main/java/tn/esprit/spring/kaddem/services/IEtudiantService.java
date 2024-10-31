@@ -9,7 +9,6 @@ public interface IEtudiantService {
 
     public Etudiant addEtudiant (Etudiant e);
 
-    public Etudiant updateEtudiant (Etudiant e);
 
     public Etudiant retrieveEtudiant(Integer  idEtudiant);
 
