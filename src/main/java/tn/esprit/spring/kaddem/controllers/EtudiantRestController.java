@@ -3,7 +3,9 @@ package tn.esprit.spring.kaddem.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import tn.esprit.spring.kaddem.entities.Etudiant;
+import tn.esprit.spring.kaddem.entities.EtudiantDTO;
 import tn.esprit.spring.kaddem.services.IEtudiantService;
 
 import java.util.List;
@@ -28,10 +30,13 @@ public class EtudiantRestController {
 
 	// http://localhost:8089/Kaddem/etudiant/add-etudiant
 	@PostMapping("/add-etudiant")
-	public Etudiant addEtudiant(@RequestBody Etudiant e) {
-		Etudiant etudiant = etudiantService.addEtudiant(e);
-		return etudiant;
+	public Etudiant addEtudiant(@RequestBody EtudiantDTO etudiantDTO) {
+		Etudiant etudiant = new Etudiant();
+		etudiant.setNomE(etudiantDTO.getNomE()); // Conversion de String en Date
+		etudiant.setPrenomE(etudiantDTO.getPrenomE());
+		return etudiantService.addEtudiant(etudiant);
 	}
+
 
 	// http://localhost:8089/Kaddem/etudiant/remove-etudiant/1
 	@DeleteMapping("/remove-etudiant/{etudiant-id}")
@@ -39,18 +44,12 @@ public class EtudiantRestController {
 		etudiantService.removeEtudiant(etudiantId);
 	}
 
-	// http://localhost:8089/Kaddem/etudiant/update-etudiant
-	@PutMapping("/update-etudiant")
-	public Etudiant updateEtudiant(@RequestBody Etudiant e) {
-		Etudiant etudiant= etudiantService.updateEtudiant(e);
 
-		return etudiant;
-	}
 
-	//@PutMapping("/affecter-etudiant-departement")
-	@PutMapping(value="/affecter-etudiant-departement/{etudiantId}/{departementId}")
-	public void affecterEtudiantToDepartement(@PathVariable("etudiantId") Integer etudiantId, @PathVariable("departementId")Integer departementId){
-		etudiantService.assignEtudiantToDepartement(etudiantId, departementId);
+	//@PutMapping("/affecter-etudiant-etudiant")
+	@PutMapping(value="/affecter-etudiant-departement/{etudiantId}/{etudiantId}")
+	public void affecterEtudiantToDepartement(@PathVariable("etudiantId") Integer departementId, @PathVariable("etudiantId")Integer etudiantId){
+		etudiantService.assignEtudiantToDepartement(departementId, etudiantId);
     }
 //addAndAssignEtudiantToEquipeAndContract(Etudiant e, Integer idContrat, Integer idEquipe)
     /* Ajouter un étudiant tout en lui affectant un contrat et une équipe */
