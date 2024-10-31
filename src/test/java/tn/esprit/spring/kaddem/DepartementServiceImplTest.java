@@ -1,7 +1,6 @@
 package tn.esprit.spring.kaddem;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.MockitoAnnotations;
+
 import tn.esprit.spring.kaddem.entities.Departement;
 
 import tn.esprit.spring.kaddem.entities.Etudiant;
