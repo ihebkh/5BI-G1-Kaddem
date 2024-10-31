@@ -104,19 +104,24 @@ pipeline {
         }
     }
 
-    post {
-        success {
-            mail bcc: '', body: '''Pipeline Jenkins
+   post {
+       success {
+           mail bcc: '', body: """Pipeline Jenkins
 
-            Final Report: The pipeline has completed successfully. No action required''', cc: '', from: '', replyTo: '', subject: 'Pipeline Jenkins - Success', to: 'khmiriiheb3@gmail.com'
-        }
-        failure {
-            mail bcc: '', body: '''Pipeline Jenkins
+           Final Report: The pipeline has completed successfully. Build number: ${BUILD_NUMBER}. No action required""",
+           cc: '', from: '', replyTo: '', subject: "Pipeline Jenkins - Success - Build #${BUILD_NUMBER}",
+           to: 'khmiriiheb3@gmail.com'
+       }
+       failure {
+           mail bcc: '', body: """Pipeline Jenkins
 
-            Final Report: The pipeline has failed. Please check the logs and take necessary actions.''', cc: '', from: '', replyTo: '', subject: 'Pipeline Jenkins - Failure', to: 'khmiriiheb3@gmail.com'
-        }
-        always {
-            echo 'Pipeline completed.'
-        }
-    }
+           Final Report: The pipeline has failed. Build number: ${BUILD_NUMBER}. Please check the logs and take necessary actions.""",
+           cc: '', from: '', replyTo: '', subject: "Pipeline Jenkins - Failure - Build #${BUILD_NUMBER}",
+           to: 'khmiriiheb3@gmail.com'
+       }
+       always {
+           echo 'Pipeline completed.'
+       }
+   }
+
 }
