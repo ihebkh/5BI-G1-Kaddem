@@ -105,8 +105,18 @@ pipeline {
     }
 
     post {
+        success {
+            mail bcc: '', body: '''Pipeline Jenkins
+
+            Final Report: The pipeline has completed successfully. No action required''', cc: '', from: '', replyTo: '', subject: 'Pipeline Jenkins - Success', to: 'khmiriiheb3@gmail.com'
+        }
+        failure {
+            mail bcc: '', body: '''Pipeline Jenkins
+
+            Final Report: The pipeline has failed. Please check the logs and take necessary actions.''', cc: '', from: '', replyTo: '', subject: 'Pipeline Jenkins - Failure', to: 'khmiriiheb3@gmail.com'
+        }
         always {
-            echo 'Pipeline Finished'
+            echo 'Pipeline completed.'
         }
     }
 }
