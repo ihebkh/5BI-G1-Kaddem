@@ -44,24 +44,6 @@ public class EtudiantRestController {
 	public void removeEtudiant(@PathVariable("etudiant-id") Integer etudiantId) {
 		etudiantService.removeEtudiant(etudiantId);
 	}
-
-
-
-	//@PutMapping("/affecter-etudiant-etudiant")
-	@PutMapping(value="/affecter-etudiant-departement/{etudiantId}/{etudiantId}")
-	public void affecterEtudiantToDepartement(@PathVariable("etudiantId") Integer departementId, @PathVariable("etudiantId")Integer etudiantId){
-		etudiantService.assignEtudiantToDepartement(departementId, etudiantId);
-    }
-//addAndAssignEtudiantToEquipeAndContract(Etudiant e, Integer idContrat, Integer idEquipe)
-    /* Ajouter un étudiant tout en lui affectant un contrat et une équipe */
-
-
-	@GetMapping(value = "/getEtudiantsByDepartement/{idDepartement}")
-	public List<Etudiant> getEtudiantsParDepartement(@PathVariable("idDepartement") Integer idDepartement) {
-
-		return etudiantService.getEtudiantsByDepartement(idDepartement);
-	}
-
 }
 
 
