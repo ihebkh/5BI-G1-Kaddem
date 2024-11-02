@@ -48,7 +48,6 @@ pipeline {
             }
         }
 
-
         stage('JaCoCo Coverage Report') {
             steps {
                 echo 'Publishing JaCoCo Coverage Report'
@@ -64,10 +63,17 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 echo 'Running SonarQube Analysis'
-                sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.33.10:9000 -Dsonar.login=admin -Dsonar.password=201JmT1896@@  -Dsonar.exclusions=src/main/java/tn/esprit/spring/kaddem/entities/.Departement ,src/main/java/tn/esprit/spring/kaddem/entities/Equipe.java,src/main/java/tn/esprit/spring/kaddem/entities/DetailEquipe.java,src/main/java/tn/esprit/spring/kaddem/entities/Etudiant.java,src/main/java/tn/esprit/spring/kaddem/entities/Universite.java'
+                sh '''mvn sonar:sonar -Dsonar.host.url=http://192.168.33.10:9000
+                       -Dsonar.login=admin -Dsonar.password=201JmT1896@@
+                       -Dsonar.exclusions=src/main/java/tn/esprit/spring/kaddem/entities/Departement,
+                       src/main/java/tn/esprit/spring/kaddem/entities/Equipe.java,
+                       src/main/java/tn/esprit/spring/kaddem/entities/DetailEquipe.java,
+                       src/main/java/tn/esprit/spring/kaddem/entities/Etudiant.java,
+                       src/main/java/tn/esprit/spring/kaddem/entities/Universite.java'''
             }
         }
-/*
+
+        /* Uncomment if needed
         stage('Deploy to Nexus') {
             steps {
                 echo 'Deploying to Nexus Repository'
@@ -88,7 +94,7 @@ pipeline {
             steps {
                 script {
                     echo 'Logging into DockerHub and Pushing Image'
-                    sh 'docker login -u ihebkh336 -p a1b2c3IHEB'
+                    sh 'docker login -u ihebkh336 -p $DOCKER_HUB_PASSWORD'
                     sh 'docker push ihebkh336/kaddem:0.0.1'
                 }
             }
@@ -98,31 +104,30 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying with Docker Compose'
-                    // Assurez-vous d'être dans le répertoire contenant docker-compose.yml
                     sh 'docker-compose up -d'
                 }
             }
         }
+        */
+
     }
-*/
-   post {
-       success {
-           mail bcc: '', body: """Pipeline Jenkins
+    post {
+        success {
+            mail to: 'khmiriiheb3@gmail.com',
+                 subject: "Pipeline Jenkins - Success - Build #${BUILD_NUMBER}",
+                 body: """Pipeline Jenkins
 
-           Final Report: The pipeline has completed successfully. Build number: ${BUILD_NUMBER}. No action required""",
-           cc: '', from: '', replyTo: '', subject: "Pipeline Jenkins - Success - Build #${BUILD_NUMBER}",
-           to: 'khmiriiheb3@gmail.com'
-       }
-       failure {
-           mail bcc: '', body: """Pipeline Jenkins
+                 Final Report: The pipeline has completed successfully. Build number: ${BUILD_NUMBER}. No action required."""
+        }
+        failure {
+            mail to: 'khmiriiheb3@gmail.com',
+                 subject: "Pipeline Jenkins - Failure - Build #${BUILD_NUMBER}",
+                 body: """Pipeline Jenkins
 
-           Final Report: The pipeline has failed. Build number: ${BUILD_NUMBER}. Please check the logs and take necessary actions.""",
-           cc: '', from: '', replyTo: '', subject: "Pipeline Jenkins - Failure - Build #${BUILD_NUMBER}",
-           to: 'khmiriiheb3@gmail.com'
-       }
-       always {
-           echo 'Pipeline completed.'
-       }
-   }
-
+                 Final Report: The pipeline has failed. Build number: ${BUILD_NUMBER}. Please check the logs and take necessary actions."""
+        }
+        always {
+            echo 'Pipeline completed.'
+        }
+    }
 }
