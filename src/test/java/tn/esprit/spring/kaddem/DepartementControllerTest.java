@@ -65,15 +65,12 @@ class DepartementControllerTest {
         departementDTO.setNomDep("Informatique");
 
 
-        // Création de l'objet Departement attendu
         Departement expectedDepartement = new Departement();
         expectedDepartement.setNomDepart("Informatique");
 
 
-        // Simulation du comportement du service
         when(departementService.addDepartement(any(Departement.class))).thenReturn(expectedDepartement);
 
-        // Appel de la méthode et vérification
         Departement result = departementRestController.addDepartement(departementDTO);
         assertEquals(expectedDepartement, result);
     }
