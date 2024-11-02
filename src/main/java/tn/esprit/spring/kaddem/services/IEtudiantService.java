@@ -14,8 +14,5 @@ public interface IEtudiantService {
 
     public void removeEtudiant(Integer idEtudiant);
 
-    public void assignEtudiantToDepartement (Integer etudiantId, Integer departementId);
 
-
-    public 	List<Etudiant> getEtudiantsByDepartement (Integer idDepartement);
 }
