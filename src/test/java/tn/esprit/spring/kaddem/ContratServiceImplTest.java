@@ -214,6 +214,22 @@ class ContratServiceImplTest {
         assertEquals(expectedChiffreAffaire, result, 0.01);
         verify(contratRepository, times(1)).findAll();
     }
+    @Test
+    void testGetChiffreAffaireEntreDeuxDates_NoContracts() {
+        // Arrange
+        Date startDate = new Date();
+        Date endDate = new Date(startDate.getTime() + (30L * 24 * 60 * 60 * 1000)); // 1 month later
+
+        // Mock an empty list of contracts
+        when(contratRepository.findAll()).thenReturn(Collections.emptyList());
+
+        // Act
+        float result = contratService.getChiffreAffaireEntreDeuxDates(startDate, endDate);
+
+        // Assert
+        assertEquals(0, result, "Expected chiffre d'affaires to be 0 when no contracts are found.");
+        verify(contratRepository, times(1)).findAll();
+    }
 
 
 
