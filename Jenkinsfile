@@ -108,7 +108,7 @@ pipeline {
             steps {
                 script {
                     echo 'Logging into DockerHub and Pushing Image'
-                    sh 'docker login -u ihebkh336 -p $DOCKER_HUB_PASSWORD'
+                    sh 'docker login -u ihebkh336 -p a1b2c3IHEB'
                     sh 'docker push ihebkh336/kaddem:0.0.1'
                 }
             }
