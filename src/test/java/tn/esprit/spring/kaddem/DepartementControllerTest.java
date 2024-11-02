@@ -90,7 +90,7 @@ class DepartementControllerTest {
     }
 
     @Test
-    public void testAssignDepartementToEtudiants_NullStudentList_NoException() {
+    void testAssignDepartementToEtudiants_NullStudentList_NoException() {
         Integer departementId = 1;
         Departement expectedDepartement = new Departement();
         expectedDepartement.setIdDepart(departementId);
