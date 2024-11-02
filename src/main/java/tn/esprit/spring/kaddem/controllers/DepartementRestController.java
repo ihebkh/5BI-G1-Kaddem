@@ -39,6 +39,13 @@ public class DepartementRestController {
 		return departementService.addDepartement(departement);
 	}
 
+	@PostMapping("/{departementId}/assign")
+	public Departement assignDepartementToEtudiants(
+			@PathVariable Integer departementId,
+			@RequestBody List<Integer> etudiantIds) {
+        return departementService.affectDepartementToEtudiants(departementId, etudiantIds);
+	}
+
 
 }
 

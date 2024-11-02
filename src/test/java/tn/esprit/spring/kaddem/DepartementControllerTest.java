@@ -11,6 +11,7 @@ import tn.esprit.spring.kaddem.services.IDepartementService;
 import java.util.Arrays;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 class DepartementControllerTest {
@@ -74,4 +75,37 @@ class DepartementControllerTest {
         Departement result = departementRestController.addDepartement(departementDTO);
         assertEquals(expectedDepartement, result);
     }
+
+    @Test
+    void testAssignDepartementToEtudiant() {
+        Integer idDepartement = 1;
+        List<Integer> etudiantIds = Arrays.asList(1, 2);
+
+        Departement expectedDepartement = new Departement();
+        expectedDepartement.setIdDepart(idDepartement);
+        when(departementService.affectDepartementToEtudiants(idDepartement, etudiantIds)).thenReturn(expectedDepartement);
+        Departement actualDepartement = departementRestController.assignDepartementToEtudiants(idDepartement, etudiantIds);
+        assertEquals(expectedDepartement, actualDepartement);
+        verify(departementService, times(1)).affectDepartementToEtudiants(idDepartement, etudiantIds);
+    }
+
+    @Test
+    public void testAssignDepartementToEtudiants_NullStudentList_NoException() {
+        Integer departementId = 1;
+        Departement expectedDepartement = new Departement();
+        expectedDepartement.setIdDepart(departementId);
+
+        // Mock the service to return the department without performing any assignment
+        when(departementService.affectDepartementToEtudiants(departementId, null)).thenReturn(expectedDepartement);
+
+        // Call the method with null etudiantIds
+        Departement result = departementRestController.assignDepartementToEtudiants(departementId, null);
+
+        // Verify that the department is returned without modifications
+        assertNotNull(result);
+        assertEquals(departementId, result.getIdDepart());
+        verify(departementService, times(1)).affectDepartementToEtudiants(departementId, null);
+    }
+
+
 }
