@@ -108,4 +108,21 @@ class DepartementControllerTest {
     }
 
 
+    @Test
+    void testCountStudentsInDepartement() {
+        Integer departementId = 1;
+        long expectedCount = 5;
+
+        // Mock the service call
+        when(departementService.countStudentsInDepartement(departementId)).thenReturn(expectedCount);
+
+        // Call the controller method
+        long actualCount = departementRestController.countStudentsInDepartement(departementId);
+
+        // Verify the result and service interaction
+        assertEquals(expectedCount, actualCount);
+        verify(departementService, times(1)).countStudentsInDepartement(departementId);
+    }
+
+
 }

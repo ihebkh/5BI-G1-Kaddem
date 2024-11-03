@@ -15,4 +15,6 @@ public interface IDepartementService {
 
     public void removeEtudiantFromDepartement(Integer etudiantId);
 
+    long countStudentsInDepartement(Integer departementId);
+
 }

@@ -205,6 +205,21 @@ class DepartementServiceImplTest {
         verify(departementRepository, times(1)).save(departement);
     }
 
+    @Test
+    void countStudentsInDepartement() {
+        Integer departmentId = 1;
+        long expectedCount = 5;
+
+        // Mock the repository response
+        when(etudiantRepository.countEtudiantsByDepartement_IdDepart(departmentId)).thenReturn(expectedCount);
+
+        // Call the service method
+        long actualCount = departementService.countStudentsInDepartement(departmentId);
+
+        // Assert the result
+        assertEquals(expectedCount, actualCount);
+    }
+
 
 
 }

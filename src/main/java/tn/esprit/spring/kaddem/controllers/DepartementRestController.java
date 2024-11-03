@@ -46,6 +46,12 @@ public class DepartementRestController {
         return departementService.affectDepartementToEtudiants(departementId, etudiantIds);
 	}
 
+	@GetMapping("/{departementId}/students/count")
+	public long countStudentsInDepartement(@PathVariable Integer departementId) {
+		return departementService.countStudentsInDepartement(departementId);
+	}
+
+
 
 }
 

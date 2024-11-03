@@ -66,6 +66,11 @@ public class DepartementServiceImpl implements IDepartementService{
 		}
 	}
 
+	public long countStudentsInDepartement(Integer departementId) {
+		log.info("Counting students in department ID: {}", departementId);
+		return etudiantRepository.countEtudiantsByDepartement_IdDepart(departementId);
+	}
+
 
 
 }
