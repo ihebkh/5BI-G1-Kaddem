@@ -64,9 +64,9 @@ pipeline {
            steps {
                sh '''
                    mvn sonar:sonar \
-                       -Dsonar.host.url=http://192.168.263.131:9000 \
+                       -Dsonar.host.url=http://192.168.33.10:9000 \
                        -Dsonar.login=admin \
-                       -Dsonar.password=201jMt2340 \
+                       -Dsonar.password=201jMt2340@@ \
                        -Dsonar.exclusions="src/main/java/tn/esprit/spring/kaddem/entities/Equipe.java,
                        src/main/java/tn/esprit/spring/kaddem/entities/DetailEquipe.java,
                        src/main/java/tn/esprit/spring/kaddem/entities/Etudiant.java,
@@ -108,7 +108,7 @@ pipeline {
             steps {
                 script {
                     echo 'Logging into DockerHub and Pushing Image'
-                    sh 'docker login -u laifiaahmed -p 201jMt2340'
+                    sh 'docker login -u laifiaahmed -p 201jmt2340'
                     sh 'docker push laifiaahmed/kaddem:0.0.1'
                 }
             }
