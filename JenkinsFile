@@ -99,7 +99,7 @@ pipeline {
             steps {
                 script {
                     echo 'Building Docker Image'
-                    def dockerImage = docker.build("ihebkh336/kaddem:0.0.1")
+                    def dockerImage = docker.build("laifiaahmed/kaddem:0.0.1")
                 }
             }
         }
