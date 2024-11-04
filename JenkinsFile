@@ -99,7 +99,7 @@ pipeline {
             steps {
                 script {
                     echo 'Building Docker Image'
-                    def dockerImage = docker.build("laifiaahmed/kaddem:0.0.1")
+                    def dockerImage = docker.build("yasmineoues/kaddem:0.0.1")
                 }
             }
         }
@@ -108,7 +108,7 @@ pipeline {
             steps {
                 script {
                     echo 'Logging into DockerHub and Pushing Image'
-                    sh 'docker login -u laifiaahmed -p 201jmt2340'
+                    sh 'docker login -u yasmineoues -p 201jFt3869'
                     sh 'docker push laifiaahmed/kaddem:0.0.1'
                 }
             }
