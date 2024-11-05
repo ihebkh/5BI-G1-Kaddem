@@ -127,7 +127,7 @@ pipeline {
     }
     post {
         success {
-            echo 'completed'
+            echo 'success'
         }
         failure {
            echo 'error'
