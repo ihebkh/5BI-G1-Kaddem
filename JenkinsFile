@@ -109,7 +109,7 @@ pipeline {
                 script {
                     echo 'Logging into DockerHub and Pushing Image'
                     sh 'docker login -u yasmineoues -p 201jFt3869'
-                    sh 'docker push laifiaahmed/kaddem:0.0.1'
+                    sh 'docker push yasmineoues/kaddem:0.0.1'
                 }
             }
         }
