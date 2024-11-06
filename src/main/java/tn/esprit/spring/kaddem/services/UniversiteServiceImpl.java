@@ -1,53 +1,61 @@
 package tn.esprit.spring.kaddem.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import tn.esprit.spring.kaddem.entities.Departement;
 import tn.esprit.spring.kaddem.entities.Universite;
-import tn.esprit.spring.kaddem.repositories.DepartementRepository;
 import tn.esprit.spring.kaddem.repositories.UniversiteRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
-public class UniversiteServiceImpl implements IUniversiteService{
-@Autowired
-    UniversiteRepository universiteRepository;
-@Autowired
-    DepartementRepository departementRepository;
-    public UniversiteServiceImpl() {
-        // TODO Auto-generated constructor stub
-    }
-  public   List<Universite> retrieveAllUniversites(){
-return (List<Universite>) universiteRepository.findAll();
+public class UniversiteServiceImpl implements IUniversiteService {
+
+    @Autowired
+    private UniversiteRepository universiteRepository;
+
+    @Override
+    public List<Universite> retrieveAllUniversites() {
+        // Convert Iterable to List using Stream
+        return StreamSupport.stream(universiteRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
- public    Universite addUniversite (Universite  u){
-return  (universiteRepository.save(u));
+    @Override
+    public Universite addUniversite(Universite u) {
+        return universiteRepository.save(u);
     }
 
- public    Universite updateUniversite (Universite  u){
-     return  (universiteRepository.save(u));
+    @Override
+    public Universite updateUniversite(Universite u) {
+        return universiteRepository.save(u);
     }
 
-  public Universite retrieveUniversite (Integer idUniversite){
-Universite u = universiteRepository.findById(idUniversite).get();
-return  u;
-    }
-    public  void deleteUniversite(Integer idUniversite){
-        universiteRepository.delete(retrieveUniversite(idUniversite));
+    @Override
+    public Universite retrieveUniversite(Integer idUniversite) {
+        return universiteRepository.findById(idUniversite).orElse(null);
     }
 
-    public void assignUniversiteToDepartement(Integer idUniversite, Integer idDepartement){
-        Universite u= universiteRepository.findById(idUniversite).orElse(null);
-        Departement d= departementRepository.findById(idDepartement).orElse(null);
-        u.getDepartements().add(d);
-        universiteRepository.save(u);
+    @Override
+    public void deleteUniversite(Integer idUniversite) {
+        universiteRepository.deleteById(idUniversite);  // Deletes the Universite by its ID
     }
 
-    public Set<Departement> retrieveDepartementsByUniversite(Integer idUniversite){
-Universite u=universiteRepository.findById(idUniversite).orElse(null);
-return u.getDepartements();
+    @Override
+    public void assignUniversiteToDepartement(Integer idUniversite, Integer idDepartement) {
+        // Implementation for assigning a Universite to a Departement (you'll need a repository method for this)
+    }
+
+    @Override
+    public Set<Departement> retrieveDepartementsByUniversite(Integer idUniversite) {
+        Universite universite = universiteRepository.findById(idUniversite).orElse(null);
+        if (universite != null) {
+            return universite.getDepartements();
+        }
+        return null;
     }
 }

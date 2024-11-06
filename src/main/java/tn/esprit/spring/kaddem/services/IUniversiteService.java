@@ -7,19 +7,18 @@ import java.util.List;
 import java.util.Set;
 
 public interface IUniversiteService {
-   public List<Universite> retrieveAllUniversites();
 
-    Universite addUniversite (Universite  u);
+ public List<Universite> retrieveAllUniversites();
 
-    Universite updateUniversite (Universite  u);
+ Universite addUniversite(Universite u);
 
-    Universite retrieveUniversite (Integer idUniversite);
+ Universite updateUniversite(Universite u);
 
-    public  void deleteUniversite(Integer idUniversite);
+ Universite retrieveUniversite(Integer idUniversite);
 
-    public void assignUniversiteToDepartement(Integer idUniversite, Integer idDepartement);
+ public void deleteUniversite(Integer idUniversite);
 
-    public Set<Departement> retrieveDepartementsByUniversite(Integer idUniversite);
+ public void assignUniversiteToDepartement(Integer idUniversite, Integer idDepartement);
 
-
+ public Set<Departement> retrieveDepartementsByUniversite(Integer idUniversite);
 }
