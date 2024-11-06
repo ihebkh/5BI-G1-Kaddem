@@ -40,7 +40,6 @@ public class DepartementServiceImpl implements IDepartementService{
 		departementRepository.delete(d);
 	}
 
-	// Method to affect a Departement to a list of Etudiants
 	public Departement affectDepartementToEtudiants(Integer departementId, List<Integer> etudiantIds) {
 		Departement departement = retrieveDepartement(departementId); // Retrieve the departement
 		List<Etudiant> etudiants = (List<Etudiant>) etudiantRepository.findAllById(etudiantIds); // Retrieve students
@@ -70,6 +69,7 @@ public class DepartementServiceImpl implements IDepartementService{
 		log.info("Counting students in department ID: {}", departementId);
 		return etudiantRepository.countEtudiantsByDepartement_IdDepart(departementId);
 	}
+
 
 
 

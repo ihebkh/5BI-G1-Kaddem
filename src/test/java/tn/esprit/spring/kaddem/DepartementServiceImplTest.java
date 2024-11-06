@@ -119,13 +119,11 @@ class DepartementServiceImplTest {
 
     @Test
     void testAssignEtudiantsToDepartement() {
-        // Arrange
         Departement departement = new Departement(1, "Computer Science");
         Etudiant etudiant1 = new Etudiant(1, "John", "Doe", null);
         Etudiant etudiant2 = new Etudiant(2, "Jane", "Doe", null);
         List<Integer> etudiantIds = Arrays.asList(etudiant1.getIdEtudiant(), etudiant2.getIdEtudiant());
 
-        // Mock repository calls
         when(departementRepository.findById(1)).thenReturn(Optional.of(departement));
         when(etudiantRepository.findAllById(etudiantIds)).thenReturn(Arrays.asList(etudiant1, etudiant2));
 
@@ -164,14 +162,11 @@ class DepartementServiceImplTest {
         Etudiant etudiant1 = new Etudiant(1, "John", "Doe", null);
         List<Integer> etudiantIds = Arrays.asList(etudiant1.getIdEtudiant(), 999); // 999 does not exist
 
-        // Mock repository calls
         when(departementRepository.findById(1)).thenReturn(Optional.of(departement));
         when(etudiantRepository.findAllById(etudiantIds)).thenReturn(Collections.singletonList(etudiant1)); // Only one found
 
-        // Act
         Departement assignedDepartement = departementService.affectDepartementToEtudiants(1, etudiantIds);
 
-        // Assert
         assertEquals(1, assignedDepartement.getIdDepart());
         assertEquals(departement, etudiant1.getDepartement());
 
@@ -219,7 +214,4 @@ class DepartementServiceImplTest {
         // Assert the result
         assertEquals(expectedCount, actualCount);
     }
-
-
-
 }

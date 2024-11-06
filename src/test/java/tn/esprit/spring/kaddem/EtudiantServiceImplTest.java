@@ -35,13 +35,10 @@ class EtudiantServiceImplTest {
         Etudiant etudiant2 = new Etudiant();
         List<Etudiant> expectedEtudiants = Arrays.asList(etudiant1, etudiant2);
 
-        // Simulation du comportement du repository
         when(etudiantRepository.findAll()).thenReturn(expectedEtudiants);
 
-        // Appel de la méthode de service
         List<Etudiant> actualEtudiants = etudiantService.retrieveAllEtudiants();
 
-        // Vérification du résultat
         assertEquals(expectedEtudiants, actualEtudiants);
         verify(etudiantRepository, times(1)).findAll();
     }
