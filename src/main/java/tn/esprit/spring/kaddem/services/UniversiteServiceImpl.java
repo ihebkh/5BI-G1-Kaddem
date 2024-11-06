@@ -58,4 +58,12 @@ public class UniversiteServiceImpl implements IUniversiteService {
         }
         return null;
     }
+
+
+    @Override
+    public void removeUniversite(Integer idUniversite) {
+        universiteRepository.deleteById(idUniversite);
+    }
+
+
 }
