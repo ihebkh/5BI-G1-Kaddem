@@ -73,12 +73,15 @@ class UniversiteServiceImplTest {
 
     @Test
     void testRemoveUniversite() {
-        Integer idUniversite = 1;
-        Universite universite = new Universite(idUniversite, "University E");
-        when(universiteRepository.findById(idUniversite)).thenReturn(Optional.of(universite));
+        Universite universite = new Universite();
+        universite.setIdUniv(1);
 
-        universiteService.removeUniversite(idUniversite);
+        // Mocking deleteById instead of delete
+        doNothing().when(universiteRepository).deleteById(1);
 
-        verify(universiteRepository, times(1)).delete(universite);
+        universiteService.removeUniversite(1);
+
+        verify(universiteRepository, times(1)).deleteById(1); // Checking that deleteById was called
     }
+
 }
