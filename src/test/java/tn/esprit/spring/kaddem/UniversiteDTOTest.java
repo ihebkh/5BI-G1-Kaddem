@@ -36,11 +36,17 @@ class UniversiteDTOTest {
         // Arrange
         UniversiteDTO universiteDTO1 = new UniversiteDTO(1, "esprit");
         UniversiteDTO universiteDTO2 = new UniversiteDTO(1, "esprit");
+        UniversiteDTO universiteDTO3 = new UniversiteDTO(2, "polytech");
 
-        // Assert
+        // Assert: Equality check
         assertThat(universiteDTO1).isEqualTo(universiteDTO2);
         assertThat(universiteDTO1.hashCode()).isEqualTo(universiteDTO2.hashCode());
+
+        // Assert: Inequality check
+        assertThat(universiteDTO1).isNotEqualTo(universiteDTO3);
+        assertThat(universiteDTO1.hashCode()).isNotEqualTo(universiteDTO3.hashCode());
     }
+
 
     @Test
     void testToString() {
@@ -48,6 +54,9 @@ class UniversiteDTOTest {
         UniversiteDTO universiteDTO = new UniversiteDTO(1, "esprit");
 
         // Act & Assert
-        assertThat(universiteDTO.toString()).contains("idUniv=1", "nomUniv='esprit'");
+        String toStringResult = universiteDTO.toString();
+        assertThat(toStringResult).contains("idUniv=" + universiteDTO.getIdUniv(), "nomUniv='" + universiteDTO.getNomUniv() + "'");
+        // This makes sure the toString result contains the expected values
     }
+
 }

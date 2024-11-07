@@ -1,6 +1,7 @@
 // UniversiteDTO.java
 package tn.esprit.spring.kaddem.entities;
 
+import java.util.Objects;
 import java.util.Set;
 
 public class UniversiteDTO {
@@ -44,4 +45,24 @@ public class UniversiteDTO {
     public void setDepartements(Set<DepartementDTO> departements) {
         this.departements = departements;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        UniversiteDTO that = (UniversiteDTO) obj;
+        return idUniv == that.idUniv && nomUniv.equals(that.nomUniv);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idUniv, nomUniv);
+    }
+
+
+    @Override
+    public String toString() {
+        return "UniversiteDTO{idUniv=" + idUniv + ", nomUniv='" + nomUniv + "'}";
+    }
+
 }
