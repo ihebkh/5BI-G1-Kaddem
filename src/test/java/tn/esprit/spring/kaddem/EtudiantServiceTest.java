@@ -41,7 +41,7 @@ public class EtudiantServiceTest {
     }
     @Test
     void testAddEtudiant() {
-        Etudiant etudiant = new Etudiant("A");
+        Etudiant etudiant = new Etudiant("Etudiant: Nom: A");
         when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
 
         Etudiant result = etudiantService.addEtudiant(etudiant);
