@@ -16,6 +16,7 @@ import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -42,7 +43,16 @@ public class EtudiantServiceImpl implements IEtudiantService{
 	}
 
 	public Etudiant updateEtudiant (Etudiant e){
-		return etudiantRepository.save(e);
+		Optional<Etudiant> existingEtudiant = etudiantRepository.findById(e.getIdEtudiant()); // Utilisez 'e' ici
+		if (existingEtudiant.isPresent()) {
+			Etudiant etudiantToUpdate = existingEtudiant.get();
+			etudiantToUpdate.setNomE(e.getNomE()); // Utilisez 'e' ici
+			etudiantToUpdate.setPrenomE(e.getPrenomE()); // Utilisez 'e' ici
+			// Vous pouvez ajouter d'autres mises à jour ici si nécessaire.
+			return etudiantRepository.save(etudiantToUpdate); // Sauvegarde de l'étudiant mis à jour
+		} else {
+			return null; // Si l'étudiant n'existe pas
+		}
 	}
 
 	public Etudiant retrieveEtudiant(Integer  idEtudiant){

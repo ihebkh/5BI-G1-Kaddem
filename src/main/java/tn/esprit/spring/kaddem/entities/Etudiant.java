@@ -32,7 +32,7 @@ public class Etudiant implements Serializable{
     @JsonIgnore
   //  private Set<Equipe> equipes ;
     private List<Equipe> equipes ;
-    public Etudiant() {
+    public Etudiant(int i, String prenomE, String s) {
         // TODO Auto-generated constructor stub
     }
 

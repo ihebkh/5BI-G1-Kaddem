@@ -17,6 +17,7 @@ import tn.esprit.spring.kaddem.services.EtudiantServiceImpl;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -52,14 +53,21 @@ public class EtudiantServiceTest {
     }
     @Test
     void testUpdateEtudiant() {
-        Etudiant etudiant = new Etudiant("Nom: A", "Prenom: B");
-        when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
+        // Créer un étudiant existant avec un ID connu
+        Etudiant existingEtudiant = new Etudiant(4, "Nom: A", "Prenom: B"); // Assurez-vous que l'ID existe
+        when(etudiantRepository.findById(4)).thenReturn(Optional.of(existingEtudiant)); // Simuler l'existence de l'étudiant avec l'ID 4
+        when(etudiantRepository.save(existingEtudiant)).thenReturn(existingEtudiant); // Simuler la mise à jour
 
-        Etudiant result = etudiantService.updateEtudiant(etudiant);
+        // Créer un étudiant à mettre à jour
+        Etudiant updatedEtudiant = new Etudiant(4, "Nom: A", "Prenom: B Updated");
 
+        // Appeler la méthode de mise à jour
+        Etudiant result = etudiantService.updateEtudiant(updatedEtudiant);
+
+        // Vérifier que l'étudiant a bien été mis à jour
         assertNotNull(result);
         assertEquals("Nom: A", result.getNomE());
-        assertEquals("Prenom: B", result.getPrenomE());
-        verify(etudiantRepository, times(1)).save(etudiant);
+        assertEquals("Prenom: B Updated", result.getPrenomE()); // Assurez-vous que le prénom a été mis à jour
+        verify(etudiantRepository, times(1)).save(existingEtudiant); // Vérifier que save a été appelé une fois
     }
 }
