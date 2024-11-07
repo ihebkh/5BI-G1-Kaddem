@@ -5,9 +5,9 @@ import tn.esprit.spring.kaddem.entities.Universite;
 import tn.esprit.spring.kaddem.repositories.DepartementRepository;
 import tn.esprit.spring.kaddem.repositories.UniversiteRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,11 +16,14 @@ import java.util.stream.StreamSupport;
 @Service
 public class UniversiteServiceImpl implements IUniversiteService {
 
-    @Autowired
-    private UniversiteRepository universiteRepository;
+    private final UniversiteRepository universiteRepository;
+    private final DepartementRepository departementRepository;
 
-    @Autowired
-    private DepartementRepository departementRepository;
+    // Constructor injection
+    public UniversiteServiceImpl(UniversiteRepository universiteRepository, DepartementRepository departementRepository) {
+        this.universiteRepository = universiteRepository;
+        this.departementRepository = departementRepository;
+    }
 
     @Override
     public List<Universite> retrieveAllUniversites() {
@@ -46,21 +49,20 @@ public class UniversiteServiceImpl implements IUniversiteService {
 
     @Override
     public void deleteUniversite(Integer idUniversite) {
-        universiteRepository.deleteById(idUniversite);  // Deletes the Universite by its ID
+        universiteRepository.deleteById(idUniversite);
     }
 
     @Override
     public void assignUniversiteToDepartement(Integer idUniversite, Integer idDepartement) {
-        Universite universite = universiteRepository.findById(idUniversite).orElseThrow(() -> new IllegalArgumentException("University not found"));
-        Departement departement = departementRepository.findById(idDepartement).orElseThrow(() -> new IllegalArgumentException("Departement not found"));
+        Universite universite = universiteRepository.findById(idUniversite)
+                .orElseThrow(() -> new IllegalArgumentException("University not found"));
+        Departement departement = departementRepository.findById(idDepartement)
+                .orElseThrow(() -> new IllegalArgumentException("Departement not found"));
 
-        // Ensure departements set is initialized (already done in the entity constructor)
         universite.getDepartements().add(departement);
 
-        universiteRepository.save(universite);  // Save after adding departement
+        universiteRepository.save(universite);
     }
-
-
 
     @Override
     public Set<Departement> retrieveDepartementsByUniversite(Integer idUniversite) {
@@ -68,14 +70,12 @@ public class UniversiteServiceImpl implements IUniversiteService {
         if (universite != null) {
             return universite.getDepartements();
         }
-        return null;
+        // Return an empty set instead of null
+        return Collections.emptySet();
     }
-
 
     @Override
     public void removeUniversite(Integer idUniversite) {
         universiteRepository.deleteById(idUniversite);
     }
-
-
 }
