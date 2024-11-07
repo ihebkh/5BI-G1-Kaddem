@@ -14,7 +14,7 @@ class UniversiteDTOTest {
 
         // Act
         universiteDTO.setIdUniv(1);
-        universiteDTO.setNomUniv("Engineering University");
+        universiteDTO.setNomUniv("esprit");
 
         // Assert
         assertThat(universiteDTO.getIdUniv()).isEqualTo(1);
