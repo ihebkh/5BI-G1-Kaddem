@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@AllArgsConstructor
+//@AllArgsConstructor
 @RequestMapping("/universite")
 public class UniversiteRestController {
 
