@@ -80,9 +80,9 @@ pipeline {
                        src/main/java/tn/esprit/spring/kaddem/KaddemApplication.java,
                        src/main/java/tn/esprit/spring/kaddem/entities/Niveau.java,
                        src/main/java/tn/esprit/spring/kaddem/entities/Option.java,
-                       src/main/java/tn/esprit/spring/kaddem/entities/Universite.java,
-                       src/main/java/tn/esprit/spring/kaddem/controllers/UniversiteRestController.java,
-                       src/main/java/tn/esprit/spring/kaddem/services/UniversiteServiceImpl.java"
+                       src/main/java/tn/esprit/spring/kaddem/entities/Contrat.java,
+                       src/main/java/tn/esprit/spring/kaddem/controllers/ContratRestController.java,
+                       src/main/java/tn/esprit/spring/kaddem/services/ContratServiceImpl.java"
                '''
            }
        }
@@ -127,13 +127,19 @@ pipeline {
     }
     post {
         success {
-           echo 'mchet.'
+           echo 'Build finished successfully!'
+                      mail to: 'ahmedlaifia1@gmail.com',
+                           subject: "Jenkins Job Successful: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+                           body: "Good news ahmed wallah maalem ! The job ${env.JOB_NAME} [${env.BUILD_NUMBER}] has finished successfully."
         }
         failure {
 echo 'mamchetech.'
         }
         always {
-            echo 'Pipeline completed.'
+             echo 'Build failed!'
+                        mail to: 'ahmedlaifia1@gmail.com',
+                             subject: "Jenkins Job Failed: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+                             body: "Yaa ltif ahmed mech menek rahou ,the job ${env.JOB_NAME} [${env.BUILD_NUMBER}] has failed. Please check the Jenkins console output for details."
         }
     }
 }
