@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Departement;
 import tn.esprit.spring.kaddem.entities.Universite;
 import tn.esprit.spring.kaddem.services.IUniversiteService;
+import tn.esprit.spring.kaddem.services.UniversiteServiceImpl;
 
 import java.util.List;
 import java.util.Set;
@@ -17,8 +18,15 @@ import java.util.Set;
 @RequestMapping("/universite")
 public class UniversiteRestController {
 
+	//@Autowired
+	//private IUniversiteService universiteService;
+
+	private final UniversiteServiceImpl universiteService;
+
 	@Autowired
-	private IUniversiteService universiteService;
+	public UniversiteRestController(UniversiteServiceImpl universiteService) {
+		this.universiteService = universiteService;
+	}
 
 	// Endpoint to retrieve all universities
 	@GetMapping("/retrieve-all-universites")
