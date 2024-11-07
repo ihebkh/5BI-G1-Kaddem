@@ -17,7 +17,8 @@ public class EtudiantRestController {
 	// http://localhost:8089/Kaddem/etudiant/retrieve-all-etudiants
 	@GetMapping("/retrieve-all-etudiants")
 	public List<Etudiant> getEtudiants() {
-		return etudiantService.retrieveAllEtudiants();
+		List<Etudiant> listEtudiants = etudiantService.retrieveAllEtudiants();
+		return listEtudiants;
 
 	}
 	// http://localhost:8089/Kaddem/etudiant/retrieve-etudiant/8

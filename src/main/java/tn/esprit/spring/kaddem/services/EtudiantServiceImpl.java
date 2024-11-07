@@ -17,6 +17,8 @@ import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @Slf4j
@@ -29,8 +31,10 @@ public class EtudiantServiceImpl implements IEtudiantService{
 	EquipeRepository equipeRepository;
     @Autowired
     DepartementRepository departementRepository;
-	public List<Etudiant> retrieveAllEtudiants(){
-	return (List<Etudiant>) etudiantRepository.findAll();
+	public List<Etudiant> retrieveAllEtudiants() {
+		// Use the injected repository instance to call findAll()
+		return StreamSupport.stream(etudiantRepository.findAll().spliterator(), false)
+				.collect(Collectors.toList());
 	}
 
 	public Etudiant addEtudiant (Etudiant e){
