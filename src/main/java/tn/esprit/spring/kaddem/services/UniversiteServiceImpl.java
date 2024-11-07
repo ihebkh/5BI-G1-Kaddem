@@ -51,15 +51,15 @@ public class UniversiteServiceImpl implements IUniversiteService {
 
     @Override
     public void assignUniversiteToDepartement(Integer idUniversite, Integer idDepartement) {
-        Universite universite = universiteRepository.findById(idUniversite)
-                .orElseThrow(() -> new IllegalArgumentException("Universite not found"));
-        Departement departement = departementRepository.findById(idDepartement)
-                .orElseThrow(() -> new IllegalArgumentException("Departement not found"));
+        Universite universite = universiteRepository.findById(idUniversite).orElseThrow(() -> new IllegalArgumentException("University not found"));
+        Departement departement = departementRepository.findById(idDepartement).orElseThrow(() -> new IllegalArgumentException("Departement not found"));
 
-        // Assuming Universite has a list or set of Departement objects
+        // Ensure departements set is initialized (already done in the entity constructor)
         universite.getDepartements().add(departement);
-        universiteRepository.save(universite);
+
+        universiteRepository.save(universite);  // Save after adding departement
     }
+
 
 
     @Override

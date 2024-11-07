@@ -117,6 +117,7 @@ class UniversiteServiceImplTest {
         // Arrange
         Universite universite = new Universite();
         universite.setIdUniv(1);
+        universite.setDepartements(new HashSet<>()); // Make sure it's initialized in the test
         Departement departement = new Departement();
         departement.setIdDepart(1);
 
@@ -129,7 +130,8 @@ class UniversiteServiceImplTest {
         // Assert
         verify(universiteRepository, times(1)).findById(1);
         verify(departementRepository, times(1)).findById(1);
-        verify(universiteRepository, times(1)).save(any(Universite.class));
+        verify(universiteRepository, times(1)).save(any(Universite.class));  // Ensure save was called
     }
+
 
 }
