@@ -32,7 +32,7 @@ public class UniversiteRestController {
 		List<Universite> listUniversites = universiteService.retrieveAllUniversites();
 		List<UniversiteDTO> universiteDTOs = listUniversites.stream()
 				.map(this::convertToDTO)
-				.collect(Collectors.toList());
+			 	.collect(Collectors.toList());
 		return new ResponseEntity<>(universiteDTOs, HttpStatus.OK);
 	}
 
@@ -98,10 +98,5 @@ public class UniversiteRestController {
 		return dto;
 	}
 
-	private Departement convertToEntity(DepartementDTO dto) {
-		Departement departement = new Departement();
-		departement.setIdDepart(dto.getIdDepart());
-		departement.setNomDepart(dto.getNomDepart());
-		return departement;
-	}
+
 }
