@@ -31,9 +31,9 @@ public class EtudiantRestController {
 
 	// http://localhost:8089/Kaddem/etudiant/add-etudiant
 	@PostMapping("/add-etudiant")
-	public Etudiant addEtudiant(@RequestBody Etudiant e) {
-		Etudiant etudiant = etudiantService.addEtudiant(e);
-		return etudiant;
+	public ResponseEntity<Etudiant> createEtudiant(@RequestBody Etudiant etudiant) {
+		Etudiant savedEtudiant = etudiantService.addEtudiant(etudiant);
+		return new ResponseEntity<>(savedEtudiant, HttpStatus.CREATED);
 	}
 
 	// http://localhost:8089/Kaddem/etudiant/remove-etudiant/1

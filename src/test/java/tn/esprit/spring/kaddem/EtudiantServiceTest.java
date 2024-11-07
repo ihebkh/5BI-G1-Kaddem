@@ -39,4 +39,15 @@ public class EtudiantServiceTest {
         assertEquals(1, result.size());
         verify(etudiantRepository, times(1)).findAll();
     }
+    @Test
+    void testAddEtudiant() {
+        Etudiant etudiant = new Etudiant("Etudiant: Nom: A" , "Prenom: B");
+        when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
+
+        Etudiant result = etudiantService.addEtudiant(etudiant);
+
+        assertNotNull(result);
+        assertEquals("Etudiant B", result.getNomE());
+        verify(etudiantRepository, times(1)).save(etudiant);
+    }
 }
