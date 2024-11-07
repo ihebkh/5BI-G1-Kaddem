@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import tn.esprit.spring.kaddem.entities.Departement;
 import tn.esprit.spring.kaddem.entities.Universite;
+import tn.esprit.spring.kaddem.repositories.DepartementRepository;
 import tn.esprit.spring.kaddem.repositories.UniversiteRepository;
 
 import java.util.*;
@@ -20,6 +21,12 @@ class UniversiteServiceImplTest {
 
     @InjectMocks
     private UniversiteServiceImpl universiteService;
+
+    @InjectMocks
+    private DepartementServiceImpl departementService;
+
+    @Mock
+    private DepartementRepository departementRepository;
 
     @Mock
     private UniversiteRepository universiteRepository;
@@ -107,17 +114,22 @@ class UniversiteServiceImplTest {
 
     @Test
     void testAssignUniversiteToDepartement() {
-        Integer universiteId = 1;
-        Integer departementId = 1;
-        Universite universite = new Universite(universiteId, "University E");
-        Departement departement = new Departement(departementId, "Department E");
+        // Arrange
+        Universite universite = new Universite();
+        universite.setIdUniv(1);
+        Departement departement = new Departement();
+        departement.setIdDepart(1);
 
-        when(universiteRepository.findById(universiteId)).thenReturn(Optional.of(universite));
-        when(universiteRepository.save(universite)).thenReturn(universite);
+        when(universiteRepository.findById(1)).thenReturn(Optional.of(universite));
+        when(departementRepository.findById(1)).thenReturn(Optional.of(departement));
 
-        universiteService.assignUniversiteToDepartement(universiteId, departementId);
+        // Act
+        universiteService.assignUniversiteToDepartement(1, 1);
 
-        verify(universiteRepository, times(1)).findById(universiteId);
-        verify(universiteRepository, times(1)).save(universite);
+        // Assert
+        verify(universiteRepository, times(1)).findById(1);
+        verify(departementRepository, times(1)).findById(1);
+        verify(universiteRepository, times(1)).save(any(Universite.class));
     }
+
 }
