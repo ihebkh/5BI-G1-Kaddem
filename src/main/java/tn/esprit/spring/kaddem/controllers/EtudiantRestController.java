@@ -2,6 +2,8 @@ package tn.esprit.spring.kaddem.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.services.IEtudiantService;
@@ -16,9 +18,9 @@ public class EtudiantRestController {
 	IEtudiantService etudiantService;
 	// http://localhost:8089/Kaddem/etudiant/retrieve-all-etudiants
 	@GetMapping("/retrieve-all-etudiants")
-	public List<Etudiant> getEtudiants() {
+	public ResponseEntity<List<Etudiant>> getAllEtudiants() {
 		List<Etudiant> listEtudiants = etudiantService.retrieveAllEtudiants();
-		return listEtudiants;
+		return new ResponseEntity<>(listEtudiants, HttpStatus.OK);
 
 	}
 	// http://localhost:8089/Kaddem/etudiant/retrieve-etudiant/8

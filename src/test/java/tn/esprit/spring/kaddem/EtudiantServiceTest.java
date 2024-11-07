@@ -20,9 +20,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(SpringExtension.class)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@SpringBootTest
+
 @ExtendWith(MockitoExtension.class)
 public class EtudiantServiceTest {
     @InjectMocks
