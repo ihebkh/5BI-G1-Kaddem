@@ -50,4 +50,16 @@ public class EtudiantServiceTest {
         assertEquals("Etudiant: Nom: A", result.getNomE());
         verify(etudiantRepository, times(1)).save(etudiant);
     }
+    @Test
+    void testUpdateEtudiant() {
+        Etudiant etudiant = new Etudiant("Nom: A", "Prenom: B");
+        when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
+
+        Etudiant result = etudiantService.updateEtudiant(etudiant);
+
+        assertNotNull(result);
+        assertEquals("Nom: A", result.getNomE());
+        assertEquals("Prenom: B", result.getPrenomE());
+        verify(etudiantRepository, times(1)).save(etudiant);
+    }
 }

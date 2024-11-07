@@ -44,10 +44,13 @@ public class EtudiantRestController {
 
 	// http://localhost:8089/Kaddem/etudiant/update-etudiant
 	@PutMapping("/update-etudiant")
-	public Etudiant updateEtudiant(@RequestBody Etudiant e) {
-		Etudiant etudiant= etudiantService.updateEtudiant(e);
-
-		return etudiant;
+	public ResponseEntity<Etudiant> updateEtudiant(@RequestBody Etudiant etudiant) {
+		Etudiant updatedEtudiant = etudiantService.updateEtudiant(etudiant);
+		if (updatedEtudiant != null) {
+			return new ResponseEntity<>(updatedEtudiant, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 
 	//@PutMapping("/affecter-etudiant-departement")
