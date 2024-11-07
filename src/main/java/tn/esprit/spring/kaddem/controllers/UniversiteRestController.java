@@ -4,19 +4,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.spring.kaddem.entities.DepartementDTO;
+import tn.esprit.spring.kaddem.entities.UniversiteDTO;
 import tn.esprit.spring.kaddem.entities.Departement;
 import tn.esprit.spring.kaddem.entities.Universite;
 import tn.esprit.spring.kaddem.services.UniversiteServiceImpl;
 
+
+
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
-//@AllArgsConstructor
 @RequestMapping("/universite")
 public class UniversiteRestController {
-
-
 
 	private final UniversiteServiceImpl universiteService;
 
@@ -25,62 +27,81 @@ public class UniversiteRestController {
 		this.universiteService = universiteService;
 	}
 
-	// Endpoint to retrieve all universities
 	@GetMapping("/retrieve-all-universites")
-	public ResponseEntity<List<Universite>> getAllUniversites() {
+	public ResponseEntity<List<UniversiteDTO>> getAllUniversites() {
 		List<Universite> listUniversites = universiteService.retrieveAllUniversites();
-		return new ResponseEntity<>(listUniversites, HttpStatus.OK);
+		List<UniversiteDTO> universiteDTOs = listUniversites.stream()
+				.map(this::convertToDTO)
+				.collect(Collectors.toList());
+		return new ResponseEntity<>(universiteDTOs, HttpStatus.OK);
 	}
 
-//http://localhost:8089/kaddem/universite/retrieve-universite/1
 	@GetMapping("/retrieve-universite/{universite-id}")
-	public ResponseEntity<Universite> getUniversiteById(@PathVariable("universite-id") Integer universiteId) {
+	public ResponseEntity<UniversiteDTO> getUniversiteById(@PathVariable("universite-id") Integer universiteId) {
 		Universite universite = universiteService.retrieveUniversite(universiteId);
 		if (universite != null) {
-			return new ResponseEntity<>(universite, HttpStatus.OK);
+			return new ResponseEntity<>(convertToDTO(universite), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
-	// Endpoint to add a new university
 	@PostMapping("/add-universite")
-	public ResponseEntity<Universite> createUniversite(@RequestBody Universite universite) {
+	public ResponseEntity<UniversiteDTO> createUniversite(@RequestBody UniversiteDTO universiteDTO) {
+		Universite universite = convertToEntity(universiteDTO);
 		Universite savedUniversite = universiteService.addUniversite(universite);
-		return new ResponseEntity<>(savedUniversite, HttpStatus.CREATED);
+		return new ResponseEntity<>(convertToDTO(savedUniversite), HttpStatus.CREATED);
 	}
 
-	// Endpoint to remove a university by its ID
-	@DeleteMapping("/remove-universite/{universite-id}")
-	public ResponseEntity<Void> removeUniversite(@PathVariable("universite-id") Integer universiteId) {
-		universiteService.removeUniversite(universiteId);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	}
-
-	// Endpoint to update an existing university
 	@PutMapping("/update-universite")
-	public ResponseEntity<Universite> updateUniversite(@RequestBody Universite universite) {
+	public ResponseEntity<UniversiteDTO> updateUniversite(@RequestBody UniversiteDTO universiteDTO) {
+		Universite universite = convertToEntity(universiteDTO);
 		Universite updatedUniversite = universiteService.updateUniversite(universite);
 		if (updatedUniversite != null) {
-			return new ResponseEntity<>(updatedUniversite, HttpStatus.OK);
+			return new ResponseEntity<>(convertToDTO(updatedUniversite), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
-	// Endpoint to assign a department to a university
-	@PutMapping("/affecter-universite-departement/{universiteId}/{departementId}")
-	public ResponseEntity<Void> assignUniversiteToDepartement(
-			@PathVariable("universiteId") Integer universiteId,
-			@PathVariable("departementId") Integer departementId) {
-		universiteService.assignUniversiteToDepartement(universiteId, departementId);
-		return new ResponseEntity<>(HttpStatus.OK);
+	@GetMapping("/listerDepartementsUniversite/{idUniversite}")
+	public ResponseEntity<Set<DepartementDTO>> getDepartementsByUniversite(@PathVariable("idUniversite") Integer idUniversite) {
+		Set<Departement> departements = universiteService.retrieveDepartementsByUniversite(idUniversite);
+		Set<DepartementDTO> departementDTOs = departements.stream()
+				.map(this::convertToDTO)
+				.collect(Collectors.toSet());
+		return new ResponseEntity<>(departementDTOs, HttpStatus.OK);
 	}
 
-	// Endpoint to list departments of a specific university
-	@GetMapping("/listerDepartementsUniversite/{idUniversite}")
-	public ResponseEntity<Set<Departement>> getDepartementsByUniversite(@PathVariable("idUniversite") Integer idUniversite) {
-		Set<Departement> departements = universiteService.retrieveDepartementsByUniversite(idUniversite);
-		return new ResponseEntity<>(departements, HttpStatus.OK);
+	// Helper methods to convert between entities and DTOs
+	private UniversiteDTO convertToDTO(Universite universite) {
+		UniversiteDTO dto = new UniversiteDTO();
+		dto.setIdUniv(universite.getIdUniv());
+		dto.setNomUniv(universite.getNomUniv());
+		dto.setDepartements(universite.getDepartements().stream()
+				.map(this::convertToDTO)
+				.collect(Collectors.toSet()));
+		return dto;
+	}
+
+	private Universite convertToEntity(UniversiteDTO dto) {
+		Universite universite = new Universite();
+		universite.setIdUniv(dto.getIdUniv());
+		universite.setNomUniv(dto.getNomUniv());
+		return universite;
+	}
+
+	private DepartementDTO convertToDTO(Departement departement) {
+		DepartementDTO dto = new DepartementDTO();
+		dto.setIdDepart(departement.getIdDepart());
+		dto.setNomDepart(departement.getNomDepart());
+		return dto;
+	}
+
+	private Departement convertToEntity(DepartementDTO dto) {
+		Departement departement = new Departement();
+		departement.setIdDepart(dto.getIdDepart());
+		departement.setNomDepart(dto.getNomDepart());
+		return departement;
 	}
 }
