@@ -2,6 +2,7 @@ package tn.esprit.spring.kaddem.services;
 
 import tn.esprit.spring.kaddem.entities.Departement;
 import tn.esprit.spring.kaddem.entities.Universite;
+import tn.esprit.spring.kaddem.repositories.DepartementRepository;
 import tn.esprit.spring.kaddem.repositories.UniversiteRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class UniversiteServiceImpl implements IUniversiteService {
 
     @Autowired
     private UniversiteRepository universiteRepository;
+
+    @Autowired
+    private DepartementRepository departementRepository;
 
     @Override
     public List<Universite> retrieveAllUniversites() {
@@ -47,8 +51,16 @@ public class UniversiteServiceImpl implements IUniversiteService {
 
     @Override
     public void assignUniversiteToDepartement(Integer idUniversite, Integer idDepartement) {
-        // Implementation for assigning a Universite to a Departement (you'll need a repository method for this)
+        Universite universite = universiteRepository.findById(idUniversite)
+                .orElseThrow(() -> new IllegalArgumentException("Universite not found"));
+        Departement departement = departementRepository.findById(idDepartement)
+                .orElseThrow(() -> new IllegalArgumentException("Departement not found"));
+
+        // Assuming Universite has a list or set of Departement objects
+        universite.getDepartements().add(departement);
+        universiteRepository.save(universite);
     }
+
 
     @Override
     public Set<Departement> retrieveDepartementsByUniversite(Integer idUniversite) {
