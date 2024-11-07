@@ -8,6 +8,18 @@ public class UniversiteDTO {
     private String nomUniv;
     private Set<DepartementDTO> departements;
 
+    // Default no-arg constructor
+    public UniversiteDTO() {}
+
+    // Parameterized constructor
+    public UniversiteDTO(Integer idUniv, String nomUniv) {
+        this.idUniv = idUniv;
+        this.nomUniv = nomUniv;
+    }
+
+
+
+
     // Getters and Setters
     public Integer getIdUniv() {
         return idUniv;
