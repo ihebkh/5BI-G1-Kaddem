@@ -25,6 +25,12 @@ public class Departement implements Serializable{
         this.nomDepart = nomDepart;
     }
 
+    public Departement(int idDepart, String nomDepart) {
+        this.idDepart = idDepart;
+        this.nomDepart = nomDepart;
+    }
+
+
     public Departement(Integer idDepart, String nomDepart) {
         super();
         this.idDepart = idDepart;
