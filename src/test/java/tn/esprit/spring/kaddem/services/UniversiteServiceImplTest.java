@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import tn.esprit.spring.kaddem.entities.Departement;
 import tn.esprit.spring.kaddem.entities.Universite;
 import tn.esprit.spring.kaddem.repositories.UniversiteRepository;
 
@@ -72,16 +73,51 @@ class UniversiteServiceImplTest {
     }
 
     @Test
+    void testRetrieveNonExistentUniversite() {
+        Integer idUniversite = 999;
+        when(universiteRepository.findById(idUniversite)).thenReturn(Optional.empty());
+
+        Universite result = universiteService.retrieveUniversite(idUniversite);
+
+        assertNull(result, "Expected null when retrieving a non-existent university.");
+        verify(universiteRepository, times(1)).findById(idUniversite);
+    }
+
+    @Test
     void testRemoveUniversite() {
         Universite universite = new Universite();
         universite.setIdUniv(1);
 
-        // Mocking deleteById instead of delete
         doNothing().when(universiteRepository).deleteById(1);
 
         universiteService.removeUniversite(1);
 
-        verify(universiteRepository, times(1)).deleteById(1); // Checking that deleteById was called
+        verify(universiteRepository, times(1)).deleteById(1);
     }
 
+    @Test
+    void testRemoveNonExistentUniversite() {
+        doThrow(new RuntimeException("Not found")).when(universiteRepository).deleteById(999);
+
+        assertThrows(RuntimeException.class, () -> universiteService.removeUniversite(999),
+                "Expected a RuntimeException when deleting a non-existent university.");
+
+        verify(universiteRepository, times(1)).deleteById(999);
+    }
+
+    @Test
+    void testAssignUniversiteToDepartement() {
+        Integer universiteId = 1;
+        Integer departementId = 1;
+        Universite universite = new Universite(universiteId, "University E");
+        Departement departement = new Departement(departementId, "Department E");
+
+        when(universiteRepository.findById(universiteId)).thenReturn(Optional.of(universite));
+        when(universiteRepository.save(universite)).thenReturn(universite);
+
+        universiteService.assignUniversiteToDepartement(universiteId, departementId);
+
+        verify(universiteRepository, times(1)).findById(universiteId);
+        verify(universiteRepository, times(1)).save(universite);
+    }
 }
