@@ -41,13 +41,13 @@ public class EtudiantServiceTest {
     }
     @Test
     void testAddEtudiant() {
-        Etudiant etudiant = new Etudiant("Etudiant: Nom: A" , "Prenom: B");
+        Etudiant etudiant = new Etudiant("A");
         when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
 
         Etudiant result = etudiantService.addEtudiant(etudiant);
 
         assertNotNull(result);
-        assertEquals("Etudiant B", result.getNomE());
+        assertEquals("Etudiant: Nom: A", result.getNomE());
         verify(etudiantRepository, times(1)).save(etudiant);
     }
 }
