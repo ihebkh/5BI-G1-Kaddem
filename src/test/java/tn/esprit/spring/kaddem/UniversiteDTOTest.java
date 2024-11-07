@@ -18,24 +18,24 @@ class UniversiteDTOTest {
 
         // Assert
         assertThat(universiteDTO.getIdUniv()).isEqualTo(1);
-        assertThat(universiteDTO.getNomUniv()).isEqualTo("Engineering University");
+        assertThat(universiteDTO.getNomUniv()).isEqualTo("esprit");
     }
 
     @Test
     void testConstructorWithFields() {
         // Arrange & Act
-        UniversiteDTO universiteDTO = new UniversiteDTO(1, "Engineering University");
+        UniversiteDTO universiteDTO = new UniversiteDTO(1, "esprit");
 
         // Assert
         assertThat(universiteDTO.getIdUniv()).isEqualTo(1);
-        assertThat(universiteDTO.getNomUniv()).isEqualTo("Engineering University");
+        assertThat(universiteDTO.getNomUniv()).isEqualTo("esprit");
     }
 
     @Test
     void testEqualsAndHashCode() {
         // Arrange
-        UniversiteDTO universiteDTO1 = new UniversiteDTO(1, "Engineering University");
-        UniversiteDTO universiteDTO2 = new UniversiteDTO(1, "Engineering University");
+        UniversiteDTO universiteDTO1 = new UniversiteDTO(1, "esprit");
+        UniversiteDTO universiteDTO2 = new UniversiteDTO(1, "esprit");
 
         // Assert
         assertThat(universiteDTO1).isEqualTo(universiteDTO2);
@@ -45,9 +45,9 @@ class UniversiteDTOTest {
     @Test
     void testToString() {
         // Arrange
-        UniversiteDTO universiteDTO = new UniversiteDTO(1, "Esprit");
+        UniversiteDTO universiteDTO = new UniversiteDTO(1, "esprit");
 
         // Act & Assert
-        assertThat(universiteDTO.toString()).contains("idUniv=1", "nomUniv='Esprit'");
+        assertThat(universiteDTO.toString()).contains("idUniv=1", "nomUniv='esprit'");
     }
 }
