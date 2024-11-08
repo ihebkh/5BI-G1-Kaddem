@@ -1,9 +1,9 @@
 package tn.esprit.spring.kaddem;
 
 import org.junit.jupiter.api.Test;
-import tn.esprit.spring.kaddem.entities.Departement;
-import tn.esprit.spring.kaddem.entities.Etudiant;
+import tn.esprit.spring.kaddem.entities.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,41 +36,59 @@ public class EtudiantEntityTest {
         assertEquals(expectedNomE, etudiant.getNomE(), "The nomE should be correctly assigned.");
     }
 
-   /* @Test
+    @Test
     void testRelationshipWithDepartement() {
-        // Create instances for test
+        // Create instances for the test
+        Departement departement = new Departement("Computer Science");
         Etudiant etudiant = new Etudiant();
-        Set<Departement> departements = new HashSet<>();
 
-        // Set relationship
-        etudiant.setDepartement((Departement) departements);
+        // Set the relationship
+        etudiant.setDepartement(departement);
 
-        // Validate relationship
-        assertEquals(departements, etudiant.getDepartement());
-    }*/
+        // Validate the relationship
+        assertEquals(departement, etudiant.getDepartement(), "Departement should be properly set in Etudiant");
+    }
 
-   /* @Test
+    @Test
     void testParameterizedConstructor() {
         Integer idE = 1;
         String nomE = "YAS";
+        String prenomE = "Doe";
 
-        Etudiant etudiant = new Etudiant(idE, nomE);
+        // Use parameterized constructor
+        Etudiant etudiant = new Etudiant(idE, nomE, prenomE, Option.GAMIX);
 
         assertEquals(idE, etudiant.getIdEtudiant());
         assertEquals(nomE, etudiant.getNomE());
-    }*/
+        assertEquals(prenomE, etudiant.getPrenomE());
+        assertEquals(Option.GAMIX, etudiant.getOp(), "Option should be properly set");
+    }
 
-    /*@Test
-    void testAddDepartement() {
-        // Create Etudiant and Departement instances
-        Etudiant etudiant = new Etudiant("YAS");
-        Departement departement = new Departement("Computer Science");
+    @Test
+    void testAddContratToEtudiant() {
+        // Create Etudiant and Contrat instances
+        Etudiant etudiant = new Etudiant("John", "Doe");
+        Contrat contrat = new Contrat();
 
-        // Ensure departements is initialized
-        etudiant.setDepartement(new HashSet<>());
-        etudiant.getDepartement().add(departement);
+        // Ensure the contracts list is initialized
+        etudiant.setContrats(new HashSet<>());
+        etudiant.getContrats().add(contrat);
 
-        // Assert that the departement was added
-        assertTrue(etudiant.getDepartement().contains(departement), "Departement should be added to Etudiant");
-    }*/
+        // Assert that the contract was added
+        assertTrue(etudiant.getContrats().contains(contrat), "Contrat should be added to Etudiant");
+    }
+
+    @Test
+    void testAddEquipeToEtudiant() {
+        // Create Etudiant and Equipe instances
+        Etudiant etudiant = new Etudiant("John", "Doe");
+        Equipe equipe = new Equipe("Development Team");
+
+        // Ensure the equipes list is initialized
+        etudiant.setEquipes(new ArrayList<>());
+        etudiant.getEquipes().add(equipe);
+
+        // Assert that the team was added
+        assertTrue(etudiant.getEquipes().contains(equipe), "Equipe should be added to Etudiant");
+    }
 }
