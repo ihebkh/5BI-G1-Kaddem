@@ -27,6 +27,16 @@ public class EtudiantDTO {
         this.contratIds = contratIds;
     }
 
+    // Constructeur correspondant à l'exigence du test
+    public EtudiantDTO(Integer idEtudiant, String nomE, String prenomE, Option op, Integer departementId) {
+        this.idEtudiant = idEtudiant;
+        this.nomE = nomE;
+        this.prenomE = prenomE;
+        this.op = op;
+        this.departementId = departementId;
+    }
+
+
     // Getters and Setters
     public Integer getIdEtudiant() {
         return idEtudiant;
