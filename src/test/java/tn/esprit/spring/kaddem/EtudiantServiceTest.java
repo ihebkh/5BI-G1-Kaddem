@@ -91,7 +91,7 @@ public class EtudiantServiceTest {
 
         Etudiant result = etudiantService.retrieveEtudiant(idEtudiant);
 
-        assertNull(result, "Expected null when retrieving a non-existent university.");
+        assertNull(result, "Expected null when retrieving a non-existent student.");
         verify(etudiantRepository, times(1)).findById(idEtudiant);
     }
 
@@ -109,12 +109,17 @@ public class EtudiantServiceTest {
 
     @Test
     void testRemoveNonExistentEtudiant() {
-        doThrow(new RuntimeException("Not found")).when(etudiantRepository).deleteById(999);
+        Integer idEtudiant = 999;
 
-        assertThrows(RuntimeException.class, () -> etudiantService.removeEtudiant(999),
-                "Expected a RuntimeException when deleting a non-existent university.");
+        // Simulate a RuntimeException when trying to delete a non-existent student
+        doThrow(new RuntimeException("Not found")).when(etudiantRepository).deleteById(idEtudiant);
 
-        verify(etudiantRepository, times(1)).deleteById(999);
+        // Assert that the exception is thrown
+        assertThrows(RuntimeException.class, () -> etudiantService.removeEtudiant(idEtudiant),
+                "Expected a RuntimeException when deleting a non-existent student.");
+
+        // Verify that deleteById was attempted once
+        verify(etudiantRepository, times(1)).deleteById(idEtudiant);
     }
 
    /* @Test
