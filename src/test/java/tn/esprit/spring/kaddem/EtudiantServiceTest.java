@@ -111,15 +111,13 @@ public class EtudiantServiceTest {
     void testRemoveNonExistentEtudiant() {
         Integer idEtudiant = 999;
 
-        // Simulate a RuntimeException when trying to delete a non-existent student
-        doThrow(new RuntimeException("Not found")).when(etudiantRepository).deleteById(idEtudiant);
+        when(etudiantRepository.findById(idEtudiant)).thenReturn(Optional.empty());
 
-        // Assert that the exception is thrown
         assertThrows(RuntimeException.class, () -> etudiantService.removeEtudiant(idEtudiant),
                 "Expected a RuntimeException when deleting a non-existent student.");
 
-        // Verify that deleteById was attempted once
-        verify(etudiantRepository, times(1)).deleteById(idEtudiant);
+        verify(etudiantRepository, times(1)).findById(idEtudiant);
+        verify(etudiantRepository, never()).deleteById(idEtudiant);  // deleteById should never be called
     }
 
    /* @Test

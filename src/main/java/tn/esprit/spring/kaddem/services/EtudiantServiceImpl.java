@@ -56,7 +56,7 @@ public class EtudiantServiceImpl implements IEtudiantService{
 	}
 
 	public Etudiant retrieveEtudiant(Integer  idEtudiant){
-		return etudiantRepository.findById(idEtudiant).get();
+		return etudiantRepository.findById(idEtudiant).orElse(null);
 	}
 
 	public void removeEtudiant(Integer idEtudiant){
