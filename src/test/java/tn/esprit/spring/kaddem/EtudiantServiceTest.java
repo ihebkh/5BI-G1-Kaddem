@@ -51,23 +51,18 @@ public class EtudiantServiceTest {
         assertEquals("Etudiant: Nom: A", result.getNomE());
         verify(etudiantRepository, times(1)).save(etudiant);
     }
-    /*@Test
+    @Test
     void testUpdateEtudiant() {
-        // Créer un étudiant existant avec un ID connu
-        Etudiant existingEtudiant = new Etudiant(4, "Nom: A", "Prenom: B"); // Assurez-vous que l'ID existe
-        when(etudiantRepository.findById(4)).thenReturn(Optional.of(existingEtudiant)); // Simuler l'existence de l'étudiant avec l'ID 4
-        when(etudiantRepository.save(existingEtudiant)).thenReturn(existingEtudiant); // Simuler la mise à jour
+        Etudiant etudiant = new Etudiant(1, "Etudiant A");
+        when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
 
-        // Créer un étudiant à mettre à jour
-        Etudiant updatedEtudiant = new Etudiant(4, "Nom: A", "Prenom: B Updated");
+        Etudiant result = etudiantService.updateEtudiant(etudiant);
 
-        // Appeler la méthode de mise à jour
-        Etudiant result = etudiantService.updateEtudiant(updatedEtudiant);
-
-        // Vérifier que l'étudiant a bien été mis à jour
         assertNotNull(result);
-        assertEquals("Nom: A", result.getNomE());
-        assertEquals("Prenom: B Updated", result.getPrenomE()); // Assurez-vous que le prénom a été mis à jour
-        verify(etudiantRepository, times(1)).save(existingEtudiant); // Vérifier que save a été appelé une fois
-    }*/
+        assertEquals("Etudiant A", result.getNomE());
+        verify(etudiantRepository, times(1)).save(etudiant);
+    }
+
+
+
 }

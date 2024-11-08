@@ -44,6 +44,10 @@ public class Etudiant implements Serializable{
         this.nomE = nomE;
         this.prenomE = prenomE;
     }
+    public Etudiant(Integer idEtudiant, String nomE) {
+        this.idEtudiant = idEtudiant;
+        this.nomE = nomE;
+    }
 
     public Etudiant(String nomE, String prenomE, Option op) {
         super();
@@ -58,6 +62,10 @@ public class Etudiant implements Serializable{
         this.nomE = nomE;
         this.prenomE = prenomE;
         this.op = op;
+    }
+
+    public Etudiant() {
+
     }
 
     public Set<Contrat> getContrats() {
