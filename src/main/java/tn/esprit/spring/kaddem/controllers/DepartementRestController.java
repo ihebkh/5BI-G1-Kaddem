@@ -40,10 +40,13 @@ public class DepartementRestController {
 	}
 
 	// http://localhost:8089/Kaddem/departement/update-departement
-	@PutMapping("/update-departement")
-	public Departement updateDepartement(@RequestBody Departement e) {
-		Departement departement= departementService.updateDepartement(e);
-		return departement;
+	@PutMapping("/update-departement/{departement-id}")
+	public Departement updateDepartement(@PathVariable("departement-id") Integer departementId, @RequestBody DepartementDTO departementDTO) {
+		Departement departement = new Departement();
+		departement.setIdDepart(departementId);
+		departement.setNomDepart("Biologie");
+		// Appelez le service pour mettre à jour le departement
+		return departementService.updateDepartement(departement);
 	}
 
 	@PostMapping("/{departementId}/assign")

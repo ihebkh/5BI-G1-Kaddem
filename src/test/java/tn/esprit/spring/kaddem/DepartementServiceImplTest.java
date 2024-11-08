@@ -201,6 +201,15 @@ class DepartementServiceImplTest {
     }
 
     @Test
+    void testUpdateDepartement() {
+        Departement departement = new Departement();
+        when(departementRepository.save(departement)).thenReturn(departement);
+        Departement result = departementService.updateDepartement(departement);
+        assertEquals(departement, result);
+        verify(departementRepository, times(1)).save(departement);
+    }
+
+    @Test
     void countStudentsInDepartement() {
         Integer departmentId = 1;
         long expectedCount = 5;

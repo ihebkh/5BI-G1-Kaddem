@@ -124,5 +124,29 @@ class DepartementControllerTest {
         verify(departementService, times(1)).countStudentsInDepartement(departementId);
     }
 
+    @Test
+    void testUpdateDepartement() {
+        // ID du departement à mettre à jour
+        Integer departementId = 1;
+
+        // Création de l'objet DepartementDTO avec les nouvelles valeurs
+        DepartementDTO departementDTO = new DepartementDTO();
+        departementDTO.setNomDep("Info");
+
+
+        // Création de l'objet Departement attendu après la mise à jour
+        Departement updatedDepartement = new Departement();
+        updatedDepartement.setIdDepart(departementId);
+        updatedDepartement.setNomDepart("Computer Science");
+
+
+        // Simulation du comportement du service
+        when(departementService.updateDepartement(any(Departement.class))).thenReturn(updatedDepartement);
+
+        // Appel de la méthode et vérification
+        Departement result = departementRestController.updateDepartement(departementId, departementDTO);
+        assertEquals(updatedDepartement, result);
+    }
+
 
 }
