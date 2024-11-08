@@ -30,6 +30,11 @@ public class DepartementServiceImpl implements IDepartementService{
 		return departementRepository.save(departement);
 	}
 
+	public Departement updateDepartement (Departement  d){
+		log.info("la mise a jour  sera faite");
+		return departementRepository.save(d);
+	}
+
 	public  Departement retrieveDepartement (Integer idDepart){
 		log.info("Récupération d'un departement par ID");
 		return departementRepository.findById(idDepart).orElse(null);

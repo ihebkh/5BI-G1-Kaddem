@@ -39,6 +39,13 @@ public class DepartementRestController {
 		return departementService.addDepartement(departement);
 	}
 
+	// http://localhost:8089/Kaddem/departement/update-departement
+	@PutMapping("/update-departement")
+	public Departement updateDepartement(@RequestBody Departement e) {
+		Departement departement= departementService.updateDepartement(e);
+		return departement;
+	}
+
 	@PostMapping("/{departementId}/assign")
 	public Departement assignDepartementToEtudiants(
 			@PathVariable Integer departementId,
