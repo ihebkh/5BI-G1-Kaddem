@@ -60,8 +60,7 @@ public class EtudiantServiceImpl implements IEtudiantService{
 	}
 
 	public void removeEtudiant(Integer idEtudiant){
-	Etudiant e=retrieveEtudiant(idEtudiant);
-	etudiantRepository.delete(e);
+		etudiantRepository.deleteById(idEtudiant);
 	}
 
 	public void assignEtudiantToDepartement (Integer etudiantId, Integer departementId){

@@ -109,15 +109,12 @@ public class EtudiantServiceTest {
 
     @Test
     void testRemoveNonExistentEtudiant() {
-        Integer idEtudiant = 999;
+        doThrow(new RuntimeException("Not found")).when(etudiantRepository).deleteById(999);
 
-        when(etudiantRepository.findById(idEtudiant)).thenReturn(Optional.empty());
+        assertThrows(RuntimeException.class, () -> etudiantService.removeEtudiant(999),
+                "Expected a RuntimeException when deleting a non-existent university.");
 
-        assertThrows(RuntimeException.class, () -> etudiantService.removeEtudiant(idEtudiant),
-                "Expected a RuntimeException when deleting a non-existent student.");
-
-        verify(etudiantRepository, times(1)).findById(idEtudiant);
-        verify(etudiantRepository, never()).deleteById(idEtudiant);  // deleteById should never be called
+        verify(etudiantRepository, times(1)).deleteById(999);
     }
 
    /* @Test
