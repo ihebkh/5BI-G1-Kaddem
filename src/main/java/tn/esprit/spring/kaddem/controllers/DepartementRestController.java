@@ -44,7 +44,7 @@ public class DepartementRestController {
 	public Departement updateDepartement(@PathVariable("departement-id") Integer departementId, @RequestBody DepartementDTO departementDTO) {
 		Departement departement = new Departement();
 		departement.setIdDepart(departementId);
-		departement.setNomDepart("Biologie");
+		departement.setNomDepart(departementDTO.getNomDep());
 		// Appelez le service pour mettre à jour le departement
 		return departementService.updateDepartement(departement);
 	}
