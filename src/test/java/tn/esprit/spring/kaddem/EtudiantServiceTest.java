@@ -54,6 +54,8 @@ public class EtudiantServiceTest {
     @Test
     void testUpdateEtudiant() {
         Etudiant etudiant = new Etudiant(1, "Etudiant A");
+        when(etudiantRepository.findById(1)).thenReturn(Optional.of(etudiant)); // Stub findById
+
         when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
 
         Etudiant result = etudiantService.updateEtudiant(etudiant);
