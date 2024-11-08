@@ -154,6 +154,7 @@ public class EtudiantServiceTest {
         contrat.setIdContrat(101);
         Equipe equipe = new Equipe();
         equipe.setIdEquipe(1);
+        equipe.setEtudiants(new HashSet<>());  // Initialize the Set to avoid NullPointerException
 
         // Simuler le retour des méthodes de repository
         when(contratRepository.findById(101)).thenReturn(Optional.of(contrat));
