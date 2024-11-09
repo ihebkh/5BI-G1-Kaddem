@@ -34,8 +34,7 @@ public class DepartementRestController {
 	@PostMapping("/add-departement")
 	public Departement addDepartement(@RequestBody DepartementDTO departementDTO) {
 		Departement departement = new Departement();
-		departement.setNomDepart(departementDTO.getNomDep()); // Conversion de String en Date
-
+		departement.setNomDepart(departementDTO.getNomDep());
 		return departementService.addDepartement(departement);
 	}
 
