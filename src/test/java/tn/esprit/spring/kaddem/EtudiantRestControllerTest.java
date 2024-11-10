@@ -110,7 +110,7 @@ public class EtudiantRestControllerTest {
         verify(etudiantService, times(1)).addEtudiant(any(Etudiant.class));
     }
 
-   /* @Test
+    @Test
     void testUpdateEtudiant() throws Exception {
         // Arrange
         Etudiant etudiant = new Etudiant(1, "John", "Doe");
@@ -119,16 +119,16 @@ public class EtudiantRestControllerTest {
         // Act & Assert
         mockMvc.perform(put("/etudiant/update-etudiant")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"idE\": 1, \"nomE\": \"John\", \"prenomE\": \"Doe\"}"))
+                        .content("{\"nomE\": \"John\", \"prenomE\": \"Doe\"}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.idE").value(1))
+                .andExpect(jsonPath("$.idEtudiant").value(1))
                 .andExpect(jsonPath("$.nomE").value("John"))
                 .andExpect(jsonPath("$.prenomE").value("Doe"));
 
         verify(etudiantService, times(1)).updateEtudiant(any(Etudiant.class));
-    }*/
+    }
 
-   /* @Test
+    @Test
     void testUpdateEtudiantNotFound() throws Exception {
         // Arrange
         when(etudiantService.updateEtudiant(any(Etudiant.class))).thenReturn(null);
@@ -136,11 +136,11 @@ public class EtudiantRestControllerTest {
         // Act & Assert
         mockMvc.perform(put("/etudiant/update-etudiant")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"idE\": 1, \"nomE\": \"John\", \"prenomE\": \"Doe\"}"))
+                        .content("{\"nomE\": \"John\", \"prenomE\": \"Doe\"}"))
                 .andExpect(status().isNotFound());
 
         verify(etudiantService, times(1)).updateEtudiant(any(Etudiant.class));
-    }*/
+    }
 
    /* @Test
     void testDeleteEtudiant() throws Exception {
