@@ -145,21 +145,21 @@ public class EtudiantRestControllerTest {
 
         verify(etudiantService, times(1)).updateEtudiant(any(Etudiant.class));
     }
-   /* @Test
+    @Test
     void testDeleteEtudiant() throws Exception {
         // Act & Assert
         mockMvc.perform(delete("/etudiant/remove-etudiant/{etudiant-id}", 1))
                 .andExpect(status().isOk());
 
         verify(etudiantService, times(1)).removeEtudiant(1);
-    }*/
+    }
 
-   /* @Test
+    @Test
     void testAffecterEtudiantToDepartement() throws Exception {
         // Act & Assert
         mockMvc.perform(put("/etudiant/affecter-etudiant-departement/{etudiantId}/{departementId}", 1, 1))
                 .andExpect(status().isOk());
 
         verify(etudiantService, times(1)).assignEtudiantToDepartement(1, 1);
-    }*/
+    }
 }
