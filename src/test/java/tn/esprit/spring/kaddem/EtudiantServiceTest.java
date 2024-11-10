@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import tn.esprit.spring.kaddem.entities.Contrat;
 import tn.esprit.spring.kaddem.entities.Departement;
 
 import tn.esprit.spring.kaddem.entities.Etudiant;
@@ -19,10 +20,7 @@ import tn.esprit.spring.kaddem.repositories.DepartementRepository;
 import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 import tn.esprit.spring.kaddem.services.EtudiantServiceImpl;
 
-import java.util.Collections;
-
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -141,33 +139,43 @@ public class EtudiantServiceTest {
         verify(etudiantRepository, times(1)).save(etudiant);  // Vérifier si la sauvegarde a été appelée
         assertEquals(departement, etudiant.getDepartement());  // Vérifier que le département a été correctement assigné
     }
-    /*@Test
+    @Test
     public void testAddAndAssignEtudiantToEquipeAndContract() {
         // Créer un étudiant
         Etudiant etudiant = new Etudiant();
-        etudiant.setNom("Test");
-        etudiant.setPrenom("Etudiant");
+        etudiant.setNomE("Test");
+        etudiant.setPrenomE("Etudiant");
 
         // Créer un contrat
         Contrat contrat = new Contrat();
         contrat.setIdContrat(101);
         contrat.setEtudiant(etudiant);
 
-        // Assigner le contrat à l'étudiant (si ce n'est pas déjà fait dans le service)
-        etudiant.setContrat(contrat);
+        // Créer un Set de contrats et ajouter le contrat
+        Set<Contrat> contrats = new HashSet<>();
+        contrats.add(contrat);
 
-        // Sauvegarder l'étudiant et le contrat (si nécessaire, selon le contexte de ton service)
-        etudiantService.saveEtudiant(etudiant);
+        // Assigner le Set de contrats à l'étudiant
+        etudiant.setContrats(contrats);
 
-        // Vérifier que le contrat a bien été assigné à l'étudiant
-        Contrat contratResultat = etudiant.getContrat();
+        // Simuler la sauvegarde de l'étudiant avec la méthode addEtudiant
+        when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
 
-        // Assertion
-        assertNotNull(contratResultat, "Le contrat ne doit pas être nul");
+        // Appel du service pour ajouter l'étudiant
+        Etudiant savedEtudiant = etudiantService.addEtudiant(etudiant); // Remplacer saveEtudiant par addEtudiant
+
+        // Vérifier que le contrat a bien été assigné à l'étudiant sauvegardé
+        Set<Contrat> contratsResultats = savedEtudiant.getContrats();
+
+        // Assertions pour vérifier les résultats
+        assertNotNull(contratsResultats, "Les contrats ne doivent pas être nuls");
+        assertEquals(1, contratsResultats.size(), "Il doit y avoir un contrat assigné");
+
+        Contrat contratResultat = contratsResultats.iterator().next(); // Récupérer le contrat du Set
+
         assertEquals(101, contratResultat.getIdContrat(), "L'ID du contrat doit être 101");
         assertEquals(etudiant, contratResultat.getEtudiant(), "L'étudiant associé au contrat doit être le même");
-    }*/
-
+    }
 
     @Test
     void testGetEtudiantsByDepartement() {
