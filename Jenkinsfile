@@ -62,28 +62,30 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                sh '''
-                    mvn sonar:sonar \
-                        -Dsonar.host.url=http://192.168.33.10:9000 \
-                        -Dsonar.login=admin \
-                        -Dsonar.password=201JmT1896@@ \
-                        -Dsonar.exclusions="src/main/java/tn/esprit/spring/kaddem/entities/Equipe.java,
-                        src/main/java/tn/esprit/spring/kaddem/entities/DetailEquipe.java,
-                        src/main/java/tn/esprit/spring/kaddem/entities/Etudiant.java,
-                        src/main/java/tn/esprit/spring/kaddem/entities/Departement.java,
-                        src/main/java/tn/esprit/spring/kaddem/controllers/DepartementRestController.java,
-                        src/main/java/tn/esprit/spring/kaddem/services/DepartementServiceImpl.java,
-                        src/main/java/tn/esprit/spring/kaddem/controllers/EquipeRestController.java,
-                        src/main/java/tn/esprit/spring/kaddem/services/EquipeServiceImpl.java,
-                        src/main/java/tn/esprit/spring/kaddem/controllers/EtudiantRestController.java,
-                        src/main/java/tn/esprit/spring/kaddem/services/EtudiantServiceImpl.java,
-                        src/main/java/tn/esprit/spring/kaddem/KaddemApplication.java,
-                        src/main/java/tn/esprit/spring/kaddem/entities/Niveau.java,
-                        src/main/java/tn/esprit/spring/kaddem/entities/Option.java,
-                        src/main/java/tn/esprit/spring/kaddem/entities/Universite.java,
-                        src/main/java/tn/esprit/spring/kaddem/controllers/UniversiteRestController.java,
-                        src/main/java/tn/esprit/spring/kaddem/services/UniversiteServiceImpl.java"
-                '''
+                withCredentials([usernamePassword(credentialsId: 'sonarqube_credentials', usernameVariable: 'SONARQUBE_USERNAME', passwordVariable: 'SONARQUBE_PASSWORD')]) {
+                    sh '''
+                        mvn sonar:sonar \
+                            -Dsonar.host.url=http://192.168.33.10:9000 \
+                            -Dsonar.login=$SONARQUBE_USERNAME \
+                            -Dsonar.password=$SONARQUBE_PASSWORD \
+                            -Dsonar.exclusions="src/main/java/tn/esprit/spring/kaddem/entities/Equipe.java,
+                            src/main/java/tn/esprit/spring/kaddem/entities/DetailEquipe.java,
+                            src/main/java/tn/esprit/spring/kaddem/entities/Etudiant.java,
+                            src/main/java/tn/esprit/spring/kaddem/entities/Departement.java,
+                            src/main/java/tn/esprit/spring/kaddem/controllers/DepartementRestController.java,
+                            src/main/java/tn/esprit/spring/kaddem/services/DepartementServiceImpl.java,
+                            src/main/java/tn/esprit/spring/kaddem/controllers/EquipeRestController.java,
+                            src/main/java/tn/esprit/spring/kaddem/services/EquipeServiceImpl.java,
+                            src/main/java/tn/esprit/spring/kaddem/controllers/EtudiantRestController.java,
+                            src/main/java/tn/esprit/spring/kaddem/services/EtudiantServiceImpl.java,
+                            src/main/java/tn/esprit/spring/kaddem/KaddemApplication.java,
+                            src/main/java/tn/esprit/spring/kaddem/entities/Niveau.java,
+                            src/main/java/tn/esprit/spring/kaddem/entities/Option.java,
+                            src/main/java/tn/esprit/spring/kaddem/entities/Universite.java,
+                            src/main/java/tn/esprit/spring/kaddem/controllers/UniversiteRestController.java,
+                            src/main/java/tn/esprit/spring/kaddem/services/UniversiteServiceImpl.java"
+                    '''
+                }
             }
         }
 
@@ -103,17 +105,17 @@ pipeline {
             }
         }
 
-           stage('Deploy Image to DockerHub') {
-                   steps {
-                       script {
-                           echo 'Logging into DockerHub and Pushing Image'
-                           withCredentials([usernamePassword(credentialsId: 'Docker_credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                               sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
-                               sh 'docker push ihebkh336/kaddem:0.0.1'
-                           }
-                       }
-                   }
-               }
+        stage('Deploy Image to DockerHub') {
+            steps {
+                script {
+                    echo 'Logging into DockerHub and Pushing Image'
+                    withCredentials([usernamePassword(credentialsId: 'Docker_credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                        sh 'docker push ihebkh336/kaddem:0.0.1'
+                    }
+                }
+            }
+        }
 
         stage('Deploy with Docker Compose') {
             steps {
