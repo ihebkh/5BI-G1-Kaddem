@@ -29,15 +29,12 @@ public class EtudiantRestControllerTest {
     private MockMvc mockMvc;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
+        // Initialize mocks
+        MockitoAnnotations.openMocks(this);
+        // Setup MockMvc
         mockMvc = MockMvcBuilders.standaloneSetup(etudiantRestController).build();
-
-        // Mock the service call to return a list of Etudiants
-        when(etudiantService.retrieveAllEtudiants()).thenReturn(
-                Arrays.asList(new Etudiant(1, "John", "Doe"), new Etudiant(2, "Jane", "Smith"))
-        );
     }
-
     @Test
     void testGetAllEtudiants() throws Exception {
         // Arrange
