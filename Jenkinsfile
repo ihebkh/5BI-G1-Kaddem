@@ -158,7 +158,6 @@ pipeline {
                           </html>""",
                  mimeType: 'text/html'
         }
-    }
         always {
             echo 'Pipeline completed.'
         }
