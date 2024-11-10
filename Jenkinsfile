@@ -123,25 +123,49 @@ pipeline {
             }
         }
 
-
-    }
     post {
         success {
             mail to: 'khmiriiheb3@gmail.com',
                  subject: "Pipeline Jenkins - Success - Build #${BUILD_NUMBER}",
-                 body: """Pipeline Jenkins
+                 body: """Pipeline Jenkins - Success Report
 
-                 Final Report: The pipeline has completed successfully. Build number: ${BUILD_NUMBER}. No action required."""
+                 Hello,
+
+                 The pipeline has completed successfully for build number ${BUILD_NUMBER}. All stages passed without issues. No further action is required at this time.
+
+                 Best regards,
+                 Jenkins CI/CD Team"""
         }
         failure {
+            script {
+                // Gather the error cause if available
+                def errorLog = currentBuild.rawBuild.getLog(20).join('\n')
+            }
             mail to: 'khmiriiheb3@gmail.com',
                  subject: "Pipeline Jenkins - Failure - Build #${BUILD_NUMBER}",
-                 body: """Pipeline Jenkins
+                 body: """Pipeline Jenkins - Failure Report
 
-                 Final Report: The pipeline has failed. Build number: ${BUILD_NUMBER}. Please check the logs and take necessary actions."""
+                 Hello,
+
+                 The pipeline for build number ${BUILD_NUMBER} has encountered an error.
+                 Here are the last lines from the error logs:
+
+                 ${errorLog}
+
+                 Possible reasons for this failure:
+                 - Check if the repository or branch is accessible.
+                 - Verify if Maven dependencies are resolved correctly.
+                 - Inspect Docker credentials and Nexus settings.
+
+                 Please review the logs and take corrective action as necessary.
+
+                 Best regards,
+                 Jenkins CI/CD Team"""
         }
         always {
             echo 'Pipeline completed.'
         }
+    }
+
     }
 }
