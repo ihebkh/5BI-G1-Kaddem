@@ -103,15 +103,17 @@ pipeline {
             }
         }
 
-        stage('Deploy Image to DockerHub') {
-            steps {
-                script {
-                    echo 'Logging into DockerHub and Pushing Image'
-                    sh 'docker login -u ihebkh336 -p a1b2c3IHEB'
-                    sh 'docker push ihebkh336/kaddem:0.0.1'
-                }
-            }
-        }
+           stage('Deploy Image to DockerHub') {
+                   steps {
+                       script {
+                           echo 'Logging into DockerHub and Pushing Image'
+                           withCredentials([usernamePassword(credentialsId: 'Docker_credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                               sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                               sh 'docker push ihebkh336/kaddem:0.0.1'
+                           }
+                       }
+                   }
+               }
 
         stage('Deploy with Docker Compose') {
             steps {
