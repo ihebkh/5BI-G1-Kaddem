@@ -12,10 +12,10 @@ services:
     volumes:
       - db:/var/lib/mysql
 
-  app-kaddem:
+  app-khmiriiheb-5BI4-G1:
     depends_on:
       - mysqlDb
-    image: ihebkh336/kaddem:0.0.1  # Utilisez ici la version spécifique 0.0.1
+    image: ihebkh336/khmiriiheb-5BI4-G1:0.0.1
     restart: on-failure
     ports:
       - "8082:8082"
