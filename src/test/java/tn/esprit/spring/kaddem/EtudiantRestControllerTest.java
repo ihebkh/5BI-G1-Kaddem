@@ -153,12 +153,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         verify(etudiantService, times(1)).removeEtudiant(1);
     }
 
-    @Test
-    void testAffecterEtudiantToDepartement() throws Exception {
-        // Act & Assert
-        mockMvc.perform(put("/etudiant/affecter-etudiant-departement/{etudiantId}/{departementId}", 1, 1))
-                .andExpect(status().isOk());
+     @Test
+     void testAffecterEtudiantToDepartement() throws Exception {
+         // Arrange
+         Etudiant etudiant = new Etudiant();
+         etudiant.setIdEtudiant(1);
+         etudiant.setNomE("John");
+         etudiant.setPrenomE("Doe");
 
-        verify(etudiantService, times(1)).assignEtudiantToDepartement(1, 1);
-    }
+         // Simule que le service renvoie l'étudiant après l'affectation
+         when(etudiantService.retrieveEtudiant(1)).thenReturn(etudiant);
+
+         // Act & Assert
+         mockMvc.perform(put("/etudiant/affecter-etudiant-departement/{etudiantId}/{departementId}", 1, 1))
+                 .andExpect(status().isOk())
+                 .andExpect(jsonPath("$.idEtudiant").value(1))
+                 .andExpect(jsonPath("$.nomE").value("John"))
+                 .andExpect(jsonPath("$.prenomE").value("Doe"));
+
+         // Vérification que les méthodes assignEtudiantToDepartement et retrieveEtudiant ont été appelées
+         verify(etudiantService, times(1)).assignEtudiantToDepartement(1, 1);
+         verify(etudiantService, times(1)).retrieveEtudiant(1);
+     }
 }
