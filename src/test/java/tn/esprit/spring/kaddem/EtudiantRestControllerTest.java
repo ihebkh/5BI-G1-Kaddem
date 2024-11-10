@@ -40,7 +40,7 @@ public class EtudiantRestControllerTest {
         // Arrange
        // Etudiant etudiant1 = new Etudiant(1, "John", "Doe");
         //Etudiant etudiant2 = new Etudiant(2, "Jane", "Doe");
-        Etudiant etudiant1 = new Etudiant( "Jane", "Doe");
+        Etudiant etudiant1 = new Etudiant( "John", "Doe");
         Etudiant etudiant2 = new Etudiant("Jane", "Doe");
         when(etudiantService.retrieveAllEtudiants()).thenReturn(Arrays.asList(etudiant1, etudiant2));
 
