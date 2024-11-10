@@ -44,10 +44,10 @@ public class EtudiantRestControllerTest {
         // Act & Assert
         mockMvc.perform(get("/etudiant/retrieve-all-etudiants"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].idE").value(1))
+                .andExpect(jsonPath("$[0].idEtudiant").value(1))
                 .andExpect(jsonPath("$[0].nomE").value("John"))
                 .andExpect(jsonPath("$[0].prenomE").value("Doe"))
-                .andExpect(jsonPath("$[1].idE").value(2))
+                .andExpect(jsonPath("$[1].idEtudiant").value(2))
                 .andExpect(jsonPath("$[1].nomE").value("Jane"))
                 .andExpect(jsonPath("$[1].prenomE").value("Doe"));
 
