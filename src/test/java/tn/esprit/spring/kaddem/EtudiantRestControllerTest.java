@@ -91,15 +91,19 @@ public class EtudiantRestControllerTest {
     @Test
     void testCreateEtudiant() throws Exception {
         // Arrange
-        Etudiant etudiant = new Etudiant(1, "John", "Doe");
+        Etudiant etudiant = new Etudiant();
+        etudiant.setIdEtudiant(1); // Assurez-vous que l'ID est bien défini
+        etudiant.setNomE("John");
+        etudiant.setPrenomE("Doe");
+
         when(etudiantService.addEtudiant(any(Etudiant.class))).thenReturn(etudiant);
 
         // Act & Assert
         mockMvc.perform(post("/etudiant/add-etudiant")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"idEtudiant\": 1, \"nomE\": \"John\", \"prenomE\": \"Doe\"}"))
+                        .content("{\"nomE\": \"John\", \"prenomE\": \"Doe\"}")) // Ne pas définir l'ID dans le JSON (généralement défini par le système)
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.idEtudiant").value(1))
+                .andExpect(jsonPath("$.idEtudiant").value(1)) // Correspond à l'objet renvoyé après création
                 .andExpect(jsonPath("$.nomE").value("John"))
                 .andExpect(jsonPath("$.prenomE").value("Doe"));
 
