@@ -113,15 +113,19 @@ public class EtudiantRestControllerTest {
     @Test
     void testUpdateEtudiant() throws Exception {
         // Arrange
-        Etudiant etudiant = new Etudiant(1, "John", "Doe");
+        Etudiant etudiant = new Etudiant();
+        etudiant.setIdEtudiant(1); // Assurez-vous que l'ID est bien défini
+        etudiant.setNomE("John");
+        etudiant.setPrenomE("Doe");
+
         when(etudiantService.updateEtudiant(any(Etudiant.class))).thenReturn(etudiant);
 
         // Act & Assert
         mockMvc.perform(put("/etudiant/update-etudiant")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"nomE\": \"John\", \"prenomE\": \"Doe\"}"))
+                        .content("{\"idEtudiant\": 1, \"nomE\": \"John\", \"prenomE\": \"Doe\"}")) // Inclure l'ID dans la requête
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.idEtudiant").value(1))
+                .andExpect(jsonPath("$.idEtudiant").value(1)) // L'ID est attendu dans la réponse
                 .andExpect(jsonPath("$.nomE").value("John"))
                 .andExpect(jsonPath("$.prenomE").value("Doe"));
 
@@ -136,12 +140,11 @@ public class EtudiantRestControllerTest {
         // Act & Assert
         mockMvc.perform(put("/etudiant/update-etudiant")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"nomE\": \"John\", \"prenomE\": \"Doe\"}"))
+                        .content("{\"idEtudiant\": 1, \"nomE\": \"John\", \"prenomE\": \"Doe\"}")) // Inclure l'ID ici aussi
                 .andExpect(status().isNotFound());
 
         verify(etudiantService, times(1)).updateEtudiant(any(Etudiant.class));
     }
-
    /* @Test
     void testDeleteEtudiant() throws Exception {
         // Act & Assert
