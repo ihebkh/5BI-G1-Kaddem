@@ -88,7 +88,7 @@ public class EtudiantRestControllerTest {
 
         verify(etudiantService, times(1)).retrieveEtudiant(1);
     }
-   /* @Test
+    @Test
     void testCreateEtudiant() throws Exception {
         // Arrange
         Etudiant etudiant = new Etudiant(1, "John", "Doe");
@@ -97,14 +97,14 @@ public class EtudiantRestControllerTest {
         // Act & Assert
         mockMvc.perform(post("/etudiant/add-etudiant")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"idE\": 1, \"nomE\": \"John\", \"prenomE\": \"Doe\"}"))
+                        .content("{\"idEtudiant\": 1, \"nomE\": \"John\", \"prenomE\": \"Doe\"}"))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.idE").value(1))
+                .andExpect(jsonPath("$.idEtudiant").value(1))
                 .andExpect(jsonPath("$.nomE").value("John"))
                 .andExpect(jsonPath("$.prenomE").value("Doe"));
 
         verify(etudiantService, times(1)).addEtudiant(any(Etudiant.class));
-    }*/
+    }
 
    /* @Test
     void testUpdateEtudiant() throws Exception {
