@@ -60,13 +60,17 @@ public class EtudiantRestControllerTest {
     @Test
     void testGetEtudiantById() throws Exception {
         // Arrange
-        Etudiant etudiant = new Etudiant(1, "John", "Doe");
+        Etudiant etudiant = new Etudiant();
+        etudiant.setIdEtudiant(1); // Assurez-vous que le setter est utilisé correctement
+        etudiant.setNomE("John");
+        etudiant.setPrenomE("Doe");
+
         when(etudiantService.retrieveEtudiant(1)).thenReturn(etudiant);
 
         // Act & Assert
         mockMvc.perform(get("/etudiant/retrieve-etudiant/{etudiant-id}", 1))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.idEtudiant").value(1))
+                .andExpect(jsonPath("$.idEtudiant").value(1)) // Correspond à l'attribut de l'objet
                 .andExpect(jsonPath("$.nomE").value("John"))
                 .andExpect(jsonPath("$.prenomE").value("Doe"));
 
@@ -84,7 +88,6 @@ public class EtudiantRestControllerTest {
 
         verify(etudiantService, times(1)).retrieveEtudiant(1);
     }
-
    /* @Test
     void testCreateEtudiant() throws Exception {
         // Arrange
