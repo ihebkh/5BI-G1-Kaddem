@@ -29,15 +29,21 @@ public class EtudiantRestController {
 	}
 	// http://localhost:8089/Kaddem/etudiant/retrieve-etudiant/8
 	@GetMapping("/retrieve-etudiant/{etudiant-id}")
-	public Etudiant retrieveEtudiant(@PathVariable("etudiant-id") Integer etudiantId) {
-		return etudiantService.retrieveEtudiant(etudiantId);
+	public ResponseEntity<EtudiantDTO> getEtudiantById(@PathVariable("etudiant-id") Integer etudiantId) {
+		Etudiant etudiant = etudiantService.retrieveEtudiant(etudiantId);
+		if (etudiant != null) {
+			return new ResponseEntity<>(convertToDTO(etudiant), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 
 	// http://localhost:8089/Kaddem/etudiant/add-etudiant
 	@PostMapping("/add-etudiant")
-	public ResponseEntity<Etudiant> createEtudiant(@RequestBody Etudiant etudiant) {
+	public ResponseEntity<EtudiantDTO> createEtudiant(@RequestBody EtudiantDTO etudiantDTO) {
+		Etudiant etudiant = convertToEntity(etudiantDTO);
 		Etudiant savedEtudiant = etudiantService.addEtudiant(etudiant);
-		return new ResponseEntity<>(savedEtudiant, HttpStatus.CREATED);
+		return new ResponseEntity<>(convertToDTO(savedEtudiant), HttpStatus.CREATED);
 	}
 
 	// http://localhost:8089/Kaddem/etudiant/remove-etudiant/1
@@ -48,10 +54,11 @@ public class EtudiantRestController {
 
 	// http://localhost:8089/Kaddem/etudiant/update-etudiant
 	@PutMapping("/update-etudiant")
-	public ResponseEntity<Etudiant> updateEtudiant(@RequestBody Etudiant etudiant) {
+	public ResponseEntity<EtudiantDTO> updateEtudiant(@RequestBody EtudiantDTO etudiantDTO) {
+		Etudiant etudiant = convertToEntity(etudiantDTO);
 		Etudiant updatedEtudiant = etudiantService.updateEtudiant(etudiant);
 		if (updatedEtudiant != null) {
-			return new ResponseEntity<>(updatedEtudiant, HttpStatus.OK);
+			return new ResponseEntity<>(convertToDTO(updatedEtudiant), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

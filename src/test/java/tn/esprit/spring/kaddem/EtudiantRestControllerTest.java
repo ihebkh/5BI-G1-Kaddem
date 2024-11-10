@@ -57,7 +57,7 @@ public class EtudiantRestControllerTest {
         verify(etudiantService, times(1)).retrieveAllEtudiants();
     }
 
-    /*@Test
+    @Test
     void testGetEtudiantById() throws Exception {
         // Arrange
         Etudiant etudiant = new Etudiant(1, "John", "Doe");
@@ -66,7 +66,7 @@ public class EtudiantRestControllerTest {
         // Act & Assert
         mockMvc.perform(get("/etudiant/retrieve-etudiant/{etudiant-id}", 1))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.idE").value(1))
+                .andExpect(jsonPath("$.idEtudiant").value(1))
                 .andExpect(jsonPath("$.nomE").value("John"))
                 .andExpect(jsonPath("$.prenomE").value("Doe"));
 
@@ -83,7 +83,7 @@ public class EtudiantRestControllerTest {
                 .andExpect(status().isNotFound());
 
         verify(etudiantService, times(1)).retrieveEtudiant(1);
-    }*/
+    }
 
    /* @Test
     void testCreateEtudiant() throws Exception {
