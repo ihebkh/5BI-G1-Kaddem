@@ -125,38 +125,40 @@ pipeline {
 
     post {
         success {
+            echo 'Sending success email...'
             mail to: 'khmiriiheb3@gmail.com',
                  subject: "Pipeline Jenkins - Success - Build #${BUILD_NUMBER}",
-                 body: """Pipeline Jenkins - Success Report
-
-                 Hello,
-
-                 The pipeline has completed successfully for build number ${BUILD_NUMBER}. All stages passed without issues. No further action is required at this time.
-
-                 Best regards,
-                 Jenkins CI/CD Team"""
+                 body: """<html>
+                            <body>
+                                <h2 style="color: #4CAF50;">Khmiri_Iheb_5ERPBI4 Build ${BUILD_NUMBER}</h2>
+                                <div style="border: 2px solid #4CAF50; padding: 10px;">
+                                    <h3 style="background-color: #4CAF50; color: white; padding: 10px; text-align: center;">
+                                        Pipeline Status: SUCCESS
+                                    </h3>
+                                    <p>Check the <a href="${BUILD_URL}console">console output</a> for more details.</p>
+                                </div>
+                            </body>
+                          </html>""",
+                 mimeType: 'text/html'
         }
-         failure {
-                echo 'Sending failure email...'
-                script {
-                    def errorLog = currentBuild.rawBuild.getLog(20).join('\n')
-                }
-                mail to: 'khmiriiheb3@gmail.com',
-                     subject: "Pipeline Jenkins - Failure - Build #${BUILD_NUMBER}",
-                     body: """Pipeline Jenkins - Failure Report
-
-                     Hello,
-
-                     The pipeline for build number ${BUILD_NUMBER} has encountered an error.
-                     Here are the last lines from the error logs:
-
-                     ${errorLog}
-
-                     Please review the logs and take corrective action as necessary.
-
-                     Best regards,
-                     Jenkins CI/CD Team"""
-            }
+        failure {
+            echo 'Sending failure email...'
+            mail to: 'khmiriiheb3@gmail.com',
+                 subject: "Pipeline Jenkins - Failure - Build #${BUILD_NUMBER}",
+                 body: """<html>
+                            <body>
+                                <h2 style="color: #D32F2F;">Khmiri_Iheb_5ERPBI4 Build ${BUILD_NUMBER}</h2>
+                                <div style="border: 2px solid #D32F2F; padding: 10px;">
+                                    <h3 style="background-color: #D32F2F; color: white; padding: 10px; text-align: center;">
+                                        Pipeline Status: FAILURE
+                                    </h3>
+                                    <p>Check the <a href="${BUILD_URL}console">console output</a> for more details.</p>
+                                </div>
+                            </body>
+                          </html>""",
+                 mimeType: 'text/html'
+        }
+    }
         always {
             echo 'Pipeline completed.'
         }
