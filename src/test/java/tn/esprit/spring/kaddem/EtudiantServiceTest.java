@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @ExtendWith(MockitoExtension.class)
-public class EtudiantServiceTest {
+class EtudiantServiceTest {
     @InjectMocks
     private EtudiantServiceImpl etudiantService;
 

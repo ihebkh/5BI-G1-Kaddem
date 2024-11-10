@@ -11,7 +11,7 @@ import java.util.Set;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
-public class EtudiantDTOTest {
+class EtudiantDTOTest {
     @Test
     void testGettersAndSetters() {
         // Arrange

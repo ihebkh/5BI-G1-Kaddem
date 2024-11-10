@@ -5,12 +5,12 @@ import tn.esprit.spring.kaddem.entities.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class EtudiantEntityTest {
+class EtudiantEntityTest {
     @Test
     void testGettersAndSetters() {
         // Create an instance of Etudiant for test
