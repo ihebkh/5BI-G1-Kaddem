@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class EtudiantRestControllerTest {
-   /* @Mock
+    @Mock
     private IEtudiantService etudiantService;
 
     @InjectMocks
@@ -53,7 +53,7 @@ public class EtudiantRestControllerTest {
                 .andExpect(jsonPath("$[1].prenomE").value("Doe"));
 
         verify(etudiantService, times(1)).retrieveAllEtudiants();
-    }*/
+    }
 
     /*@Test
     void testGetEtudiantById() throws Exception {
