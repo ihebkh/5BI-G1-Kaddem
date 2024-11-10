@@ -6,6 +6,20 @@ pipeline {
     }
 
     stages {
+        stage('Check MySQL Status') {
+            steps {
+                script {
+                    echo 'Checking MySQL Service Status'
+                    def mysqlStatus = sh(script: 'systemctl is-active mysql || echo "inactive"', returnStdout: true).trim()
+                    if (mysqlStatus == 'inactive') {
+                        error("MySQL service is not active. Please start MySQL before running this pipeline.")
+                    } else {
+                        echo "MySQL service is running."
+                    }
+                }
+            }
+        }
+
         stage('Checkout Git repository') {
             steps {
                 echo 'Pulling Git repository'
