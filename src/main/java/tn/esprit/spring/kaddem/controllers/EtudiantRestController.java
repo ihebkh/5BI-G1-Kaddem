@@ -6,9 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.kaddem.entities.Etudiant;
+import tn.esprit.spring.kaddem.entities.EtudiantDTO;
 import tn.esprit.spring.kaddem.services.IEtudiantService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -18,10 +20,12 @@ public class EtudiantRestController {
 	IEtudiantService etudiantService;
 	// http://localhost:8089/Kaddem/etudiant/retrieve-all-etudiants
 	@GetMapping("/retrieve-all-etudiants")
-	public ResponseEntity<List<Etudiant>> getAllEtudiants() {
+	public ResponseEntity<List<EtudiantDTO>> getAllEtudiants() {
 		List<Etudiant> listEtudiants = etudiantService.retrieveAllEtudiants();
-		return new ResponseEntity<>(listEtudiants, HttpStatus.OK);
-
+		List<EtudiantDTO> etudiantDTOs = listEtudiants.stream()
+				.map(this::convertToDTO)
+				.collect(Collectors.toList());
+		return new ResponseEntity<>(etudiantDTOs, HttpStatus.OK);
 	}
 	// http://localhost:8089/Kaddem/etudiant/retrieve-etudiant/8
 	@GetMapping("/retrieve-etudiant/{etudiant-id}")
@@ -72,7 +76,23 @@ public class EtudiantRestController {
 
 		return etudiantService.getEtudiantsByDepartement(idDepartement);
 	}
+	// Helper methods to convert between entities and DTOs
+	private EtudiantDTO convertToDTO(Etudiant etudiant) {
+		EtudiantDTO dto = new EtudiantDTO();
+		dto.setIdEtudiant(etudiant.getIdEtudiant());
+		dto.setNomE(etudiant.getNomE());
+		dto.setPrenomE(etudiant.getPrenomE());
 
+		return dto;
+	}
+
+	private Etudiant convertToEntity(EtudiantDTO dto) {
+		Etudiant etudiant = new Etudiant();
+		etudiant.setIdEtudiant(dto.getIdEtudiant());
+		etudiant.setNomE(dto.getNomE());
+		etudiant.setPrenomE(dto.getPrenomE());
+		return etudiant;
+	}
 }
 
 
