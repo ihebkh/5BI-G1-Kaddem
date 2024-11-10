@@ -1,5 +1,6 @@
 package tn.esprit.spring.kaddem;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -10,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import tn.esprit.spring.kaddem.controllers.EtudiantRestController;
 import tn.esprit.spring.kaddem.entities.Etudiant;
+import tn.esprit.spring.kaddem.entities.EtudiantDTO;
 import tn.esprit.spring.kaddem.services.IEtudiantService;
 
 import java.util.Arrays;
@@ -20,6 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
  class EtudiantRestControllerTest {
+     private ObjectMapper objectMapper = new ObjectMapper();
     @Mock
     private IEtudiantService etudiantService;
 
@@ -174,5 +177,33 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
          // Vérification que les méthodes assignEtudiantToDepartement et retrieveEtudiant ont été appelées
          verify(etudiantService, times(1)).assignEtudiantToDepartement(1, 1);
          verify(etudiantService, times(1)).retrieveEtudiant(1);
+     }
+     @Test
+     void testAddEtudiantWithEquipeAndContract() throws Exception {
+         // Arrange
+         EtudiantDTO etudiantDTO = new EtudiantDTO();
+         etudiantDTO.setNomE("John");
+         etudiantDTO.setPrenomE("Doe");
+
+         Etudiant etudiant = new Etudiant();
+         etudiant.setIdEtudiant(1);
+         etudiant.setNomE("John");
+         etudiant.setPrenomE("Doe");
+
+         // Simule le comportement du service pour ajouter et affecter l'étudiant
+         when(etudiantService.addAndAssignEtudiantToEquipeAndContract(any(Etudiant.class), eq(1), eq(2)))
+                 .thenReturn(etudiant);
+
+         // Act & Assert
+         mockMvc.perform(post("/etudiant/add-assign-Etudiant/{idContrat}/{idEquipe}", 1, 2)
+                         .contentType(MediaType.APPLICATION_JSON)
+                         .content(objectMapper.writeValueAsString(etudiantDTO)))
+                 .andExpect(status().isCreated())
+                 .andExpect(jsonPath("$.idEtudiant").value(1))
+                 .andExpect(jsonPath("$.nomE").value("John"))
+                 .andExpect(jsonPath("$.prenomE").value("Doe"));
+
+         // Vérification que la méthode a bien été appelée
+         verify(etudiantService, times(1)).addAndAssignEtudiantToEquipeAndContract(any(Etudiant.class), eq(1), eq(2));
      }
 }
