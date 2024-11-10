@@ -60,33 +60,32 @@ pipeline {
             }
         }
 
-       stage('SonarQube Analysis') {
-           steps {
-               sh '''
-                   mvn sonar:sonar \
-                       -Dsonar.host.url=http://192.168.33.10:9000 \
-                       -Dsonar.login=admin \
-                       -Dsonar.password=201JmT1896@@ \
-                       -Dsonar.exclusions="src/main/java/tn/esprit/spring/kaddem/entities/Equipe.java,
-                       src/main/java/tn/esprit/spring/kaddem/entities/DetailEquipe.java,
-                       src/main/java/tn/esprit/spring/kaddem/entities/Etudiant.java,
-                       src/main/java/tn/esprit/spring/kaddem/entities/Departement.java,
-                       src/main/java/tn/esprit/spring/kaddem/controllers/DepartementRestController.java,
-                       src/main/java/tn/esprit/spring/kaddem/services/DepartementServiceImpl.java,
-                       src/main/java/tn/esprit/spring/kaddem/controllers/EquipeRestController.java,
-                       src/main/java/tn/esprit/spring/kaddem/services/EquipeServiceImpl.java,
-                       src/main/java/tn/esprit/spring/kaddem/controllers/EtudiantRestController.java,
-                       src/main/java/tn/esprit/spring/kaddem/services/EtudiantServiceImpl.java,
-                       src/main/java/tn/esprit/spring/kaddem/KaddemApplication.java,
-                       src/main/java/tn/esprit/spring/kaddem/entities/Niveau.java,
-                       src/main/java/tn/esprit/spring/kaddem/entities/Option.java,
-                       src/main/java/tn/esprit/spring/kaddem/entities/Universite.java,
-                       src/main/java/tn/esprit/spring/kaddem/controllers/UniversiteRestController.java,
-                       src/main/java/tn/esprit/spring/kaddem/services/UniversiteServiceImpl.java"
-               '''
-           }
-       }
-
+        stage('SonarQube Analysis') {
+            steps {
+                sh '''
+                    mvn sonar:sonar \
+                        -Dsonar.host.url=http://192.168.33.10:9000 \
+                        -Dsonar.login=admin \
+                        -Dsonar.password=201JmT1896@@ \
+                        -Dsonar.exclusions="src/main/java/tn/esprit/spring/kaddem/entities/Equipe.java,
+                        src/main/java/tn/esprit/spring/kaddem/entities/DetailEquipe.java,
+                        src/main/java/tn/esprit/spring/kaddem/entities/Etudiant.java,
+                        src/main/java/tn/esprit/spring/kaddem/entities/Departement.java,
+                        src/main/java/tn/esprit/spring/kaddem/controllers/DepartementRestController.java,
+                        src/main/java/tn/esprit/spring/kaddem/services/DepartementServiceImpl.java,
+                        src/main/java/tn/esprit/spring/kaddem/controllers/EquipeRestController.java,
+                        src/main/java/tn/esprit/spring/kaddem/services/EquipeServiceImpl.java,
+                        src/main/java/tn/esprit/spring/kaddem/controllers/EtudiantRestController.java,
+                        src/main/java/tn/esprit/spring/kaddem/services/EtudiantServiceImpl.java,
+                        src/main/java/tn/esprit/spring/kaddem/KaddemApplication.java,
+                        src/main/java/tn/esprit/spring/kaddem/entities/Niveau.java,
+                        src/main/java/tn/esprit/spring/kaddem/entities/Option.java,
+                        src/main/java/tn/esprit/spring/kaddem/entities/Universite.java,
+                        src/main/java/tn/esprit/spring/kaddem/controllers/UniversiteRestController.java,
+                        src/main/java/tn/esprit/spring/kaddem/services/UniversiteServiceImpl.java"
+                '''
+            }
+        }
 
         stage('Deploy to Nexus') {
             steps {
@@ -122,6 +121,7 @@ pipeline {
                 }
             }
         }
+    }
 
     post {
         success {
@@ -138,7 +138,6 @@ pipeline {
         }
         failure {
             script {
-                // Gather the error cause if available
                 def errorLog = currentBuild.rawBuild.getLog(20).join('\n')
             }
             mail to: 'khmiriiheb3@gmail.com',
@@ -165,7 +164,5 @@ pipeline {
         always {
             echo 'Pipeline completed.'
         }
-    }
-
     }
 }
