@@ -136,31 +136,27 @@ pipeline {
                  Best regards,
                  Jenkins CI/CD Team"""
         }
-        failure {
-            script {
-                def errorLog = currentBuild.rawBuild.getLog(20).join('\n')
+         failure {
+                echo 'Sending failure email...'
+                script {
+                    def errorLog = currentBuild.rawBuild.getLog(20).join('\n')
+                }
+                mail to: 'khmiriiheb3@gmail.com',
+                     subject: "Pipeline Jenkins - Failure - Build #${BUILD_NUMBER}",
+                     body: """Pipeline Jenkins - Failure Report
+
+                     Hello,
+
+                     The pipeline for build number ${BUILD_NUMBER} has encountered an error.
+                     Here are the last lines from the error logs:
+
+                     ${errorLog}
+
+                     Please review the logs and take corrective action as necessary.
+
+                     Best regards,
+                     Jenkins CI/CD Team"""
             }
-            mail to: 'khmiriiheb3@gmail.com',
-                 subject: "Pipeline Jenkins - Failure - Build #${BUILD_NUMBER}",
-                 body: """Pipeline Jenkins - Failure Report
-
-                 Hello,
-
-                 The pipeline for build number ${BUILD_NUMBER} has encountered an error.
-                 Here are the last lines from the error logs:
-
-                 ${errorLog}
-
-                 Possible reasons for this failure:
-                 - Check if the repository or branch is accessible.
-                 - Verify if Maven dependencies are resolved correctly.
-                 - Inspect Docker credentials and Nexus settings.
-
-                 Please review the logs and take corrective action as necessary.
-
-                 Best regards,
-                 Jenkins CI/CD Team"""
-        }
         always {
             echo 'Pipeline completed.'
         }
