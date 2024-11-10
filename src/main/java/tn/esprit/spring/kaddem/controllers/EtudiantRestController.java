@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.spring.kaddem.entities.Departement;
+import tn.esprit.spring.kaddem.entities.DepartementDTO;
 import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.entities.EtudiantDTO;
 import tn.esprit.spring.kaddem.services.IEtudiantService;
@@ -66,22 +68,30 @@ public class EtudiantRestController {
 
 	//@PutMapping("/affecter-etudiant-departement")
 	@PutMapping(value="/affecter-etudiant-departement/{etudiantId}/{departementId}")
-	public void affecterEtudiantToDepartement(@PathVariable("etudiantId") Integer etudiantId, @PathVariable("departementId")Integer departementId){
+	public ResponseEntity<EtudiantDTO> affecterEtudiantToDepartement(@PathVariable("etudiantId") Integer etudiantId, @PathVariable("departementId") Integer departementId) {
 		etudiantService.assignEtudiantToDepartement(etudiantId, departementId);
-    }
-//addAndAssignEtudiantToEquipeAndContract(Etudiant e, Integer idContrat, Integer idEquipe)
-    /* Ajouter un étudiant tout en lui affectant un contrat et une équipe */
-    @PostMapping("/add-assign-Etudiant/{idContrat}/{idEquipe}")
-    @ResponseBody
-    public Etudiant addEtudiantWithEquipeAndContract(@RequestBody Etudiant e, @PathVariable("idContrat") Integer idContrat, @PathVariable("idEquipe") Integer idEquipe) {
-        Etudiant etudiant = etudiantService.addAndAssignEtudiantToEquipeAndContract(e,idContrat,idEquipe);
-        return etudiant;
-    }
+		Etudiant etudiant = etudiantService.retrieveEtudiant(etudiantId); // Récupérer l'étudiant après l'affectation
+		if (etudiant != null) {
+			return new ResponseEntity<>(convertToDTO(etudiant), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@PostMapping("/add-assign-Etudiant/{idContrat}/{idEquipe}")
+	public ResponseEntity<EtudiantDTO> addEtudiantWithEquipeAndContract(@RequestBody EtudiantDTO etudiantDTO, @PathVariable("idContrat") Integer idContrat, @PathVariable("idEquipe") Integer idEquipe) {
+		Etudiant etudiant = convertToEntity(etudiantDTO);
+		Etudiant savedEtudiant = etudiantService.addAndAssignEtudiantToEquipeAndContract(etudiant, idContrat, idEquipe);
+		return new ResponseEntity<>(convertToDTO(savedEtudiant), HttpStatus.CREATED);
+	}
 
 	@GetMapping(value = "/getEtudiantsByDepartement/{idDepartement}")
-	public List<Etudiant> getEtudiantsParDepartement(@PathVariable("idDepartement") Integer idDepartement) {
-
-		return etudiantService.getEtudiantsByDepartement(idDepartement);
+	public ResponseEntity<List<EtudiantDTO>> getEtudiantsParDepartement(@PathVariable("idDepartement") Integer idDepartement) {
+		List<Etudiant> etudiants = etudiantService.getEtudiantsByDepartement(idDepartement);
+		List<EtudiantDTO> etudiantDTOs = etudiants.stream()
+				.map(this::convertToDTO)
+				.collect(Collectors.toList());
+		return new ResponseEntity<>(etudiantDTOs, HttpStatus.OK);
 	}
 	// Helper methods to convert between entities and DTOs
 	private EtudiantDTO convertToDTO(Etudiant etudiant) {
@@ -100,6 +110,7 @@ public class EtudiantRestController {
 		etudiant.setPrenomE(dto.getPrenomE());
 		return etudiant;
 	}
+
 }
 
 
