@@ -13,7 +13,7 @@ spec:
         app: kaddem
     spec:
       containers:
-        - name: myapp
+        - name: kaddem
           image: zaymen/kaddem:0.0.1
           ports:
             - containerPort: 8082
@@ -27,6 +27,6 @@ spec:
   selector:
     app: kaddem
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 8082
+      targetPort: 8082
       nodePort: 30007
