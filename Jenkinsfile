@@ -6,25 +6,10 @@ pipeline {
     }
 
     stages {
-
-        stage('Maven Clean Compile') {
-            steps {
-                echo 'Running Maven Clean and Compile'
-                sh 'mvn clean compile'
-            }
-        }
-
         stage('Maven Install') {
             steps {
                 echo 'Running Maven Install'
                 sh 'mvn install -DskipTests'
-            }
-        }
-
-        stage('Build Package') {
-            steps {
-                echo 'Building Maven Package'
-                sh 'mvn package'
             }
         }
 
@@ -42,15 +27,6 @@ pipeline {
             }
         }
 
-        stage('JaCoCo Coverage Publishing') {
-            steps {
-                jacoco execPattern: '**/target/jacoco.exec',
-                       classPattern: '**/classes',
-                       sourcePattern: '**/src',
-                       exclusionPattern: '/target/**/,**/*Test,**/*_javassist/**'
-            }
-        }
-
         stage('SonarQube Analysis') {
             steps {
                 echo 'Running SonarQube Analysis'
@@ -63,6 +39,16 @@ pipeline {
                         -Dsonar.exclusions=src/main/java/tn/esprit/spring/kaddem/entities/Contrat.java,src/main/java/tn/esprit/spring/kaddem/entities/Equipe.java,src/main/java/tn/esprit/spring/kaddem/entities/DetailEquipe.java,src/main/java/tn/esprit/spring/kaddem/entities/Etudiant.java,src/main/java/tn/esprit/spring/kaddem/entities/Universite.java,src/main/java/tn/esprit/spring/kaddem/KaddemApplication.java,src/main/java/tn/esprit/spring/kaddem/entities/Niveau.java,src/main/java/tn/esprit/spring/kaddem/entities/Option.java,src/main/java/tn/esprit/spring/kaddem/entities/Specialite.java
                     """
                 }
+            }
+        }
+
+
+        stage('JaCoCo Coverage Publishing') {
+            steps {
+                jacoco execPattern: '**/target/jacoco.exec',
+                       classPattern: '**/classes',
+                       sourcePattern: '**/src',
+                       exclusionPattern: '/target/**/,**/*Test,**/*_javassist/**'
             }
         }
 
