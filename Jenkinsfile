@@ -5,18 +5,7 @@ pipeline {
         maven 'M2_HOME'
     }
 
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
-        SONARQUBE_CREDENTIALS = credentials('sonarqube-credentials')
-    }
-
     stages {
-        stage('Checkout Git Repository') {
-            steps {
-                echo 'Pulling Git repository'
-                git branch: 'ZouariAYMEN-5BI4-G1', url: 'https://github.com/ihebkh/5BI4-G1-Kaddem.git'
-            }
-        }
 
         stage('Maven Clean Compile') {
             steps {
@@ -121,26 +110,9 @@ pipeline {
             }
         }
 
-
-        stage('VM Health Check') {
-            steps {
-                echo 'Checking VM Health'
-                sh '''
-                echo "CPU Usage:"
-                top -bn1 | grep "Cpu(s)"
-                echo "Memory Usage:"
-                free -m
-                '''
-            }
-        }
-
     }
 
     post {
-        always {
-            echo 'Cleaning up Docker resources'
-            sh 'docker system prune -f'
-        }
 
         success {
             mail to: 'aymen.donga@gmail.com',
