@@ -141,7 +141,7 @@ class EtudiantServiceTest {
     }
     @Test
     void testAddAndAssignEtudiantToEquipeAndContract() {
-        // Créer un étudiant
+
         Etudiant etudiant = new Etudiant();
         etudiant.setNomE("Test");
         etudiant.setPrenomE("Etudiant");
@@ -217,6 +217,33 @@ class EtudiantServiceTest {
         // Assert
         assertTrue(result.isEmpty(), "Expected no students in the list");
         verify(etudiantRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testUpdateNonExistentEtudiant() {
+        // Arrange
+        Etudiant etudiant = new Etudiant(999, "NonExistent");
+        when(etudiantRepository.findById(999)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> etudiantService.updateEtudiant(etudiant),
+                "Expected a RuntimeException when updating a non-existent student");
+
+        verify(etudiantRepository, times(1)).findById(999);
+        verify(etudiantRepository, never()).save(any(Etudiant.class)); // Ensure save is not called
+    }
+    @Test
+    void testAssignEtudiantToNullDepartement() {
+        // Arrange
+        when(etudiantRepository.findById(1)).thenReturn(Optional.of(new Etudiant()));
+        when(departementRepository.findById(null)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> etudiantService.assignEtudiantToDepartement(1, null),
+                "Expected IllegalArgumentException when assigning to a null department");
+
+        verify(etudiantRepository, times(1)).findById(1);
+        verify(departementRepository, never()).save(any(Departement.class));
     }
 
 
