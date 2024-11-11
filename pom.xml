@@ -55,6 +55,7 @@
     </distributionManagement>
 
     <build>
+        <finalName>khmiriiheb_5bi4_g1-0.0.1</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
