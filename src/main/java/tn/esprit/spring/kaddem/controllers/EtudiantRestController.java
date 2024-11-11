@@ -5,8 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.spring.kaddem.entities.Departement;
-import tn.esprit.spring.kaddem.entities.DepartementDTO;
+
 import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.entities.EtudiantDTO;
 import tn.esprit.spring.kaddem.services.IEtudiantService;

@@ -14,7 +14,7 @@ import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.entities.EtudiantDTO;
 import tn.esprit.spring.kaddem.services.IEtudiantService;
 
-import javax.persistence.EntityNotFoundException;
+
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -207,6 +207,33 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
          // Vérification que la méthode a bien été appelée
          verify(etudiantService, times(1)).addAndAssignEtudiantToEquipeAndContract(any(Etudiant.class), eq(1), eq(2));
+     }
+     @Test
+     void testCreateEtudiantBadRequest() throws Exception {
+         // Try to create a student without required fields (e.g., missing "prenomE")
+         mockMvc.perform(post("/etudiant/add-etudiant")
+                         .contentType(MediaType.APPLICATION_JSON)
+                         .content("{\"nomE\": \"John\"}")) // prenomE is missing
+                 .andExpect(status().isBadRequest()); // Expecting Bad Request (400)
+     }
+     @Test
+     void testDeleteEtudiantNotFound() throws Exception {
+         doThrow(new IllegalArgumentException("Etudiant not found")).when(etudiantService).removeEtudiant(999);
+
+         mockMvc.perform(delete("/etudiant/remove-etudiant/{etudiant-id}", 999))
+                 .andExpect(status().isNotFound());
+
+         verify(etudiantService, times(1)).removeEtudiant(999);
+     }
+     @Test
+     void testGetEtudiantsByDepartementNotFound() throws Exception {
+         when(etudiantService.getEtudiantsByDepartement(1)).thenReturn(Collections.emptyList());
+
+         mockMvc.perform(get("/etudiant/getEtudiantsByDepartement/{idDepartement}", 1))
+                 .andExpect(status().isOk())
+                 .andExpect(jsonPath("$").isEmpty());
+
+         verify(etudiantService, times(1)).getEtudiantsByDepartement(1);
      }
 
 
