@@ -5,6 +5,7 @@ import tn.esprit.spring.kaddem.entities.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -91,4 +92,41 @@ class EtudiantEntityTest {
         // Assert that the team was added
         assertTrue(etudiant.getEquipes().contains(equipe), "Equipe should be added to Etudiant");
     }
+
+    @Test
+    void testNoArgConstructor() {
+        // Act
+        Etudiant etudiant = new Etudiant();
+
+        // Assert
+        assertEquals(null, etudiant.getNomE(), "NomE should be null for no-arg constructor");
+        assertEquals(null, etudiant.getPrenomE(), "PrenomE should be null for no-arg constructor");
+    }
+    @Test
+    void testSetAndGetOption() {
+        // Arrange
+        Etudiant etudiant = new Etudiant();
+        Option expectedOption = Option.GAMIX;
+
+        // Act
+        etudiant.setOp(expectedOption);
+
+        // Assert
+        assertEquals(expectedOption, etudiant.getOp(), "Option should be set and retrieved correctly");
+    }
+    @Test
+    void testSetAndGetContrats() {
+        // Arrange
+        Etudiant etudiant = new Etudiant();
+        Set<Contrat> expectedContrats = new HashSet<>();
+        Contrat contrat = new Contrat();
+        expectedContrats.add(contrat);
+
+        // Act
+        etudiant.setContrats(expectedContrats);
+
+        // Assert
+        assertEquals(expectedContrats, etudiant.getContrats(), "Contrats should be set and retrieved correctly");
+    }
+
 }
