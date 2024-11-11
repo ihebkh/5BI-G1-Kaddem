@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kaddem
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kaddem
+  template:
+    metadata:
+      labels:
+        app: kaddem
+    spec:
+      containers:
+        - name: myapp
+          image: zaymen/kaddem:0.0.1
+          ports:
+            - containerPort: 8082
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kaddem-service
+spec:
+  type: NodePort
+  selector:
+    app: kaddem
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30007
