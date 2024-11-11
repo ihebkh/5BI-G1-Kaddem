@@ -14,7 +14,9 @@ import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.entities.EtudiantDTO;
 import tn.esprit.spring.kaddem.services.IEtudiantService;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Arrays;
+import java.util.Collections;
 
 
 import static org.mockito.Mockito.*;
@@ -205,5 +207,49 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
          // Vérification que la méthode a bien été appelée
          verify(etudiantService, times(1)).addAndAssignEtudiantToEquipeAndContract(any(Etudiant.class), eq(1), eq(2));
+     }
+
+     @Test
+     void testAddEtudiantWithEquipeAndContract_shouldReturnBadRequest_whenInvalidInput() throws Exception {
+         // Arrange
+         EtudiantDTO invalidEtudiantDTO = new EtudiantDTO();  // No required fields set
+
+         // Act & Assert
+         mockMvc.perform(post("/etudiant/add-assign-Etudiant/{idContrat}/{idEquipe}", 1, 2)
+                         .contentType(MediaType.APPLICATION_JSON)
+                         .content(objectMapper.writeValueAsString(invalidEtudiantDTO)))
+                 .andExpect(status().isBadRequest());
+     }
+
+     @Test
+     void testGetEtudiantsParDepartement_shouldReturnNotFound_whenNoEtudiants() throws Exception {
+         // Simule le comportement du service pour retourner une liste vide
+         when(etudiantService.getEtudiantsByDepartement(1)).thenReturn(Collections.emptyList());
+
+         // Act & Assert
+         mockMvc.perform(get("/etudiant/getEtudiantsByDepartement/{idDepartement}", 1))
+                 .andExpect(status().isNotFound());
+     }
+
+     @Test
+     void testAffecterEtudiantToDepartement_shouldReturnNotFound_whenEtudiantNotFound() throws Exception {
+         // Simuler que l'étudiant n'existe pas
+         doThrow(new EntityNotFoundException("Etudiant not found"))
+                 .when(etudiantService).assignEtudiantToDepartement(999, 1);
+
+         // Act & Assert
+         mockMvc.perform(put("/etudiant/affecter-etudiant-departement/{etudiantId}/{departementId}", 999, 1))
+                 .andExpect(status().isNotFound());
+     }
+
+     @Test
+     void testRemoveEtudiant_shouldReturnNotFound_whenEtudiantDoesNotExist() throws Exception {
+         // Simuler que l'étudiant n'existe pas
+         doThrow(new EntityNotFoundException("Etudiant not found"))
+                 .when(etudiantService).removeEtudiant(999);
+
+         // Act & Assert
+         mockMvc.perform(delete("/etudiant/remove-etudiant/{etudiant-id}", 999))
+                 .andExpect(status().isNotFound());
      }
 }
