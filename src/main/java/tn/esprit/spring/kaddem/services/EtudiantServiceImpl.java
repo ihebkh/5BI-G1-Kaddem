@@ -17,21 +17,28 @@ import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
 @Slf4j
 public class EtudiantServiceImpl implements IEtudiantService{
+	private final EtudiantRepository etudiantRepository;
+	private final ContratRepository contratRepository;
+	private final EquipeRepository equipeRepository;
+	private final DepartementRepository departementRepository;
+
 	@Autowired
-	EtudiantRepository etudiantRepository ;
-	@Autowired
-	ContratRepository contratRepository;
-	@Autowired
-	EquipeRepository equipeRepository;
-    @Autowired
-    DepartementRepository departementRepository;
+	public EtudiantServiceImpl(EtudiantRepository etudiantRepository,
+							   ContratRepository contratRepository,
+							   EquipeRepository equipeRepository,
+							   DepartementRepository departementRepository) {
+		this.etudiantRepository = etudiantRepository;
+		this.contratRepository = contratRepository;
+		this.equipeRepository = equipeRepository;
+		this.departementRepository = departementRepository;
+	}
 	public List<Etudiant> retrieveAllEtudiants() {
 		// Use the injected repository instance to call findAll()
 		return StreamSupport.stream(etudiantRepository.findAll().spliterator(), false)
@@ -53,7 +60,7 @@ public class EtudiantServiceImpl implements IEtudiantService{
 			// Add other fields to update as necessary
 			return etudiantRepository.save(etudiantToUpdate);
 		} else {
-			throw new RuntimeException("Etudiant with ID " + e.getIdEtudiant() + " not found");
+			throw new EtudiantNotFoundException("Etudiant with ID " + e.getIdEtudiant() + " not found");
 		}
 	}
 
@@ -70,30 +77,40 @@ public class EtudiantServiceImpl implements IEtudiantService{
 			throw new IllegalArgumentException("Department ID cannot be null");
 		}
 
-		Optional<Etudiant> etudiant = etudiantRepository.findById(etudiantId);
-		if (etudiant.isPresent()) {
-			Optional<Departement> departement = departementRepository.findById(departementId);
-			if (departement.isPresent()) {
-				Etudiant etudiantToUpdate = etudiant.get();
-				etudiantToUpdate.setDepartement(departement.get());
-				etudiantRepository.save(etudiantToUpdate);
-			} else {
-				throw new RuntimeException("Departement not found");
-			}
-		} else {
-			throw new RuntimeException("Etudiant not found");
-		}
+		Etudiant etudiant = etudiantRepository.findById(etudiantId)
+				.orElseThrow(() -> new EtudiantNotFoundException("Etudiant with ID " + etudiantId + " not found"));
+
+		Departement departement = departementRepository.findById(departementId)
+				.orElseThrow(() -> new DepartementNotFoundException("Departement with ID " + departementId + " not found"));
+
+		etudiant.setDepartement(departement);
+		etudiantRepository.save(etudiant);
 	}
 	@Transactional
 	public Etudiant addAndAssignEtudiantToEquipeAndContract(Etudiant e, Integer idContrat, Integer idEquipe){
-		Contrat c=contratRepository.findById(idContrat).orElse(null);
-		Equipe eq=equipeRepository.findById(idEquipe).orElse(null);
+		Contrat c = contratRepository.findById(idContrat).orElseThrow(() -> new IllegalArgumentException("Contrat not found"));
+		Equipe eq = equipeRepository.findById(idEquipe).orElseThrow(() -> new IllegalArgumentException("Equipe not found"));
+
 		c.setEtudiant(e);
 		eq.getEtudiants().add(e);
-return e;
+		etudiantRepository.save(e);  // Ensure the etudiant is saved as well
+
+		return e;
 	}
 
 	public 	List<Etudiant> getEtudiantsByDepartement (Integer idDepartement){
 return  etudiantRepository.findEtudiantsByDepartement_IdDepart((idDepartement));
 	}
+	public class EtudiantNotFoundException extends RuntimeException {
+		public EtudiantNotFoundException(String message) {
+			super(message);
+		}
+	}
+
+	public class DepartementNotFoundException extends RuntimeException {
+		public DepartementNotFoundException(String message) {
+			super(message);
+		}
+	}
+
 }
