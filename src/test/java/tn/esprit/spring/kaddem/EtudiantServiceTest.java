@@ -59,6 +59,17 @@ class EtudiantServiceTest {
         verify(etudiantRepository, times(1)).save(etudiant);
     }
     @Test
+    void testAddEtudiantMissingNom() {
+        Etudiant etudiant = new Etudiant();
+        etudiant.setPrenomE("John");
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            etudiantService.addEtudiant(etudiant);
+        });
+
+        assertEquals("Nom is required", exception.getMessage());
+    }
+    @Test
     void testUpdateEtudiant() {
         Etudiant etudiant = new Etudiant(1, "Etudiant A");
         when(etudiantRepository.findById(1)).thenReturn(Optional.of(etudiant)); // Stub findById

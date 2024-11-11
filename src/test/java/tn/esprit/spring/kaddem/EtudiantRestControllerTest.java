@@ -208,15 +208,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
          // Vérification que la méthode a bien été appelée
          verify(etudiantService, times(1)).addAndAssignEtudiantToEquipeAndContract(any(Etudiant.class), eq(1), eq(2));
      }
-    /* @Test
-     void testCreateEtudiantBadRequest() throws Exception {
-         // Attempt to create a student with missing required fields
-         mockMvc.perform(post("/etudiant/add-etudiant")
-                         .contentType(MediaType.APPLICATION_JSON)
-                         .content("{\"nomE\": \"John\"}")) // Missing "prenomE"
-                 .andExpect(status().isBadRequest())  // Expecting 400 Bad Request
-                 .andExpect(content().string("Prenom is required"));  // Optional: check error message
-     }*/
+
      @Test
      void testDeleteEtudiantNotFound() throws Exception {
          // Mocking service to throw exception
