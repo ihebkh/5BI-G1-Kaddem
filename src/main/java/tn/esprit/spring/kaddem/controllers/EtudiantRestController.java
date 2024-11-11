@@ -109,6 +109,10 @@ public class EtudiantRestController {
 		etudiant.setPrenomE(dto.getPrenomE());
 		return etudiant;
 	}
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	}
 
 }
 

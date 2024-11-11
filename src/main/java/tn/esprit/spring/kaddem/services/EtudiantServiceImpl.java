@@ -46,6 +46,9 @@ public class EtudiantServiceImpl implements IEtudiantService{
 	}
 
 	public Etudiant addEtudiant (Etudiant e){
+		if (e.getPrenomE() == null) {
+			throw new IllegalArgumentException("Prenom is required");
+		}
 		return etudiantRepository.save(e);
 	}
 

@@ -210,7 +210,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
      }
      @Test
      void testCreateEtudiantBadRequest() throws Exception {
-         // Try to create a student without required fields (e.g., missing "prenomE")
+         // Try to create a student without required fields
          mockMvc.perform(post("/etudiant/add-etudiant")
                          .contentType(MediaType.APPLICATION_JSON)
                          .content("{\"nomE\": \"John\"}")) // prenomE is missing
@@ -218,6 +218,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
      }
      @Test
      void testDeleteEtudiantNotFound() throws Exception {
+         // Mocking service to throw exception
          doThrow(new IllegalArgumentException("Etudiant not found")).when(etudiantService).removeEtudiant(999);
 
          mockMvc.perform(delete("/etudiant/remove-etudiant/{etudiant-id}", 999))
