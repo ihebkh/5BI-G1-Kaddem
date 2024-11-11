@@ -88,13 +88,21 @@ pipeline {
             }
         }
 
-        stage('Deploy to k8s'){
-            steps{
-                script{
-                    kubernetesDeploy (configs: 'deployment.yml',kubeconfigId: 'k8sconfigpwd')
+        stage('Deploy to k8s') {
+            steps {
+                script {
+                    echo 'Deploying to Kubernetes with kubectl'
+                    withCredentials([kubeconfigFile(credentialsId: 'k8sconfigpwd', variable: 'KUBE_CONFIG')]) {
+                        sh """
+                        export KUBECONFIG=$KUBE_CONFIG
+                        kubectl apply -f deployment.yml
+                        kubectl rollout status zaymen/kaddem:0.0.1
+                        """
+                    }
                 }
             }
         }
+
 
     }
 
