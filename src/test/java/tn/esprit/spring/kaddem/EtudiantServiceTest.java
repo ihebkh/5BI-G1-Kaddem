@@ -234,16 +234,14 @@ class EtudiantServiceTest {
     }
     @Test
     void testAssignEtudiantToNullDepartement() {
-        // Arrange
-        when(etudiantRepository.findById(1)).thenReturn(Optional.of(new Etudiant()));
-        when(departementRepository.findById(null)).thenReturn(Optional.empty());
-
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> etudiantService.assignEtudiantToDepartement(1, null),
+        assertThrows(IllegalArgumentException.class,
+                () -> etudiantService.assignEtudiantToDepartement(1, null),
                 "Expected IllegalArgumentException when assigning to a null department");
 
-        verify(etudiantRepository, times(1)).findById(1);
-        verify(departementRepository, never()).save(any(Departement.class));
+        // No interactions with repositories should occur
+        verify(etudiantRepository, never()).findById(anyInt());
+        verify(departementRepository, never()).findById(any());
     }
 
 
