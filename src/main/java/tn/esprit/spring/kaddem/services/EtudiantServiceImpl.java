@@ -66,13 +66,23 @@ public class EtudiantServiceImpl implements IEtudiantService{
 	}
 
 	public void assignEtudiantToDepartement (Integer etudiantId, Integer departementId){
-		Etudiant etudiant = etudiantRepository.findById(etudiantId)
-				.orElseThrow(() -> new RuntimeException("Etudiant not found"));
-		Departement departement = departementRepository.findById(departementId)
-				.orElseThrow(() -> new RuntimeException("Departement not found"));
+		if (departementId == null) {
+			throw new IllegalArgumentException("Department ID cannot be null");
+		}
 
-		etudiant.setDepartement(departement);
-		etudiantRepository.save(etudiant);
+		Optional<Etudiant> etudiant = etudiantRepository.findById(etudiantId);
+		if (etudiant.isPresent()) {
+			Optional<Departement> departement = departementRepository.findById(departementId);
+			if (departement.isPresent()) {
+				Etudiant etudiantToUpdate = etudiant.get();
+				etudiantToUpdate.setDepartement(departement.get());
+				etudiantRepository.save(etudiantToUpdate);
+			} else {
+				throw new RuntimeException("Departement not found");
+			}
+		} else {
+			throw new RuntimeException("Etudiant not found");
+		}
 	}
 	@Transactional
 	public Etudiant addAndAssignEtudiantToEquipeAndContract(Etudiant e, Integer idContrat, Integer idEquipe){
