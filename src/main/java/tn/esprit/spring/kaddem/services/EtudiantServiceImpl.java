@@ -43,15 +43,17 @@ public class EtudiantServiceImpl implements IEtudiantService{
 	}
 
 	public Etudiant updateEtudiant (Etudiant e){
-		Optional<Etudiant> existingEtudiant = etudiantRepository.findById(e.getIdEtudiant()); // Utilisez 'e' ici
+
+		Optional<Etudiant> existingEtudiant = etudiantRepository.findById(e.getIdEtudiant());
+
 		if (existingEtudiant.isPresent()) {
 			Etudiant etudiantToUpdate = existingEtudiant.get();
-			etudiantToUpdate.setNomE(e.getNomE()); // Utilisez 'e' ici
-			etudiantToUpdate.setPrenomE(e.getPrenomE()); // Utilisez 'e' ici
-			// Vous pouvez ajouter d'autres mises à jour ici si nécessaire.
-			return etudiantRepository.save(etudiantToUpdate); // Sauvegarde de l'étudiant mis à jour
+			etudiantToUpdate.setNomE(e.getNomE());
+			etudiantToUpdate.setPrenomE(e.getPrenomE());
+			// Add other fields to update as necessary
+			return etudiantRepository.save(etudiantToUpdate);
 		} else {
-			return null; // Si l'étudiant n'existe pas
+			throw new RuntimeException("Etudiant with ID " + e.getIdEtudiant() + " not found");
 		}
 	}
 
