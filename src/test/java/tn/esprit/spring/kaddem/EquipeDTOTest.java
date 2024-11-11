@@ -5,7 +5,7 @@ import tn.esprit.spring.kaddem.entities.EquipeDTO;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class EquipeDTOTest {
+ class EquipeDTOTest {
     @Test
     void testGettersAndSetters() {
         EquipeDTO equipeDTO = new EquipeDTO();

@@ -140,7 +140,7 @@ class EtudiantServiceTest {
         assertEquals(departement, etudiant.getDepartement());  // Vérifier que le département a été correctement assigné
     }
     @Test
-    public void testAddAndAssignEtudiantToEquipeAndContract() {
+    void testAddAndAssignEtudiantToEquipeAndContract() {
         // Créer un étudiant
         Etudiant etudiant = new Etudiant();
         etudiant.setNomE("Test");
@@ -191,6 +191,32 @@ class EtudiantServiceTest {
         assertEquals(1, result.size());
         assertEquals("Etudiant A", result.get(0).getNomE());
         verify(etudiantRepository, times(1)).findEtudiantsByDepartement_IdDepart(2);
+    }
+    @Test
+    void testAssignEtudiantToNonExistentDepartement() {
+        // Arrange
+        when(etudiantRepository.findById(1)).thenReturn(Optional.of(new Etudiant()));
+        when(departementRepository.findById(999)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> etudiantService.assignEtudiantToDepartement(1, 999),
+                "Expected a RuntimeException when assigning to a non-existent department");
+
+        verify(etudiantRepository, times(1)).findById(1);
+        verify(departementRepository, times(1)).findById(999);
+        verify(etudiantRepository, never()).save(any(Etudiant.class)); // Ensure save is not called
+    }
+    @Test
+    void testRetrieveAllEtudiantsWhenEmpty() {
+        // Arrange
+        when(etudiantRepository.findAll()).thenReturn(Collections.emptyList());
+
+        // Act
+        List<Etudiant> result = etudiantService.retrieveAllEtudiants();
+
+        // Assert
+        assertTrue(result.isEmpty(), "Expected no students in the list");
+        verify(etudiantRepository, times(1)).findAll();
     }
 
 
