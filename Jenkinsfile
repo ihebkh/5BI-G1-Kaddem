@@ -87,23 +87,6 @@ pipeline {
                 sh 'docker compose up -d'
             }
         }
-
-        stage('Deploy to k8s') {
-            steps {
-                script {
-                    echo 'Deploying to Kubernetes with kubectl'
-                    withCredentials([kubeconfigFile(credentialsId: 'k8sconfigpwd', variable: 'KUBE_CONFIG')]) {
-                        sh """
-                        export KUBECONFIG=$KUBE_CONFIG
-                        kubectl apply -f deployment.yml
-                        kubectl rollout status zaymen/kaddem:0.0.1
-                        """
-                    }
-                }
-            }
-        }
-
-
     }
 
     post {
@@ -111,13 +94,39 @@ pipeline {
         success {
             mail to: 'aymen.donga@gmail.com',
                  subject: "Pipeline Success: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
-                 body: "Build ${env.BUILD_NUMBER} was successful!"
+                 body: """
+                                       <html>
+                                       <body style="font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px;">
+                                           <div style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);">
+                                               <h2 style="color: #4CAF50;">✅ Build Success: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}</h2>
+                                               <p style="color: #333;">Hello,</p>
+                                               <p style="color: #333;">The build <strong>${env.JOB_NAME} #${env.BUILD_NUMBER}</strong> was successful!</p>
+                                               <p><a href="${env.BUILD_URL}" style="color: #4CAF50; text-decoration: none;">View Build Details</a></p>
+                                               <p style="color: #666;">Thank you, <br> Jenkins CI</p>
+                                           </div>
+                                       </body>
+                                       </html>
+                                   """,
+                 mimeType: 'text/html'
         }
 
         failure {
             mail to: 'aymen.donga@gmail.com',
                  subject: "Pipeline Failed: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
-                 body: "Build ${env.BUILD_NUMBER} failed. Check Jenkins for more details."
+                 body: """
+                                       <html>
+                                       <body style="font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px;">
+                                           <div style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);">
+                                               <h2 style="color: #FF5722;">❌ Build Failed: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}</h2>
+                                               <p style="color: #333;">Hello,</p>
+                                               <p style="color: #333;">Unfortunately, the build <strong>${env.JOB_NAME} #${env.BUILD_NUMBER}</strong> failed.</p>
+                                               <p><a href="${env.BUILD_URL}" style="color: #FF5722; text-decoration: none;">View Build Details</a></p>
+                                               <p style="color: #666;">Thank you, <br> Jenkins CI</p>
+                                           </div>
+                                       </body>
+                                       </html>
+                                   """,
+                 mimeType: 'text/html'
         }
     }
 }
