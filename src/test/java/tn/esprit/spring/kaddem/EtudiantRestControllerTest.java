@@ -210,11 +210,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
      }
      @Test
      void testCreateEtudiantBadRequest() throws Exception {
-         // Try to create a student without required fields
+         // Attempt to create a student with missing required fields
          mockMvc.perform(post("/etudiant/add-etudiant")
                          .contentType(MediaType.APPLICATION_JSON)
-                         .content("{\"nomE\": \"John\"}")) // prenomE is missing
-                 .andExpect(status().isBadRequest()); // Expecting Bad Request (400)
+                         .content("{\"nomE\": \"John\"}")) // Missing "prenomE"
+                 .andExpect(status().isBadRequest())  // Expecting 400 Bad Request
+                 .andExpect(content().string("Prenom is required"));  // Optional: check error message
      }
      @Test
      void testDeleteEtudiantNotFound() throws Exception {
