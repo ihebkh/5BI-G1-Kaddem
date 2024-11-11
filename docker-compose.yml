@@ -12,10 +12,10 @@ services:
     volumes:
       - db:/var/lib/mysql
 
-  app-khmiriiheb-5BI4-G1:
+  app-khmiriiheb-5bi4-g1:
     depends_on:
       - mysqlDb
-    image: ihebkh336/khmiriiheb-5BI4-G1:0.0.1
+    image: ihebkh336/khmiriiheb_5bi4_g1:0.0.1  # Nouveau nom d'image en minuscules
     restart: on-failure
     ports:
       - "8082:8082"
