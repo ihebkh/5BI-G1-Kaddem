@@ -64,10 +64,13 @@ public class EtudiantServiceImpl implements IEtudiantService{
 	}
 
 	public void assignEtudiantToDepartement (Integer etudiantId, Integer departementId){
-        Etudiant etudiant = etudiantRepository.findById(etudiantId).orElse(null);
-        Departement departement = departementRepository.findById(departementId).orElse(null);
-        etudiant.setDepartement(departement);
-        etudiantRepository.save(etudiant);
+		Etudiant etudiant = etudiantRepository.findById(etudiantId)
+				.orElseThrow(() -> new RuntimeException("Etudiant not found"));
+		Departement departement = departementRepository.findById(departementId)
+				.orElseThrow(() -> new RuntimeException("Departement not found"));
+
+		etudiant.setDepartement(departement);
+		etudiantRepository.save(etudiant);
 	}
 	@Transactional
 	public Etudiant addAndAssignEtudiantToEquipeAndContract(Etudiant e, Integer idContrat, Integer idEquipe){
