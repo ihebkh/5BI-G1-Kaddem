@@ -12,7 +12,7 @@ services:
     volumes:
       - db:/var/lib/mysql
 
-  app-kaddem:
+  app-ZouariAYMEN-5BI4-G1-kaddem:
     depends_on:
       - mysqlDb
     image: zaymen/ZouariAYMEN-5BI4-G1-kaddem:0.0.1
