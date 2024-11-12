@@ -55,7 +55,7 @@
     </distributionManagement>
 
     <build>
-        <finalName>ZouariAYMEN-5BI4-G1-kaddem</finalName>
+        <finalName>zouariaymen-5bi4-g1-kaddem</finalName>
 
         <plugins>
             <plugin>
