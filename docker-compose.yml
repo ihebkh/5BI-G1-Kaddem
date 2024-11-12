@@ -12,10 +12,10 @@ services:
     volumes:
       - db:/var/lib/mysql
 
-  app-zouariaymen-5bi4-g1-kaddem:
+  app-zouariaymen_5bi4_g1_kaddem:
     depends_on:
       - mysqlDb
-    image: zaymen/zouariaymen-5bi4-g1-kaddem:0.0.1
+    image: zaymen/zouariaymen_5bi4_g1_kaddem:0.0.1
     restart: on-failure
     ports:
       - "8082:8082"
