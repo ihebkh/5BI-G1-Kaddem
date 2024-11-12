@@ -64,7 +64,7 @@ pipeline {
             steps {
                 script {
                     echo 'Building Docker Image'
-                    def dockerImage = docker.build("zaymen/kaddem:0.0.1")
+                    def dockerImage = docker.build("zaymen/ZouariAYMEN-5BI4-G1-kaddem:0.0.1")
                 }
             }
         }
