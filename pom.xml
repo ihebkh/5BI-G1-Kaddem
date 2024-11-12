@@ -55,6 +55,8 @@
     </distributionManagement>
 
     <build>
+        <finalName>ZouariAYMEN-5BI4-G1-kaddem</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

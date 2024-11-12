@@ -75,7 +75,7 @@ pipeline {
                     echo 'Logging into DockerHub and Pushing Image'
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
-                        sh 'docker push zaymen/kaddem:0.0.1'
+                        sh 'docker push zaymen/ZouariAYMEN-5BI4-G1-kaddem:0.0.1'
                     }
                 }
             }
